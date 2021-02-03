@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-qnamaker
 
 ### How to use
 
-#### nodejs - client creation and getSettings endpointSettings as an example written in TypeScript.
+#### nodejs - client creation and generateAnswer knowledgebase as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -34,7 +34,31 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new QnAMakerClient(creds, subscriptionId);
-  client.endpointSettings.getSettings().then((result) => {
+  const kbId = "testkbId";
+  const generateAnswerPayload = {
+    qnaId: "testqnaId",
+    question: "testquestion",
+    top: 1,
+    userId: "testuserId",
+    isTest: true,
+    scoreThreshold: 1.01,
+    context: {
+      previousQnaId: 1,
+      previousUserQuery: "testpreviousUserQuery"
+    },
+    rankerType: "testrankerType",
+    strictFilters: [{
+      name: "testname",
+      value: "testvalue"
+    }],
+    strictFiltersCompoundOperationType: "AND",
+    answerSpanRequest: {
+      enable: true,
+      scoreThreshold: 1.01,
+      topAnswersWithSpan: 1
+    }
+  };
+  client.knowledgebase.generateAnswer(kbId, generateAnswerPayload).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +67,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and getSettings endpointSettings as an example written in JavaScript.
+#### browser - Authentication, client creation and generateAnswer knowledgebase as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -76,7 +100,31 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(res.creds, subscriptionId);
-        client.endpointSettings.getSettings().then((result) => {
+        const kbId = "testkbId";
+        const generateAnswerPayload = {
+          qnaId: "testqnaId",
+          question: "testquestion",
+          top: 1,
+          userId: "testuserId",
+          isTest: true,
+          scoreThreshold: 1.01,
+          context: {
+            previousQnaId: 1,
+            previousUserQuery: "testpreviousUserQuery"
+          },
+          rankerType: "testrankerType",
+          strictFilters: [{
+            name: "testname",
+            value: "testvalue"
+          }],
+          strictFiltersCompoundOperationType: "AND",
+          answerSpanRequest: {
+            enable: true,
+            scoreThreshold: 1.01,
+            topAnswersWithSpan: 1
+          }
+        };
+        client.knowledgebase.generateAnswer(kbId, generateAnswerPayload).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -94,4 +142,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/preview/README.png)
