@@ -623,35 +623,6 @@ export class StorageAccounts {
       listNextOperationSpec,
       callback) as Promise<Models.StorageAccountsListNextResponse>;
   }
-
-  /**
-   * Lists all the storage accounts available under the given resource group. Note that storage keys
-   * are not returned; use the ListKeys operation for this.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.StorageAccountsListByResourceGroupNextResponse>
-   */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListByResourceGroupNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.StorageAccountsListByResourceGroupNextResponse>;
-  }
 }
 
 // Operation Specifications
@@ -1060,30 +1031,6 @@ const beginRestoreBlobRangesOperationSpec: msRest.OperationSpec = {
 };
 
 const listNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

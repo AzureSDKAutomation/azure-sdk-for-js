@@ -74,41 +74,34 @@ export class FileServices {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param parameters The properties of file services in storage accounts, including CORS
-   * (Cross-Origin Resource Sharing) rules.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServicesSetServicePropertiesResponse>
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.FileServiceProperties, options?: msRest.RequestOptionsBase): Promise<Models.FileServicesSetServicePropertiesResponse>;
+  setServiceProperties(resourceGroupName: string, accountName: string, options?: Models.FileServicesSetServicePropertiesOptionalParams): Promise<Models.FileServicesSetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param parameters The properties of file services in storage accounts, including CORS
-   * (Cross-Origin Resource Sharing) rules.
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.FileServiceProperties, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
+  setServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param parameters The properties of file services in storage accounts, including CORS
-   * (Cross-Origin Resource Sharing) rules.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.FileServiceProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.FileServiceProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceProperties>, callback?: msRest.ServiceCallback<Models.FileServiceProperties>): Promise<Models.FileServicesSetServicePropertiesResponse> {
+  setServiceProperties(resourceGroupName: string, accountName: string, options: Models.FileServicesSetServicePropertiesOptionalParams, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
+  setServiceProperties(resourceGroupName: string, accountName: string, options?: Models.FileServicesSetServicePropertiesOptionalParams | msRest.ServiceCallback<Models.FileServiceProperties>, callback?: msRest.ServiceCallback<Models.FileServiceProperties>): Promise<Models.FileServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        parameters,
         options
       },
       setServicePropertiesOperationSpec,
@@ -201,7 +194,16 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: {
+      cors: [
+        "options",
+        "cors"
+      ],
+      shareDeleteRetentionPolicy: [
+        "options",
+        "shareDeleteRetentionPolicy"
+      ]
+    },
     mapper: {
       ...Mappers.FileServiceProperties,
       required: true
