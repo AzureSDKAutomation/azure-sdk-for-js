@@ -10,7 +10,6 @@
 export * from "./operations";
 export * from "./skus";
 export * from "./storageAccounts";
-export * from "./deletedAccounts";
 export * from "./usages";
 export * from "./managementPolicies";
 export * from "./blobInventoryPolicies";

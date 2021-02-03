@@ -354,20 +354,6 @@ export interface Encryption {
 }
 
 /**
- * Resource Access Rule.
- */
-export interface ResourceAccessRule {
-  /**
-   * Tenant Id
-   */
-  tenantId?: string;
-  /**
-   * Resource Id
-   */
-  resourceId?: string;
-}
-
-/**
  * Virtual Network rule.
  */
 export interface VirtualNetworkRule {
@@ -412,7 +398,6 @@ export interface NetworkRuleSet {
    * 'AzureServices'. Default value: 'AzureServices'.
    */
   bypass?: Bypass;
-  resourceAccessRules?: ResourceAccessRule[];
   /**
    * Sets the virtual network rules
    */
@@ -509,20 +494,6 @@ export interface Identity {
 }
 
 /**
- * The complex type of the extended location.
- */
-export interface ExtendedLocation {
-  /**
-   * The name of the extended location.
-   */
-  name?: string;
-  /**
-   * The type of the extended location. Possible values include: 'EdgeZone'
-   */
-  type?: ExtendedLocationTypes;
-}
-
-/**
  * The SKU of the storage account.
  */
 export interface Sku {
@@ -557,11 +528,6 @@ export interface StorageAccountCreateParameters {
    * on update, the request will succeed.
    */
   location: string;
-  /**
-   * Optional. Set the extended location of the resource. If not set, the storage account will be
-   * created in Azure main region. Otherwise it will be created in the specified extended location
-   */
-  extendedLocation?: ExtendedLocation;
   /**
    * Gets or sets a list of key value pairs that describe the resource. These tags can be used for
    * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
@@ -625,6 +591,13 @@ export interface StorageAccountCreateParameters {
    * is TLS 1.0 for this property. Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
    */
   minimumTlsVersion?: MinimumTlsVersion;
+  /**
+   * Indicates whether the storage account permits requests to be authorized with the account
+   * access key via Shared Key. If false, then all requests, including shared access signatures,
+   * must be authorized with Azure Active Directory (Azure AD). The default value is null, which is
+   * equivalent to true.
+   */
+  allowSharedKeyAccess?: boolean;
 }
 
 /**
@@ -897,45 +870,6 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 /**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * Deleted storage account
- */
-export interface DeletedAccount extends ProxyResource {
-  /**
-   * Full resource id of the original storage account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageAccountResourceId?: string;
-  /**
-   * Location of the deleted account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * Can be used to attempt recovering this deleted account via PutStorageAccount API.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restoreReference?: string;
-  /**
-   * Creation time of the deleted account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: string;
-  /**
-   * Deletion time of the deleted account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly deletionTime?: string;
-}
-
-/**
  * The resource model definition for an Azure Resource Manager tracked top level resource which has
  * 'tags' and a 'location'
  * @summary Tracked Resource
@@ -970,10 +904,6 @@ export interface StorageAccount extends TrackedResource {
    * The identity of the resource.
    */
   identity?: Identity;
-  /**
-   * The extendedLocation of the resource.
-   */
-  extendedLocation?: ExtendedLocation;
   /**
    * Gets the status of the storage account at the time the operation was called. Possible values
    * include: 'Creating', 'ResolvingDNS', 'Succeeded'
@@ -1101,6 +1031,13 @@ export interface StorageAccount extends TrackedResource {
    * is TLS 1.0 for this property. Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
    */
   minimumTlsVersion?: MinimumTlsVersion;
+  /**
+   * Indicates whether the storage account permits requests to be authorized with the account
+   * access key via Shared Key. If false, then all requests, including shared access signatures,
+   * must be authorized with Azure Active Directory (Azure AD). The default value is null, which is
+   * equivalent to true.
+   */
+  allowSharedKeyAccess?: boolean;
 }
 
 /**
@@ -1213,6 +1150,13 @@ export interface StorageAccountUpdateParameters {
    * is TLS 1.0 for this property. Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
    */
   minimumTlsVersion?: MinimumTlsVersion;
+  /**
+   * Indicates whether the storage account permits requests to be authorized with the account
+   * access key via Shared Key. If false, then all requests, including shared access signatures,
+   * must be authorized with Azure Active Directory (Azure AD). The default value is null, which is
+   * equivalent to true.
+   */
+  allowSharedKeyAccess?: boolean;
   /**
    * Optional. Indicates the type of storage account. Currently only StorageV2 value supported by
    * server. Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage',
@@ -1415,7 +1359,8 @@ export interface ListServiceSasResponse {
 }
 
 /**
- * Object to define the number of days after last modification.
+ * Object to define the number of days after object last modification Or last access. Properties
+ * daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
  */
 export interface DateAfterModification {
   /**
@@ -1467,7 +1412,36 @@ export interface DateAfterCreation {
  */
 export interface ManagementPolicySnapShot {
   /**
+   * The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot
+   * tier
+   */
+  tierToCool?: DateAfterCreation;
+  /**
+   * The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot
+   * or Cool tier
+   */
+  tierToArchive?: DateAfterCreation;
+  /**
    * The function to delete the blob snapshot
+   */
+  deleteProperty?: DateAfterCreation;
+}
+
+/**
+ * Management policy action for blob version.
+ */
+export interface ManagementPolicyVersion {
+  /**
+   * The function to tier blob version to cool storage. Support blob version currently at Hot tier
+   */
+  tierToCool?: DateAfterCreation;
+  /**
+   * The function to tier blob version to archive storage. Support blob version currently at Hot or
+   * Cool tier
+   */
+  tierToArchive?: DateAfterCreation;
+  /**
+   * The function to delete the blob version
    */
   deleteProperty?: DateAfterCreation;
 }
@@ -1484,6 +1458,10 @@ export interface ManagementPolicyAction {
    * The management policy action for snapshot
    */
   snapshot?: ManagementPolicySnapShot;
+  /**
+   * The management policy action for version
+   */
+  version?: ManagementPolicyVersion;
 }
 
 /**
@@ -1516,7 +1494,8 @@ export interface ManagementPolicyFilter {
    */
   prefixMatch?: string[];
   /**
-   * An array of predefined enum values. Only blockBlob is supported.
+   * An array of predefined enum values. Currently blockBlob supports all tiering and delete
+   * actions. Only delete actions are supported for appendBlob.
    */
   blobTypes: string[];
   /**
@@ -1842,6 +1821,14 @@ export interface ErrorResponse {
    * Azure Storage Resource Provider error response body.
    */
   error?: ErrorResponseBody;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
 }
 
 /**
@@ -2290,6 +2277,12 @@ export interface ChangeFeed {
    * Indicates whether change feed event logging is enabled for the Blob service.
    */
   enabled?: boolean;
+  /**
+   * Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum
+   * value is 146000 days (400 years). A null value indicates an infinite retention of the change
+   * feed.
+   */
+  retentionInDays?: number;
 }
 
 /**
@@ -2438,36 +2431,6 @@ export interface LeaseContainerResponse {
 }
 
 /**
- * Multichannel setting. Applies to Premium FileStorage only.
- */
-export interface Multichannel {
-  /**
-   * Indicates whether multichannel is enabled
-   */
-  enabled?: boolean;
-}
-
-/**
- * Setting for SMB protocol
- */
-export interface SmbSetting {
-  /**
-   * Multichannel setting. Applies to Premium FileStorage only.
-   */
-  multichannel?: Multichannel;
-}
-
-/**
- * Protocol settings for file service
- */
-export interface ProtocolSettings {
-  /**
-   * Setting for SMB protocol
-   */
-  smb?: SmbSetting;
-}
-
-/**
  * The properties of File services in storage account.
  */
 export interface FileServiceProperties extends Resource {
@@ -2481,10 +2444,6 @@ export interface FileServiceProperties extends Resource {
    * The file service properties for share soft delete.
    */
   shareDeleteRetentionPolicy?: DeleteRetentionPolicy;
-  /**
-   * Protocol settings for file service
-   */
-  protocolSettings?: ProtocolSettings;
   /**
    * Sku name and tier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2573,12 +2532,6 @@ export interface FileShare extends AzureEntityResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly shareUsageBytes?: number;
-  /**
-   * Creation time of share snapshot returned in the response of list shares with expand param
-   * "snapshots".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly snapshotTime?: Date;
 }
 
 /**
@@ -2665,12 +2618,6 @@ export interface FileShareItem extends AzureEntityResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly shareUsageBytes?: number;
-  /**
-   * Creation time of share snapshot returned in the response of list shares with expand param
-   * "snapshots".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly snapshotTime?: Date;
 }
 
 /**
@@ -2889,6 +2836,22 @@ export interface BlobContainersListNextOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
+export interface FileServicesSetServicePropertiesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specifies CORS rules for the File service. You can include up to five CorsRule elements in the
+   * request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the File service.
+   */
+  cors?: CorsRules;
+  /**
+   * The file service properties for share soft delete.
+   */
+  shareDeleteRetentionPolicy?: DeleteRetentionPolicy;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface FileSharesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Optional. Specified maximum number of shares that can be included in the list.
@@ -2900,19 +2863,9 @@ export interface FileSharesListOptionalParams extends msRest.RequestOptionsBase 
   filter?: string;
   /**
    * Optional, used to expand the properties within share's properties. Possible values include:
-   * 'deleted', 'snapshots'
+   * 'deleted'
    */
   expand?: ListSharesExpand;
-}
-
-/**
- * Optional Parameters.
- */
-export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Optional, used to create a snapshot. Possible values include: 'snapshots'
-   */
-  expand?: PutSharesExpand;
 }
 
 /**
@@ -2924,20 +2877,6 @@ export interface FileSharesGetOptionalParams extends msRest.RequestOptionsBase {
    * 'stats'
    */
   expand?: GetShareExpand;
-  /**
-   * Optional, used to retrieve properties of a snapshot.
-   */
-  xMsSnapshot?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface FileSharesDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Optional, used to delete a snapshot.
-   */
-  xMsSnapshot?: string;
 }
 
 /**
@@ -2954,7 +2893,7 @@ export interface FileSharesListNextOptionalParams extends msRest.RequestOptionsB
   filter?: string;
   /**
    * Optional, used to expand the properties within share's properties. Possible values include:
-   * 'deleted', 'snapshots'
+   * 'deleted'
    */
   expand?: ListSharesExpand;
 }
@@ -3126,20 +3065,6 @@ export interface StorageAccountListResult extends Array<StorageAccount> {
   /**
    * Request URL that can be used to query next page of storage accounts. Returned when total
    * number of requested storage accounts exceed maximum page size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The response from the List Deleted Accounts operation.
- * @extends Array<DeletedAccount>
- */
-export interface DeletedAccountListResult extends Array<DeletedAccount> {
-  /**
-   * Request URL that can be used to query next page of deleted accounts. Returned when total
-   * number of requested deleted accounts exceed maximum page size.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -3388,14 +3313,6 @@ export type RoutingChoice = 'MicrosoftRouting' | 'InternetRouting';
 export type MinimumTlsVersion = 'TLS1_0' | 'TLS1_1' | 'TLS1_2';
 
 /**
- * Defines values for ExtendedLocationTypes.
- * Possible values include: 'EdgeZone'
- * @readonly
- * @enum {string}
- */
-export type ExtendedLocationTypes = 'EdgeZone';
-
-/**
  * Defines values for GeoReplicationStatus.
  * Possible values include: 'Live', 'Bootstrap', 'Unavailable'
  * @readonly
@@ -3630,19 +3547,11 @@ export type ListContainersInclude = 'deleted';
 
 /**
  * Defines values for ListSharesExpand.
- * Possible values include: 'deleted', 'snapshots'
+ * Possible values include: 'deleted'
  * @readonly
  * @enum {string}
  */
-export type ListSharesExpand = 'deleted' | 'snapshots';
-
-/**
- * Defines values for PutSharesExpand.
- * Possible values include: 'snapshots'
- * @readonly
- * @enum {string}
- */
-export type PutSharesExpand = 'snapshots';
+export type ListSharesExpand = 'deleted';
 
 /**
  * Defines values for GetShareExpand.
@@ -3977,86 +3886,6 @@ export type StorageAccountsListNextResponse = StorageAccountListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: StorageAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type StorageAccountsListByResourceGroupNextResponse = StorageAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type DeletedAccountsListResponse = DeletedAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DeletedAccountsGetResponse = DeletedAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedAccount;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type DeletedAccountsListNextResponse = DeletedAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedAccountListResult;
     };
 };
 

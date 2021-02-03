@@ -83,7 +83,7 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: Models.FileSharesCreateOptionalParams): Promise<Models.FileSharesCreateResponse>;
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -112,8 +112,8 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options: Models.FileSharesCreateOptionalParams, callback: msRest.ServiceCallback<Models.FileShare>): void;
-  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: Models.FileSharesCreateOptionalParams | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesCreateResponse> {
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,7 +253,7 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, shareName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -280,8 +280,8 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, shareName: string, options: Models.FileSharesDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, shareName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, shareName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -427,7 +427,6 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.expand3,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -498,10 +497,9 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand4
+    Parameters.expand3
   ],
   headerParameters: [
-    Parameters.xMsSnapshot,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -528,7 +526,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.xMsSnapshot,
     Parameters.acceptLanguage
   ],
   responses: {
