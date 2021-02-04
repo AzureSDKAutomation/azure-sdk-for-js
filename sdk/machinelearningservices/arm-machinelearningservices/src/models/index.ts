@@ -702,8 +702,8 @@ export interface Identity {
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned,UserAssigned', 'None'
+   * The identity type. Possible values include: 'SystemAssigned', 'SystemAssigned,UserAssigned',
+   * 'UserAssigned', 'None'
    */
   type: ResourceIdentityType;
   /**
@@ -913,7 +913,7 @@ export interface SystemService {
  */
 export interface SslConfiguration {
   /**
-   * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled'
+   * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled', 'Auto'
    */
   status?: Status1;
   /**
@@ -975,7 +975,7 @@ export interface AKSProperties {
   /**
    * Agent virtual machine size
    */
-  agentVMSize?: string;
+  agentVmSize?: string;
   /**
    * SSL configuration
    */
@@ -1053,7 +1053,7 @@ export interface ScaleSettings {
    */
   minNodeCount?: number;
   /**
-   * Node Idle Time before scaling down amlCompute
+   * Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format.
    */
   nodeIdleTimeBeforeScaleDown?: string;
 }
@@ -1116,6 +1116,10 @@ export interface NodeStateCounts {
  * AML Compute properties
  */
 export interface AmlComputeProperties {
+  /**
+   * Compute OS Type. Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
+   */
+  osType?: OsType;
   /**
    * Virtual Machine Size
    */
@@ -1323,6 +1327,30 @@ export interface ComputeInstanceCreatedBy {
 }
 
 /**
+ * A user that can be assigned to a compute instance.
+ */
+export interface AssignedUser {
+  /**
+   * User’s AAD Object Id.
+   */
+  objectId: string;
+  /**
+   * User’s AAD Tenant Id.
+   */
+  tenantId: string;
+}
+
+/**
+ * Settings for a personal compute instance.
+ */
+export interface PersonalComputeInstanceSettings {
+  /**
+   * Assigned User. A user explicitly assigned to a personal compute instance.
+   */
+  assignedUser?: AssignedUser;
+}
+
+/**
  * The last operation on ComputeInstance.
  */
 export interface ComputeInstanceLastOperation {
@@ -1393,6 +1421,15 @@ export interface ComputeInstanceProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly state?: ComputeInstanceState;
+  /**
+   * Compute Instance Authorization type. The Compute Instance Authorization type. Available values
+   * are personal (default). Possible values include: 'personal'. Default value: 'personal'.
+   */
+  computeInstanceAuthorizationType?: ComputeInstanceAuthorizationType;
+  /**
+   * Personal Compute Instance settings. Settings for a personal compute instance.
+   */
+  personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
   /**
    * The last operation on ComputeInstance.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1871,26 +1908,6 @@ export interface AmlComputeNodeInformation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly runId?: string;
-}
-
-/**
- * Compute node information related to a AmlCompute.
- */
-export interface AmlComputeNodesInformation {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "AmlCompute";
-  /**
-   * The continuation token.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-  /**
-   * The collection of returned AmlCompute nodes details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nodes?: AmlComputeNodeInformation[];
 }
 
 /**
@@ -2386,6 +2403,28 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
 
 /**
  * @interface
+ * Compute node information related to a AmlCompute.
+ * @extends Array<AmlComputeNodeInformation>
+ */
+export interface AmlComputeNodesInformation extends Array<AmlComputeNodeInformation> {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "AmlCompute";
+  /**
+   * The continuation token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+  /**
+   * The collection of returned AmlCompute nodes details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodes?: AmlComputeNodeInformation[];
+}
+
+/**
+ * @interface
  * List of skus with features
  * @extends Array<WorkspaceSku>
  */
@@ -2474,11 +2513,19 @@ export type Status = 'Undefined' | 'Success' | 'Failure' | 'InvalidQuotaBelowClu
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'SystemAssigned,UserAssigned', 'UserAssigned', 'None'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned' | 'None';
+export type ResourceIdentityType = 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned' | 'None';
+
+/**
+ * Defines values for OsType.
+ * Possible values include: 'Linux', 'Windows'
+ * @readonly
+ * @enum {string}
+ */
+export type OsType = 'Linux' | 'Windows';
 
 /**
  * Defines values for VmPriority.
@@ -2529,6 +2576,14 @@ export type SshPublicAccess = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type ComputeInstanceState = 'Creating' | 'CreateFailed' | 'Deleting' | 'Running' | 'Restarting' | 'JobRunning' | 'SettingUp' | 'SetupFailed' | 'Starting' | 'Stopped' | 'Stopping' | 'UserSettingUp' | 'UserSetupFailed' | 'Unknown' | 'Unusable';
+
+/**
+ * Defines values for ComputeInstanceAuthorizationType.
+ * Possible values include: 'personal'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputeInstanceAuthorizationType = 'personal';
 
 /**
  * Defines values for OperationName.
@@ -2582,11 +2637,11 @@ export type UnderlyingResourceAction = 'Delete' | 'Detach';
 
 /**
  * Defines values for Status1.
- * Possible values include: 'Disabled', 'Enabled'
+ * Possible values include: 'Disabled', 'Enabled', 'Auto'
  * @readonly
  * @enum {string}
  */
-export type Status1 = 'Disabled' | 'Enabled';
+export type Status1 = 'Disabled' | 'Enabled' | 'Auto';
 
 /**
  * Contains response data for the list operation.
@@ -3225,6 +3280,26 @@ export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedCompute
        * The response body as parsed JSON or XML
        */
       parsedBody: PaginatedComputeResourcesList;
+    };
+};
+
+/**
+ * Contains response data for the listNodesNext operation.
+ */
+export type MachineLearningComputeListNodesNextResponse = AmlComputeNodesInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AmlComputeNodesInformation;
     };
 };
 

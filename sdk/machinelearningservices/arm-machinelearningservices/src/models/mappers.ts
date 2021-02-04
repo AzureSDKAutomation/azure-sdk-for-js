@@ -1146,8 +1146,8 @@ export const Identity: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "SystemAssigned",
-            "UserAssigned",
             "SystemAssigned,UserAssigned",
+            "UserAssigned",
             "None"
           ]
         }
@@ -1611,8 +1611,8 @@ export const AKSProperties: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      agentVMSize: {
-        serializedName: "agentVMSize",
+      agentVmSize: {
+        serializedName: "agentVmSize",
         type: {
           name: "String"
         }
@@ -1772,6 +1772,13 @@ export const AmlComputeProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "AmlComputeProperties",
     modelProperties: {
+      osType: {
+        serializedName: "osType",
+        defaultValue: 'Linux',
+        type: {
+          name: "String"
+        }
+      },
       vmSize: {
         serializedName: "vmSize",
         type: {
@@ -1999,6 +2006,47 @@ export const ComputeInstanceCreatedBy: msRest.CompositeMapper = {
   }
 };
 
+export const AssignedUser: msRest.CompositeMapper = {
+  serializedName: "AssignedUser",
+  type: {
+    name: "Composite",
+    className: "AssignedUser",
+    modelProperties: {
+      objectId: {
+        required: true,
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        required: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PersonalComputeInstanceSettings: msRest.CompositeMapper = {
+  serializedName: "PersonalComputeInstanceSettings",
+  type: {
+    name: "Composite",
+    className: "PersonalComputeInstanceSettings",
+    modelProperties: {
+      assignedUser: {
+        serializedName: "assignedUser",
+        type: {
+          name: "Composite",
+          className: "AssignedUser"
+        }
+      }
+    }
+  }
+};
+
 export const ComputeInstanceLastOperation: msRest.CompositeMapper = {
   serializedName: "ComputeInstanceLastOperation",
   type: {
@@ -2107,6 +2155,20 @@ export const ComputeInstanceProperties: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "String"
+        }
+      },
+      computeInstanceAuthorizationType: {
+        serializedName: "computeInstanceAuthorizationType",
+        defaultValue: 'personal',
+        type: {
+          name: "String"
+        }
+      },
+      personalComputeInstanceSettings: {
+        serializedName: "personalComputeInstanceSettings",
+        type: {
+          name: "Composite",
+          className: "PersonalComputeInstanceSettings"
         }
       },
       lastOperation: {
@@ -2480,32 +2542,6 @@ export const AmlComputeNodeInformation: msRest.CompositeMapper = {
         serializedName: "runId",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AmlComputeNodesInformation: msRest.CompositeMapper = {
-  serializedName: "AmlCompute",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ComputeNodesInformation.type.polymorphicDiscriminator,
-    uberParent: "ComputeNodesInformation",
-    className: "AmlComputeNodesInformation",
-    modelProperties: {
-      ...ComputeNodesInformation.type.modelProperties,
-      nodes: {
-        readOnly: true,
-        serializedName: "nodes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AmlComputeNodeInformation"
-            }
-          }
         }
       }
     }
@@ -3235,6 +3271,32 @@ export const PaginatedComputeResourcesList: msRest.CompositeMapper = {
   }
 };
 
+export const AmlComputeNodesInformation: msRest.CompositeMapper = {
+  serializedName: "AmlCompute",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ComputeNodesInformation.type.polymorphicDiscriminator,
+    uberParent: "ComputeNodesInformation",
+    className: "AmlComputeNodesInformation",
+    modelProperties: {
+      ...ComputeNodesInformation.type.modelProperties,
+      nodes: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AmlComputeNodeInformation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SkuListResult: msRest.CompositeMapper = {
   serializedName: "SkuListResult",
   type: {
@@ -3274,7 +3336,6 @@ export const discriminators = {
   'Compute.Databricks' : Databricks,
   'Compute.DataLakeAnalytics' : DataLakeAnalytics,
   'ComputeNodesInformation' : ComputeNodesInformation,
-  'ComputeNodesInformation.AmlCompute' : AmlComputeNodesInformation,
   'ComputeSecrets' : ComputeSecrets,
   'ComputeSecrets.AKS' : AksComputeSecrets,
   'ComputeSecrets.VirtualMachine' : VirtualMachineSecrets,

@@ -418,6 +418,34 @@ export class MachineLearningCompute {
       listByWorkspaceNextOperationSpec,
       callback) as Promise<Models.MachineLearningComputeListByWorkspaceNextResponse>;
   }
+
+  /**
+   * Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MachineLearningComputeListNodesNextResponse>
+   */
+  listNodesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeListNodesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNodesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNodesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
+  listNodesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AmlComputeNodesInformation>, callback?: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): Promise<Models.MachineLearningComputeListNodesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNodesNextOperationSpec,
+      callback) as Promise<Models.MachineLearningComputeListNodesNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -718,6 +746,30 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedComputeResourcesList
+    },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
+const listNodesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AmlComputeNodesInformation
     },
     default: {
       bodyMapper: Mappers.MachineLearningServiceError
