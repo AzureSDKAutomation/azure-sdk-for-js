@@ -196,12 +196,14 @@ export const Sku: msRest.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        defaultValue: 'S0',
         type: {
           name: "String"
         }
       },
       tier: {
         serializedName: "tier",
+        defaultValue: 'Standard',
         type: {
           name: "String"
         }

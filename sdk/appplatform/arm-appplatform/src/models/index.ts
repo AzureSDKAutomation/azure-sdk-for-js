@@ -120,11 +120,11 @@ export interface ClusterResourceProperties {
  */
 export interface Sku {
   /**
-   * Name of the Sku
+   * Name of the Sku. Default value: 'S0'.
    */
   name?: string;
   /**
-   * Tier of the Sku
+   * Tier of the Sku. Default value: 'Standard'.
    */
   tier?: string;
   /**
