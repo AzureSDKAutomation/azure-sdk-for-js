@@ -312,6 +312,10 @@ export interface Role {
    */
   targetInstanceCount?: number;
   /**
+   * The name of the virtual machine group.
+   */
+  vMGroupName?: string;
+  /**
    * The autoscale configurations.
    */
   autoscaleConfiguration?: Autoscale;
@@ -384,6 +388,14 @@ export interface StorageAccount {
    * for Azure Data Lake Storage Gen 2.
    */
   msiResourceId?: string;
+  /**
+   * The shared access signature key.
+   */
+  saskey?: string;
+  /**
+   * The file share name.
+   */
+  fileshare?: string;
 }
 
 /**
@@ -1020,7 +1032,7 @@ export interface GatewaySettings {
 /**
  * The azure async operation response.
  */
-export interface OperationResource {
+export interface AsyncOperationResult {
   /**
    * The async operation state. Possible values include: 'InProgress', 'Succeeded', 'Failed'
    */
@@ -1072,6 +1084,10 @@ export interface ApplicationGetHttpsEndpoint {
    * The public port to connect to.
    */
   publicPort?: number;
+  /**
+   * The private ip address of the endpoint.
+   */
+  privateIPAddress?: string;
   /**
    * The subdomain suffix of the application.
    */
@@ -1191,7 +1207,7 @@ export interface VersionSpec {
   /**
    * Whether or not the version is the default version.
    */
-  isDefault?: string;
+  isDefault?: boolean;
   /**
    * The component version property.
    */
@@ -1309,11 +1325,11 @@ export interface CapabilitiesResult {
   /**
    * The virtual machine sizes.
    */
-  vmSizes?: { [propertyName: string]: VmSizesCapability };
+  vmsizes?: { [propertyName: string]: VmSizesCapability };
   /**
    * The virtual machine size compatibility filters.
    */
-  vmSizeFilters?: VmSizeCompatibilityFilter[];
+  vmsizeFilters?: VmSizeCompatibilityFilter[];
   /**
    * The capability features.
    */
@@ -1549,7 +1565,7 @@ export interface ClusterConfigurations {
 }
 
 /**
- * Cluster monitoring extensions
+ * Cluster monitoring extensions.
  */
 export interface Extension {
   /**
@@ -1563,29 +1579,29 @@ export interface Extension {
 }
 
 /**
- * The Operations Management Suite (OMS) status response
+ * The cluster monitoring status response.
  */
 export interface ClusterMonitoringResponse {
   /**
-   * The status of the Operations Management Suite (OMS) on the HDInsight cluster.
+   * The status of the monitor on the HDInsight cluster.
    */
   clusterMonitoringEnabled?: boolean;
   /**
-   * The workspace ID of the Operations Management Suite (OMS) on the HDInsight cluster.
+   * The workspace ID of the monitor on the HDInsight cluster.
    */
   workspaceId?: string;
 }
 
 /**
- * The Operations Management Suite (OMS) parameters.
+ * The cluster monitor parameters.
  */
 export interface ClusterMonitoringRequest {
   /**
-   * The Operations Management Suite (OMS) workspace ID.
+   * The cluster monitor workspace ID.
    */
   workspaceId?: string;
   /**
-   * The Operations Management Suite (OMS) workspace key.
+   * The cluster monitor workspace key.
    */
   primaryKey?: string;
 }
@@ -2074,6 +2090,26 @@ export type ClustersGetGatewaySettingsResponse = GatewaySettings & {
 };
 
 /**
+ * Contains response data for the getAzureAsyncOperationStatus operation.
+ */
+export type ClustersGetAzureAsyncOperationStatusResponse = AsyncOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreate operation.
  */
 export type ClustersBeginCreateResponse = Cluster & {
@@ -2294,6 +2330,26 @@ export type LocationsListBillingSpecsResponse = BillingResponseListResult & {
 };
 
 /**
+ * Contains response data for the getAzureAsyncOperationStatus operation.
+ */
+export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type ConfigurationsListResponse = ClusterConfigurations & {
@@ -2361,7 +2417,7 @@ export type ExtensionsGetMonitoringStatusResponse = ClusterMonitoringResponse & 
 /**
  * Contains response data for the get operation.
  */
-export type ExtensionsGetResponse = Extension & {
+export type ExtensionsGetResponse = ClusterMonitoringResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -2374,7 +2430,7 @@ export type ExtensionsGetResponse = Extension & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Extension;
+      parsedBody: ClusterMonitoringResponse;
     };
 };
 

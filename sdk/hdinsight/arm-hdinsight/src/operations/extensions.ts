@@ -112,7 +112,7 @@ export class Extensions {
    * @param extensionName The name of the cluster extension.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, callback: msRest.ServiceCallback<Models.Extension>): void;
+  get(resourceGroupName: string, clusterName: string, extensionName: string, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -120,8 +120,8 @@ export class Extensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Extension>): void;
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Extension>, callback?: msRest.ServiceCallback<Models.Extension>): Promise<Models.ExtensionsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, extensionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
+  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterMonitoringResponse>, callback?: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): Promise<Models.ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -271,7 +271,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.ClusterMonitoringResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -108,6 +108,38 @@ export class Locations {
       listBillingSpecsOperationSpec,
       callback) as Promise<Models.LocationsListBillingSpecsResponse>;
   }
+
+  /**
+   * Get the async operation status.
+   * @param location The Azure location (region) for which to make the request.
+   * @param operationId The long running operation id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>
+   */
+  getAzureAsyncOperationStatus(location: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param operationId The long running operation id.
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(location: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param operationId The long running operation id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        operationId,
+        options
+      },
+      getAzureAsyncOperationStatusOperationSpec,
+      callback) as Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
+  }
 }
 
 // Operation Specifications
@@ -176,6 +208,31 @@ const listBillingSpecsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BillingResponseListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/azureasyncoperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

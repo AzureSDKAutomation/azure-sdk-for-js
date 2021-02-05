@@ -7,12 +7,14 @@
  */
 
 export {
+  AsyncOperationResult,
   BillingMeters,
   BillingResources,
   BillingResponseListResult,
   CapabilitiesResult,
   DiskBillingMeters,
   ErrorResponse,
+  Errors,
   LocalizedName,
   QuotaCapability,
   RegionalQuotaCapability,

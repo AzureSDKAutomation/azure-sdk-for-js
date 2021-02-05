@@ -11,6 +11,7 @@ export {
   ApplicationGetEndpoint,
   ApplicationGetHttpsEndpoint,
   ApplicationProperties,
+  AsyncOperationResult,
   Autoscale,
   AutoscaleCapacity,
   AutoscaleConfigurationUpdateParameter,

@@ -530,6 +530,12 @@ export const Role: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      vMGroupName: {
+        serializedName: "VMGroupName",
+        type: {
+          name: "String"
+        }
+      },
       autoscaleConfiguration: {
         serializedName: "autoscale",
         type: {
@@ -658,6 +664,18 @@ export const StorageAccount: msRest.CompositeMapper = {
       },
       msiResourceId: {
         serializedName: "msiResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      saskey: {
+        serializedName: "saskey",
+        type: {
+          name: "String"
+        }
+      },
+      fileshare: {
+        serializedName: "fileshare",
         type: {
           name: "String"
         }
@@ -1744,11 +1762,11 @@ export const GatewaySettings: msRest.CompositeMapper = {
   }
 };
 
-export const OperationResource: msRest.CompositeMapper = {
-  serializedName: "OperationResource",
+export const AsyncOperationResult: msRest.CompositeMapper = {
+  serializedName: "AsyncOperationResult",
   type: {
     name: "Composite",
-    className: "OperationResource",
+    className: "AsyncOperationResult",
     modelProperties: {
       status: {
         serializedName: "status",
@@ -1838,6 +1856,12 @@ export const ApplicationGetHttpsEndpoint: msRest.CompositeMapper = {
         serializedName: "publicPort",
         type: {
           name: "Number"
+        }
+      },
+      privateIPAddress: {
+        serializedName: "privateIPAddress",
+        type: {
+          name: "String"
         }
       },
       subDomainSuffix: {
@@ -2057,7 +2081,7 @@ export const VersionSpec: msRest.CompositeMapper = {
       isDefault: {
         serializedName: "isDefault",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       },
       componentVersions: {
@@ -2302,8 +2326,8 @@ export const CapabilitiesResult: msRest.CompositeMapper = {
           }
         }
       },
-      vmSizes: {
-        serializedName: "vmSizes",
+      vmsizes: {
+        serializedName: "vmsizes",
         type: {
           name: "Dictionary",
           value: {
@@ -2314,8 +2338,8 @@ export const CapabilitiesResult: msRest.CompositeMapper = {
           }
         }
       },
-      vmSizeFilters: {
-        serializedName: "vmSize_filters",
+      vmsizeFilters: {
+        serializedName: "vmsize_filters",
         type: {
           name: "Sequence",
           element: {
