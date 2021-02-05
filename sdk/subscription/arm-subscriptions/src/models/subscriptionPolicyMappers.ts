@@ -7,10 +7,16 @@
  */
 
 export {
-  CanceledSubscriptionId,
-  EnabledSubscriptionId,
+  BaseResource,
+  BillingAccountPoliciesResponse,
+  BillingAccountPoliciesResponseProperties,
   ErrorResponse,
   ErrorResponseBody,
-  RenamedSubscriptionId,
-  SubscriptionName
+  GetTenantPolicyListResponse,
+  GetTenantPolicyResponse,
+  PutTenantPolicyRequestProperties,
+  ServiceTenantResponse,
+  SubscriptionAliasResponse,
+  SubscriptionAliasResponseProperties,
+  TenantPolicy
 } from "../models/mappers";
