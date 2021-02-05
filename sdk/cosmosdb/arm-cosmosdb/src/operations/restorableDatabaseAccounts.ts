@@ -27,7 +27,8 @@ export class RestorableDatabaseAccounts {
 
   /**
    * Lists all the restorable Azure Cosmos DB database accounts available under the subscription and
-   * in a region.
+   * in a region.  This call requires
+   * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read' permission.
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorableDatabaseAccountsListByLocationResponse>
@@ -56,6 +57,7 @@ export class RestorableDatabaseAccounts {
 
   /**
    * Lists all the restorable Azure Cosmos DB database accounts available under the subscription.
+   * This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read' permission.
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorableDatabaseAccountsListResponse>
    */
@@ -79,7 +81,8 @@ export class RestorableDatabaseAccounts {
   }
 
   /**
-   * Retrieves the properties of an existing Azure Cosmos DB restorable database account.
+   * Retrieves the properties of an existing Azure Cosmos DB restorable database account.  This call
+   * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read/*' permission.
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param [options] The optional parameters
@@ -121,7 +124,7 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.location
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -144,7 +147,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -169,7 +172,7 @@ const getByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.instanceId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

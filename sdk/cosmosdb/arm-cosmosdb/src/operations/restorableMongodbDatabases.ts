@@ -26,8 +26,10 @@ export class RestorableMongodbDatabases {
   }
 
   /**
-   * Lists all the restorable Azure Cosmos DB MongoDB databases available under the restorable
-   * account.
+   * Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB databases under the
+   * restorable account.  This helps in scenario where database was accidentally deleted to get the
+   * deletion time.  This API requires
+   * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/*/read' permission
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param [options] The optional parameters
@@ -70,7 +72,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.instanceId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

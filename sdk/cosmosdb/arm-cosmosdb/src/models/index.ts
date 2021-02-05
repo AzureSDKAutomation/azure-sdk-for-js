@@ -151,10 +151,6 @@ export interface PrivateLinkServiceConnectionStateProperty {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly actionsRequired?: string;
-  /**
-   * The private link service connection description.
-   */
-  description?: string;
 }
 
 /**
@@ -201,14 +197,6 @@ export interface PrivateEndpointConnection extends ProxyResource {
    * Connection State of the Private Endpoint Connection.
    */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * Group id of the private endpoint.
-   */
-  groupId?: string;
-  /**
-   * Provisioning state of the private endpoint.
-   */
-  provisioningState?: string;
 }
 
 /**
@@ -2781,6 +2769,10 @@ export interface PeriodicModeProperties {
    * An integer representing the time (in hours) that each backup is retained
    */
   backupRetentionIntervalInHours?: number;
+  /**
+   * Enum to indicate type of backup residency. Possible values include: 'Geo', 'Local', 'Zone'
+   */
+  backupStorageRedundancy?: BackupStorageRedundancy;
 }
 
 /**
@@ -2836,7 +2828,7 @@ export interface RestorableLocationResource {
 /**
  * A Azure Cosmos DB restorable database account.
  */
-export interface RestorableDatabaseAccountGetResult extends ARMResourceProperties {
+export interface RestorableDatabaseAccountGetResult {
   /**
    * The name of the global database account
    */
@@ -2860,6 +2852,42 @@ export interface RestorableDatabaseAccountGetResult extends ARMResourcePropertie
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly restorableLocations?: RestorableLocationResource[];
+  /**
+   * The unique resource identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The location of the resource group to which the resource belongs.
+   */
+  location?: string;
+}
+
+/**
+ * Continuous backup description.
+ */
+export interface ContinuousBackupInformation {
+  /**
+   * The latest restorable timestamp for a resource.
+   */
+  latestRestorableTimestamp?: string;
+}
+
+/**
+ * Backup information of a resource.
+ */
+export interface BackupInformation {
+  continuousBackupInformation?: ContinuousBackupInformation;
 }
 
 /**
@@ -3038,7 +3066,7 @@ export interface SqlRoleAssignmentGetResults extends ARMProxyResource {
 }
 
 /**
- * An interface representing RestorableSqlDatabasePropertiesResourceDatabase.
+ * Cosmos DB SQL database resource object
  */
 export interface RestorableSqlDatabasePropertiesResourceDatabase {
   /**
@@ -3079,7 +3107,7 @@ export interface RestorableSqlDatabasePropertiesResourceDatabase {
 }
 
 /**
- * An interface representing RestorableSqlDatabasePropertiesResource.
+ * The resource of an Azure Cosmos DB SQL database event
  */
 export interface RestorableSqlDatabasePropertiesResource {
   /**
@@ -3094,32 +3122,53 @@ export interface RestorableSqlDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
-   * The timestamp of this database event.
+   * The time when this database event happened.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly eventTimestamp?: string;
   /**
-   * The name of this restorable SQL database.
+   * The name of the SQL database.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerId?: string;
   /**
-   * The resource Id of this restorable SQL database.
+   * The resource ID of the SQL database.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerResourceId?: string;
+  /**
+   * Cosmos DB SQL database resource object
+   */
   database?: RestorableSqlDatabasePropertiesResourceDatabase;
 }
 
 /**
- * An Azure Cosmos DB restorable SQL database
+ * An Azure Cosmos DB SQL database event
  */
-export interface RestorableSqlDatabaseGetResult extends ARMResourceProperties {
+export interface RestorableSqlDatabaseGetResult {
+  /**
+   * The resource of an Azure Cosmos DB SQL database event
+   */
   resource?: RestorableSqlDatabasePropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
- * An interface representing RestorableSqlContainerPropertiesResourceContainer.
+ * Cosmos DB SQL container resource object
  */
 export interface RestorableSqlContainerPropertiesResourceContainer {
   /**
@@ -3173,7 +3222,7 @@ export interface RestorableSqlContainerPropertiesResourceContainer {
 }
 
 /**
- * An interface representing RestorableSqlContainerPropertiesResource.
+ * The resource of an Azure Cosmos DB SQL container event
  */
 export interface RestorableSqlContainerPropertiesResource {
   /**
@@ -3188,32 +3237,53 @@ export interface RestorableSqlContainerPropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
-   * The timestamp of this container event.
+   * The when this container event happened.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly eventTimestamp?: string;
   /**
-   * The name of this restorable SQL container.
+   * The name of this SQL container.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerId?: string;
   /**
-   * The resource Id of this restorable SQL container.
+   * The resource ID of this SQL container.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerResourceId?: string;
+  /**
+   * Cosmos DB SQL container resource object
+   */
   container?: RestorableSqlContainerPropertiesResourceContainer;
 }
 
 /**
- * An Azure Cosmos DB restorable SQL container
+ * An Azure Cosmos DB SQL container event
  */
-export interface RestorableSqlContainerGetResult extends ARMResourceProperties {
+export interface RestorableSqlContainerGetResult {
+  /**
+   * The resource of an Azure Cosmos DB SQL container event
+   */
   resource?: RestorableSqlContainerPropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
- * An interface representing RestorableMongodbDatabasePropertiesResource.
+ * The resource of an Azure Cosmos DB MongoDB database event
  */
 export interface RestorableMongodbDatabasePropertiesResource {
   /**
@@ -3228,31 +3298,49 @@ export interface RestorableMongodbDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
-   * The timestamp of this database event.
+   * The time when this database event happened.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly eventTimestamp?: string;
   /**
-   * The name of this restorable MongoDB database.
+   * The name of this MongoDB database.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerId?: string;
   /**
-   * The resource Id of this restorable MongoDB database.
+   * The resource ID of this MongoDB database.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerResourceId?: string;
 }
 
 /**
- * An Azure Cosmos DB restorable MongoDB database
+ * An Azure Cosmos DB MongoDB database event
  */
-export interface RestorableMongodbDatabaseGetResult extends ARMResourceProperties {
+export interface RestorableMongodbDatabaseGetResult {
+  /**
+   * The resource of an Azure Cosmos DB MongoDB database event
+   */
   resource?: RestorableMongodbDatabasePropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
- * An interface representing RestorableMongodbCollectionPropertiesResource.
+ * The resource of an Azure Cosmos DB MongoDB collection event
  */
 export interface RestorableMongodbCollectionPropertiesResource {
   /**
@@ -3267,48 +3355,45 @@ export interface RestorableMongodbCollectionPropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
-   * The timestamp of this collection event.
+   * The time when this collection event happened.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly eventTimestamp?: string;
   /**
-   * The name of this restorable MongoDB collection.
+   * The name of this MongoDB collection.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerId?: string;
   /**
-   * The resource Id of this restorable MongoDB collection.
+   * The resource ID of this MongoDB collection.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ownerResourceId?: string;
 }
 
 /**
- * An Azure Cosmos DB restorable MongoDB collection
+ * An Azure Cosmos DB MongoDB collection event
  */
-export interface RestorableMongodbCollectionGetResult extends ARMResourceProperties {
+export interface RestorableMongodbCollectionGetResult {
+  /**
+   * The resource of an Azure Cosmos DB MongoDB collection event
+   */
   resource?: RestorableMongodbCollectionPropertiesResource;
-}
-
-/**
- * A private link resource
- */
-export interface PrivateLinkResource extends ARMProxyResource {
   /**
-   * The private link resource group id.
+   * The unique resource Identifier of the ARM resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly groupId?: string;
+  readonly id?: string;
   /**
-   * The private link resource required member names.
+   * The name of the ARM resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly requiredMembers?: string[];
+  readonly name?: string;
   /**
-   * The private link resource required zone names.
+   * The type of Azure resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly requiredZoneNames?: string[];
+  readonly type?: string;
 }
 
 /**
@@ -3360,7 +3445,7 @@ export interface CollectionPartitionListUsagesOptionalParams extends msRest.Requ
  */
 export interface RestorableSqlContainersListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The resource id of the restorable SQL database.
+   * The resource ID of the SQL database.
    */
   restorableSqlDatabaseRid?: string;
 }
@@ -3384,7 +3469,7 @@ export interface RestorableSqlResourcesListOptionalParams extends msRest.Request
  */
 export interface RestorableMongodbCollectionsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The resource id of the restorable Mongo database.
+   * The resource ID of the MongoDB database.
    */
   restorableMongodbDatabaseRid?: string;
 }
@@ -3610,7 +3695,7 @@ export interface NotebookWorkspaceListResult extends Array<NotebookWorkspace> {
 
 /**
  * @interface
- * The List operation response, that contains the restorable SQL databases and their properties.
+ * The List operation response, that contains the SQL database events and their properties.
  * @extends Array<RestorableSqlDatabaseGetResult>
  */
 export interface RestorableSqlDatabasesListResult extends Array<RestorableSqlDatabaseGetResult> {
@@ -3618,7 +3703,7 @@ export interface RestorableSqlDatabasesListResult extends Array<RestorableSqlDat
 
 /**
  * @interface
- * The List operation response, that contains the restorable SQL containers and their properties.
+ * The List operation response, that contains the SQL container events and their properties.
  * @extends Array<RestorableSqlContainerGetResult>
  */
 export interface RestorableSqlContainersListResult extends Array<RestorableSqlContainerGetResult> {
@@ -3634,8 +3719,7 @@ export interface RestorableSqlResourcesListResult extends Array<DatabaseRestoreR
 
 /**
  * @interface
- * The List operation response, that contains the restorable MongoDB databases and their
- * properties.
+ * The List operation response, that contains the MongoDB database events and their properties.
  * @extends Array<RestorableMongodbDatabaseGetResult>
  */
 export interface RestorableMongodbDatabasesListResult extends Array<RestorableMongodbDatabaseGetResult> {
@@ -3643,8 +3727,7 @@ export interface RestorableMongodbDatabasesListResult extends Array<RestorableMo
 
 /**
  * @interface
- * The List operation response, that contains the restorable MongoDB collections and their
- * properties.
+ * The List operation response, that contains the MongoDB collection events and their properties.
  * @extends Array<RestorableMongodbCollectionGetResult>
  */
 export interface RestorableMongodbCollectionsListResult extends Array<RestorableMongodbCollectionGetResult> {
@@ -3656,22 +3739,6 @@ export interface RestorableMongodbCollectionsListResult extends Array<Restorable
  * @extends Array<DatabaseRestoreResource>
  */
 export interface RestorableMongodbResourcesListResult extends Array<DatabaseRestoreResource> {
-}
-
-/**
- * @interface
- * A list of private link resources
- * @extends Array<PrivateLinkResource>
- */
-export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
-}
-
-/**
- * @interface
- * A list of private endpoint connections
- * @extends Array<PrivateEndpointConnection>
- */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
 }
 
 /**
@@ -3850,6 +3917,14 @@ export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSeco
  * @enum {string}
  */
 export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimum' | 'Maximum' | 'Last';
+
+/**
+ * Defines values for BackupStorageRedundancy.
+ * Possible values include: 'Geo', 'Local', 'Zone'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupStorageRedundancy = 'Geo' | 'Local' | 'Zone';
 
 /**
  * Defines values for ApiType.
@@ -4921,6 +4996,26 @@ export type SqlResourcesCreateUpdateSqlTriggerResponse = SqlTriggerGetResults & 
 };
 
 /**
+ * Contains response data for the getBackupInformation operation.
+ */
+export type SqlResourcesGetBackupInformationResponse = BackupInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupInformation;
+    };
+};
+
+/**
  * Contains response data for the getSqlRoleDefinition operation.
  */
 export type SqlResourcesGetSqlRoleDefinitionResponse = SqlRoleDefinitionGetResults & {
@@ -5177,6 +5272,26 @@ export type SqlResourcesBeginCreateUpdateSqlTriggerResponse = SqlTriggerGetResul
        * The response body as parsed JSON or XML
        */
       parsedBody: SqlTriggerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginGetBackupInformation operation.
+ */
+export type SqlResourcesBeginGetBackupInformationResponse = BackupInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupInformation;
     };
 };
 
@@ -6477,125 +6592,5 @@ export type RestorableMongodbResourcesListResponse = RestorableMongodbResourcesL
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorableMongodbResourcesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseAccount operation.
- */
-export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseAccount operation.
- */
-export type PrivateEndpointConnectionsListByDatabaseAccountResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
     };
 };

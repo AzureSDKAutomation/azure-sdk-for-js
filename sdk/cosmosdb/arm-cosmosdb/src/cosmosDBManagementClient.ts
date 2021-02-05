@@ -42,8 +42,6 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   restorableMongodbDatabases: operations.RestorableMongodbDatabases;
   restorableMongodbCollections: operations.RestorableMongodbCollections;
   restorableMongodbResources: operations.RestorableMongodbResources;
-  privateLinkResources: operations.PrivateLinkResources;
-  privateEndpointConnections: operations.PrivateEndpointConnections;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -79,8 +77,6 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.restorableMongodbDatabases = new operations.RestorableMongodbDatabases(this);
     this.restorableMongodbCollections = new operations.RestorableMongodbCollections(this);
     this.restorableMongodbResources = new operations.RestorableMongodbResources(this);
-    this.privateLinkResources = new operations.PrivateLinkResources(this);
-    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
   }
 }
 

@@ -683,6 +683,21 @@ export class SqlResources {
   }
 
   /**
+   * Gets backup information of a container resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param location The name of the region.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesGetBackupInformationResponse>
+   */
+  getBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetBackupInformationResponse> {
+    return this.beginGetBackupInformation(resourceGroupName,accountName,databaseName,containerName,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesGetBackupInformationResponse>;
+  }
+
+  /**
    * Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
    * @param roleDefinitionId The GUID for the Role Definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1164,6 +1179,30 @@ export class SqlResources {
   }
 
   /**
+   * Gets backup information of a container resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param location The name of the region.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGetBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        location,
+        options
+      },
+      beginGetBackupInformationOperationSpec,
+      options);
+  }
+
+  /**
    * Creates or updates an Azure Cosmos DB SQL Role Definition.
    * @param roleDefinitionId The GUID for the Role Definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1261,7 +1300,7 @@ const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1287,7 +1326,7 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1313,7 +1352,7 @@ const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1339,7 +1378,7 @@ const listSqlContainersOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1366,7 +1405,7 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1393,7 +1432,7 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1420,7 +1459,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1448,7 +1487,7 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1475,7 +1514,7 @@ const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1503,7 +1542,7 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1530,7 +1569,7 @@ const listSqlTriggersOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1558,7 +1597,7 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1584,7 +1623,7 @@ const getSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1609,7 +1648,7 @@ const listSqlRoleDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1635,7 +1674,7 @@ const getSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1660,7 +1699,7 @@ const listSqlRoleAssignmentsOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1686,7 +1725,7 @@ const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1720,7 +1759,7 @@ const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1745,7 +1784,7 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1780,7 +1819,7 @@ const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1815,7 +1854,7 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1841,7 +1880,7 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1877,7 +1916,7 @@ const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1913,7 +1952,7 @@ const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1940,7 +1979,7 @@ const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1976,7 +2015,7 @@ const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2003,7 +2042,7 @@ const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2039,7 +2078,7 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2047,6 +2086,35 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGetBackupInformationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/getBackupInformation",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.location
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupInformation
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -2064,7 +2132,7 @@ const beginCreateUpdateSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2098,7 +2166,7 @@ const beginDeleteSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2124,7 +2192,7 @@ const beginCreateUpdateSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2158,7 +2226,7 @@ const beginDeleteSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

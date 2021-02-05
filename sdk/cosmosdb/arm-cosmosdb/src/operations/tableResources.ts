@@ -250,7 +250,7 @@ const listTablesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -276,7 +276,7 @@ const getTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -302,7 +302,7 @@ const getTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -328,7 +328,7 @@ const beginCreateUpdateTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -362,7 +362,7 @@ const beginDeleteTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -387,7 +387,7 @@ const beginUpdateTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

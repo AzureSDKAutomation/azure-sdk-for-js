@@ -33,5 +33,3 @@ export * from "./restorableSqlResources";
 export * from "./restorableMongodbDatabases";
 export * from "./restorableMongodbCollections";
 export * from "./restorableMongodbResources";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";

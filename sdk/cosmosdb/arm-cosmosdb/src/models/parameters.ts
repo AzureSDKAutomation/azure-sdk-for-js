@@ -34,28 +34,11 @@ export const accountName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-06-01-preview',
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2019-08-01-preview',
     constraints: {
       MinLength: 1
     },
@@ -146,16 +129,6 @@ export const graphName: msRest.OperationURLParameter = {
     }
   }
 };
-export const groupName: msRest.OperationURLParameter = {
-  parameterPath: "groupName",
-  mapper: {
-    required: true,
-    serializedName: "groupName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const instanceId: msRest.OperationURLParameter = {
   parameterPath: "instanceId",
   mapper: {
@@ -176,7 +149,7 @@ export const keyspaceName: msRest.OperationURLParameter = {
     }
   }
 };
-export const location: msRest.OperationURLParameter = {
+export const location: msRest.OperationQueryParameter = {
   parameterPath: "location",
   mapper: {
     required: true,
@@ -214,16 +187,6 @@ export const partitionKeyRangeId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "partitionKeyRangeId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const privateEndpointConnectionName: msRest.OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    required: true,
-    serializedName: "privateEndpointConnectionName",
     type: {
       name: "String"
     }

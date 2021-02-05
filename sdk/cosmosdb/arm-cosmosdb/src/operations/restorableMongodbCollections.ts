@@ -26,7 +26,9 @@ export class RestorableMongodbCollections {
   }
 
   /**
-   * Lists all the restorable Azure Cosmos DB MongoDB collection available for a specific database.
+   * Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB collections under a
+   * specific database.  This helps in scenario where container was accidentally deleted.  This API
+   * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/*/read' permission
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param [options] The optional parameters
@@ -69,7 +71,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.instanceId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.restorableMongodbDatabaseRid
   ],
   headerParameters: [

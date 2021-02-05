@@ -227,12 +227,6 @@ export const PrivateLinkServiceConnectionStateProperty: msRest.CompositeMapper =
         type: {
           name: "String"
         }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -299,18 +293,6 @@ export const PrivateEndpointConnection: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PrivateLinkServiceConnectionStateProperty"
-        }
-      },
-      groupId: {
-        serializedName: "properties.groupId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
         }
       }
     }
@@ -4479,6 +4461,12 @@ export const PeriodicModeProperties: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      backupStorageRedundancy: {
+        serializedName: "backupStorageRedundancy",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4561,7 +4549,6 @@ export const RestorableDatabaseAccountGetResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "RestorableDatabaseAccountGetResult",
     modelProperties: {
-      ...ARMResourceProperties.type.modelProperties,
       accountName: {
         serializedName: "properties.accountName",
         type: {
@@ -4598,6 +4585,66 @@ export const RestorableDatabaseAccountGetResult: msRest.CompositeMapper = {
               className: "RestorableLocationResource"
             }
           }
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContinuousBackupInformation: msRest.CompositeMapper = {
+  serializedName: "ContinuousBackupInformation",
+  type: {
+    name: "Composite",
+    className: "ContinuousBackupInformation",
+    modelProperties: {
+      latestRestorableTimestamp: {
+        serializedName: "latestRestorableTimestamp",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupInformation: msRest.CompositeMapper = {
+  serializedName: "BackupInformation",
+  type: {
+    name: "Composite",
+    className: "BackupInformation",
+    modelProperties: {
+      continuousBackupInformation: {
+        serializedName: "continuousBackupInformation",
+        type: {
+          name: "Composite",
+          className: "ContinuousBackupInformation"
         }
       }
     }
@@ -5016,12 +5063,32 @@ export const RestorableSqlDatabaseGetResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "RestorableSqlDatabaseGetResult",
     modelProperties: {
-      ...ARMResourceProperties.type.modelProperties,
       resource: {
         serializedName: "properties.resource",
         type: {
           name: "Composite",
           className: "RestorableSqlDatabasePropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -5165,12 +5232,32 @@ export const RestorableSqlContainerGetResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "RestorableSqlContainerGetResult",
     modelProperties: {
-      ...ARMResourceProperties.type.modelProperties,
       resource: {
         serializedName: "properties.resource",
         type: {
           name: "Composite",
           className: "RestorableSqlContainerPropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -5228,12 +5315,32 @@ export const RestorableMongodbDatabaseGetResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "RestorableMongodbDatabaseGetResult",
     modelProperties: {
-      ...ARMResourceProperties.type.modelProperties,
       resource: {
         serializedName: "properties.resource",
         type: {
           name: "Composite",
           className: "RestorableMongodbDatabasePropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -5291,54 +5398,32 @@ export const RestorableMongodbCollectionGetResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "RestorableMongodbCollectionGetResult",
     modelProperties: {
-      ...ARMResourceProperties.type.modelProperties,
       resource: {
         serializedName: "properties.resource",
         type: {
           name: "Composite",
           className: "RestorableMongodbCollectionPropertiesResource"
         }
-      }
-    }
-  }
-};
-
-export const PrivateLinkResource: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResource",
-    modelProperties: {
-      ...ARMProxyResource.type.modelProperties,
-      groupId: {
+      },
+      id: {
         readOnly: true,
-        serializedName: "properties.groupId",
+        serializedName: "id",
         type: {
           name: "String"
         }
       },
-      requiredMembers: {
+      name: {
         readOnly: true,
-        serializedName: "properties.requiredMembers",
+        serializedName: "name",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       },
-      requiredZoneNames: {
+      type: {
         readOnly: true,
-        serializedName: "properties.requiredZoneNames",
+        serializedName: "type",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       }
     }
@@ -6031,50 +6116,6 @@ export const RestorableMongodbResourcesListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DatabaseRestoreResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResourceListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateEndpointConnectionListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpointConnection"
             }
           }
         }
