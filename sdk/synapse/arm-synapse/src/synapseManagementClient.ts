@@ -75,6 +75,8 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   workspaceManagedSqlServerUsages: operations.WorkspaceManagedSqlServerUsages;
   workspaceManagedSqlServerRecoverableSqlPools: operations.WorkspaceManagedSqlServerRecoverableSqlPools;
   keys: operations.Keys;
+  library: operations.Library;
+  libraries: operations.Libraries;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -143,6 +145,8 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.workspaceManagedSqlServerUsages = new operations.WorkspaceManagedSqlServerUsages(this);
     this.workspaceManagedSqlServerRecoverableSqlPools = new operations.WorkspaceManagedSqlServerRecoverableSqlPools(this);
     this.keys = new operations.Keys(this);
+    this.library = new operations.Library(this);
+    this.libraries = new operations.Libraries(this);
   }
 }
 

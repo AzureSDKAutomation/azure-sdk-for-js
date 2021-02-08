@@ -6346,6 +6346,62 @@ export const Key: msRest.CompositeMapper = {
   }
 };
 
+export const LibraryResource: msRest.CompositeMapper = {
+  serializedName: "LibraryResource",
+  type: {
+    name: "Composite",
+    className: "LibraryResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      libraryResourceName: {
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      path: {
+        serializedName: "properties.path",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        serializedName: "properties.containerName",
+        type: {
+          name: "String"
+        }
+      },
+      uploadedTimestamp: {
+        readOnly: true,
+        serializedName: "properties.uploadedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      libraryResourceType: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatus: {
+        readOnly: true,
+        serializedName: "properties.provisioningStatus",
+        type: {
+          name: "String"
+        }
+      },
+      creatorId: {
+        readOnly: true,
+        serializedName: "properties.creatorId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BigDataPoolResourceInfoListResult: msRest.CompositeMapper = {
   serializedName: "BigDataPoolResourceInfoListResult",
   type: {
@@ -7381,6 +7437,35 @@ export const KeyInfoListResult: msRest.CompositeMapper = {
               className: "Key"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const LibraryListResponse: msRest.CompositeMapper = {
+  serializedName: "LibraryListResponse",
+  type: {
+    name: "Composite",
+    className: "LibraryListResponse",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LibraryResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
