@@ -3863,6 +3863,11 @@ export interface BastionHost extends Resource {
    */
   dnsName?: string;
   /**
+   * The sku of this Bastion Host. Possible values include: 'Basic', 'Standard'. Default value:
+   * 'Standard'.
+   */
+  sku?: BastionHostSkuName;
+  /**
    * The provisioning state of the bastion host resource. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -12861,6 +12866,96 @@ export interface WebCategoriesGetOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
+export interface NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkInterfacesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PublicIPAddressesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface CustomIPPrefixesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
@@ -12923,66 +13018,6 @@ export interface InboundNatRulesGetOptionalParams extends msRest.RequestOptionsB
  * Optional Parameters.
  */
 export interface NatGatewaysGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface NetworkInterfacesGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -13063,36 +13098,6 @@ export interface PrivateLinkServicesGetOptionalParams extends msRest.RequestOpti
  * Optional Parameters.
  */
 export interface PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PublicIPAddressesGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -13539,6 +13544,44 @@ export interface BastionSessionDeleteResult extends Array<BastionSessionState> {
 
 /**
  * @interface
+ * Response for the ListNetworkInterface API service call.
+ * @extends Array<NetworkInterface>
+ */
+export interface NetworkInterfaceListResult extends Array<NetworkInterface> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for list ip configurations API service call.
+ * @extends Array<NetworkInterfaceIPConfiguration>
+ */
+export interface NetworkInterfaceIPConfigurationListResult extends Array<NetworkInterfaceIPConfiguration> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for ListPublicIpAddresses API service call.
+ * @extends Array<PublicIPAddress>
+ */
+export interface PublicIPAddressListResult extends Array<PublicIPAddress> {
+  /**
+   * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Response for ListCustomIpPrefixes API service call.
  * @extends Array<CustomIpPrefix>
  */
@@ -13857,19 +13900,6 @@ export interface LoadBalancerOutboundRuleListResult extends Array<OutboundRule> 
 
 /**
  * @interface
- * Response for the ListNetworkInterface API service call.
- * @extends Array<NetworkInterface>
- */
-export interface NetworkInterfaceListResult extends Array<NetworkInterface> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * Response for ListProbe API service call.
  * @extends Array<Probe>
  */
@@ -13891,19 +13921,6 @@ export interface NatGatewayListResult extends Array<NatGateway> {
    * The URL to get the next set of results.
    */
   nextLink?: string;
-}
-
-/**
- * @interface
- * Response for list ip configurations API service call.
- * @extends Array<NetworkInterfaceIPConfiguration>
- */
-export interface NetworkInterfaceIPConfigurationListResult extends Array<NetworkInterfaceIPConfiguration> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -14132,18 +14149,6 @@ export interface AutoApprovedPrivateLinkServicesResult extends Array<AutoApprove
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Response for ListPublicIpAddresses API service call.
- * @extends Array<PublicIPAddress>
- */
-export interface PublicIPAddressListResult extends Array<PublicIPAddress> {
-  /**
-   * The URL to get the next set of results.
-   */
-  nextLink?: string;
 }
 
 /**
@@ -14906,6 +14911,14 @@ export type AzureFirewallSkuName = 'AZFW_VNet' | 'AZFW_Hub';
  * @enum {string}
  */
 export type AzureFirewallSkuTier = 'Standard' | 'Premium';
+
+/**
+ * Defines values for BastionHostSkuName.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type BastionHostSkuName = 'Basic' | 'Standard';
 
 /**
  * Defines values for BastionConnectProtocol.
@@ -17424,6 +17437,866 @@ export type BeginGetActiveSessionsNextResponse = BastionActiveSessionListResult 
        * The response body as parsed JSON or XML
        */
       parsedBody: BastionActiveSessionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServiceRoleInstanceNetworkInterfaces operation.
+ */
+export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServiceNetworkInterfaces operation.
+ */
+export type NetworkInterfacesListCloudServiceNetworkInterfacesResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the getCloudServiceNetworkInterface operation.
+ */
+export type NetworkInterfacesGetCloudServiceNetworkInterfaceResponse = NetworkInterface & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterface;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NetworkInterfacesGetResponse = NetworkInterface & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterface;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type NetworkInterfacesCreateOrUpdateResponse = NetworkInterface & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterface;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type NetworkInterfacesUpdateTagsResponse = NetworkInterface & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterface;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type NetworkInterfacesListAllResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type NetworkInterfacesListResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the getEffectiveRouteTable operation.
+ */
+export type NetworkInterfacesGetEffectiveRouteTableResponse = EffectiveRouteListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveRouteListResult;
+    };
+};
+
+/**
+ * Contains response data for the listEffectiveNetworkSecurityGroups operation.
+ */
+export type NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse = EffectiveNetworkSecurityGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveNetworkSecurityGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetVMNetworkInterfaces operation.
+ */
+export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetNetworkInterfaces operation.
+ */
+export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the getVirtualMachineScaleSetNetworkInterface operation.
+ */
+export type NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse = NetworkInterface & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterface;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetIpConfigurations operation.
+ */
+export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse = NetworkInterfaceIPConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceIPConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the getVirtualMachineScaleSetIpConfiguration operation.
+ */
+export type NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse = NetworkInterfaceIPConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceIPConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type NetworkInterfacesBeginCreateOrUpdateResponse = NetworkInterface & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterface;
+    };
+};
+
+/**
+ * Contains response data for the beginGetEffectiveRouteTable operation.
+ */
+export type NetworkInterfacesBeginGetEffectiveRouteTableResponse = EffectiveRouteListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveRouteListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginListEffectiveNetworkSecurityGroups operation.
+ */
+export type NetworkInterfacesBeginListEffectiveNetworkSecurityGroupsResponse = EffectiveNetworkSecurityGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveNetworkSecurityGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServiceRoleInstanceNetworkInterfacesNext operation.
+ */
+export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServiceNetworkInterfacesNext operation.
+ */
+export type NetworkInterfacesListCloudServiceNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type NetworkInterfacesListAllNextResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type NetworkInterfacesListNextResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetVMNetworkInterfacesNext operation.
+ */
+export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetNetworkInterfacesNext operation.
+ */
+export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetIpConfigurationsNext operation.
+ */
+export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse = NetworkInterfaceIPConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkInterfaceIPConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServicePublicIPAddresses operation.
+ */
+export type PublicIPAddressesListCloudServicePublicIPAddressesResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServiceRoleInstancePublicIPAddresses operation.
+ */
+export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the getCloudServicePublicIPAddress operation.
+ */
+export type PublicIPAddressesGetCloudServicePublicIPAddressResponse = PublicIPAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddress;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PublicIPAddressesGetResponse = PublicIPAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddress;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PublicIPAddressesCreateOrUpdateResponse = PublicIPAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddress;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type PublicIPAddressesUpdateTagsResponse = PublicIPAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddress;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type PublicIPAddressesListAllResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PublicIPAddressesListResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetPublicIPAddresses operation.
+ */
+export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetVMPublicIPAddresses operation.
+ */
+export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the getVirtualMachineScaleSetPublicIPAddress operation.
+ */
+export type PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse = PublicIPAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddress;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PublicIPAddressesBeginCreateOrUpdateResponse = PublicIPAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddress;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServicePublicIPAddressesNext operation.
+ */
+export type PublicIPAddressesListCloudServicePublicIPAddressesNextResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCloudServiceRoleInstancePublicIPAddressesNext operation.
+ */
+export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type PublicIPAddressesListAllNextResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PublicIPAddressesListNextResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetPublicIPAddressesNext operation.
+ */
+export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualMachineScaleSetVMPublicIPAddressesNext operation.
+ */
+export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse = PublicIPAddressListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PublicIPAddressListResult;
     };
 };
 
@@ -20768,506 +21641,6 @@ export type NatGatewaysListNextResponse = NatGatewayListResult & {
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type NetworkInterfacesGetResponse = NetworkInterface & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterface;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type NetworkInterfacesCreateOrUpdateResponse = NetworkInterface & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterface;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type NetworkInterfacesUpdateTagsResponse = NetworkInterface & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterface;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type NetworkInterfacesListAllResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type NetworkInterfacesListResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the getEffectiveRouteTable operation.
- */
-export type NetworkInterfacesGetEffectiveRouteTableResponse = EffectiveRouteListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EffectiveRouteListResult;
-    };
-};
-
-/**
- * Contains response data for the listEffectiveNetworkSecurityGroups operation.
- */
-export type NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse = EffectiveNetworkSecurityGroupListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EffectiveNetworkSecurityGroupListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetVMNetworkInterfaces operation.
- */
-export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetNetworkInterfaces operation.
- */
-export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the getVirtualMachineScaleSetNetworkInterface operation.
- */
-export type NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse = NetworkInterface & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterface;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetIpConfigurations operation.
- */
-export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse = NetworkInterfaceIPConfigurationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceIPConfigurationListResult;
-    };
-};
-
-/**
- * Contains response data for the getVirtualMachineScaleSetIpConfiguration operation.
- */
-export type NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse = NetworkInterfaceIPConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceIPConfiguration;
-    };
-};
-
-/**
- * Contains response data for the listCloudServiceRoleInstanceNetworkInterfaces operation.
- */
-export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listCloudServiceNetworkInterfaces operation.
- */
-export type NetworkInterfacesListCloudServiceNetworkInterfacesResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the getCloudServiceNetworkInterface operation.
- */
-export type NetworkInterfacesGetCloudServiceNetworkInterfaceResponse = NetworkInterface & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterface;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type NetworkInterfacesBeginCreateOrUpdateResponse = NetworkInterface & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterface;
-    };
-};
-
-/**
- * Contains response data for the beginGetEffectiveRouteTable operation.
- */
-export type NetworkInterfacesBeginGetEffectiveRouteTableResponse = EffectiveRouteListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EffectiveRouteListResult;
-    };
-};
-
-/**
- * Contains response data for the beginListEffectiveNetworkSecurityGroups operation.
- */
-export type NetworkInterfacesBeginListEffectiveNetworkSecurityGroupsResponse = EffectiveNetworkSecurityGroupListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EffectiveNetworkSecurityGroupListResult;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type NetworkInterfacesListAllNextResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type NetworkInterfacesListNextResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetVMNetworkInterfacesNext operation.
- */
-export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetNetworkInterfacesNext operation.
- */
-export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetIpConfigurationsNext operation.
- */
-export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse = NetworkInterfaceIPConfigurationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceIPConfigurationListResult;
-    };
-};
-
-/**
- * Contains response data for the listCloudServiceRoleInstanceNetworkInterfacesNext operation.
- */
-export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listCloudServiceNetworkInterfacesNext operation.
- */
-export type NetworkInterfacesListCloudServiceNetworkInterfacesNextResponse = NetworkInterfaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkInterfaceListResult;
-    };
-};
-
-/**
  * Contains response data for the list operation.
  */
 export type NetworkInterfaceIPConfigurationsListResponse = NetworkInterfaceIPConfigurationListResult & {
@@ -23964,366 +24337,6 @@ export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGrou
        * The response body as parsed JSON or XML
        */
       parsedBody: AutoApprovedPrivateLinkServicesResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PublicIPAddressesGetResponse = PublicIPAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddress;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PublicIPAddressesCreateOrUpdateResponse = PublicIPAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddress;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type PublicIPAddressesUpdateTagsResponse = PublicIPAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddress;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type PublicIPAddressesListAllResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PublicIPAddressesListResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetPublicIPAddresses operation.
- */
-export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetVMPublicIPAddresses operation.
- */
-export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the getVirtualMachineScaleSetPublicIPAddress operation.
- */
-export type PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse = PublicIPAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddress;
-    };
-};
-
-/**
- * Contains response data for the listCloudServicePublicIPAddresses operation.
- */
-export type PublicIPAddressesListCloudServicePublicIPAddressesResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listCloudServiceRoleInstancePublicIPAddresses operation.
- */
-export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the getCloudServicePublicIPAddress operation.
- */
-export type PublicIPAddressesGetCloudServicePublicIPAddressResponse = PublicIPAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddress;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PublicIPAddressesBeginCreateOrUpdateResponse = PublicIPAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddress;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type PublicIPAddressesListAllNextResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PublicIPAddressesListNextResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetPublicIPAddressesNext operation.
- */
-export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listVirtualMachineScaleSetVMPublicIPAddressesNext operation.
- */
-export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listCloudServicePublicIPAddressesNext operation.
- */
-export type PublicIPAddressesListCloudServicePublicIPAddressesNextResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
-    };
-};
-
-/**
- * Contains response data for the listCloudServiceRoleInstancePublicIPAddressesNext operation.
- */
-export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextResponse = PublicIPAddressListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicIPAddressListResult;
     };
 };
 

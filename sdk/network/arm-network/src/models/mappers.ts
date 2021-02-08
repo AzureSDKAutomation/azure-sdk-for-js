@@ -6593,6 +6593,13 @@ export const BastionHost: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      sku: {
+        serializedName: "properties.sku",
+        defaultValue: 'Standard',
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -22286,6 +22293,92 @@ export const BastionSessionDeleteResult: msRest.CompositeMapper = {
   }
 };
 
+export const NetworkInterfaceListResult: msRest.CompositeMapper = {
+  serializedName: "NetworkInterfaceListResult",
+  type: {
+    name: "Composite",
+    className: "NetworkInterfaceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkInterface"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkInterfaceIPConfigurationListResult: msRest.CompositeMapper = {
+  serializedName: "NetworkInterfaceIPConfigurationListResult",
+  type: {
+    name: "Composite",
+    className: "NetworkInterfaceIPConfigurationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkInterfaceIPConfiguration"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PublicIPAddressListResult: msRest.CompositeMapper = {
+  serializedName: "PublicIPAddressListResult",
+  type: {
+    name: "Composite",
+    className: "PublicIPAddressListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PublicIPAddress"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CustomIpPrefixListResult: msRest.CompositeMapper = {
   serializedName: "CustomIpPrefixListResult",
   type: {
@@ -22996,35 +23089,6 @@ export const LoadBalancerOutboundRuleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceListResult: msRest.CompositeMapper = {
-  serializedName: "NetworkInterfaceListResult",
-  type: {
-    name: "Composite",
-    className: "NetworkInterfaceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkInterface"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const LoadBalancerProbeListResult: msRest.CompositeMapper = {
   serializedName: "LoadBalancerProbeListResult",
   type: {
@@ -23073,35 +23137,6 @@ export const NatGatewayListResult: msRest.CompositeMapper = {
         }
       },
       nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkInterfaceIPConfigurationListResult: msRest.CompositeMapper = {
-  serializedName: "NetworkInterfaceIPConfigurationListResult",
-  type: {
-    name: "Composite",
-    className: "NetworkInterfaceIPConfigurationListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkInterfaceIPConfiguration"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
         serializedName: "nextLink",
         type: {
           name: "String"
@@ -23625,34 +23660,6 @@ export const AutoApprovedPrivateLinkServicesResult: msRest.CompositeMapper = {
       },
       nextLink: {
         readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PublicIPAddressListResult: msRest.CompositeMapper = {
-  serializedName: "PublicIPAddressListResult",
-  type: {
-    name: "Composite",
-    className: "PublicIPAddressListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PublicIPAddress"
-            }
-          }
-        }
-      },
-      nextLink: {
         serializedName: "nextLink",
         type: {
           name: "String"
