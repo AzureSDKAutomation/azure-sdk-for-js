@@ -10,6 +10,10 @@ export {
   discriminators,
   BaseResource,
   CloudError,
+  CmkKekIdentity,
+  CmkKeyVaultProperties,
+  ErrorAdditionalInfo,
+  ErrorModel,
   IdentityData,
   PatchTrackedResource,
   PatchVault,
@@ -24,8 +28,10 @@ export {
   Sku,
   TrackedResource,
   UpgradeDetails,
+  UserIdentity,
   Vault,
   VaultCertificateResponse,
   VaultExtendedInfoResource,
-  VaultProperties
+  VaultProperties,
+  VaultPropertiesEncryption
 } from "../models/mappers";
