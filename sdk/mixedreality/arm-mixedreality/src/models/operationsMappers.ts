@@ -8,12 +8,7 @@
 
 export {
   CloudError,
-  LogSpecification,
-  MetricDimension,
-  MetricSpecification,
   Operation,
   OperationDisplay,
-  OperationPage,
-  OperationProperties,
-  ServiceSpecification
+  OperationPage
 } from "../models/mappers";

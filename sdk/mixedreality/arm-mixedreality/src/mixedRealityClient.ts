@@ -20,6 +20,7 @@ class MixedRealityClient extends MixedRealityClientContext {
   operations: operations.Operations;
   spatialAnchorsAccounts: operations.SpatialAnchorsAccounts;
   remoteRenderingAccounts: operations.RemoteRenderingAccounts;
+  objectAnchorsAccounts: operations.ObjectAnchorsAccounts;
 
   /**
    * Initializes a new instance of the MixedRealityClient class.
@@ -33,6 +34,7 @@ class MixedRealityClient extends MixedRealityClientContext {
     this.operations = new operations.Operations(this);
     this.spatialAnchorsAccounts = new operations.SpatialAnchorsAccounts(this);
     this.remoteRenderingAccounts = new operations.RemoteRenderingAccounts(this);
+    this.objectAnchorsAccounts = new operations.ObjectAnchorsAccounts(this);
   }
 
   /**
