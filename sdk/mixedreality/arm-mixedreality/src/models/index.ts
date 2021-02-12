@@ -263,7 +263,7 @@ export interface SystemData {
    */
   lastModifiedByType?: CreatedByType;
   /**
-   * The type of identity that last modified the resource.
+   * The timestamp of resource last modification (UTC)
    */
   lastModifiedAt?: Date;
 }
