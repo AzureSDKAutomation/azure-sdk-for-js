@@ -8,5 +8,6 @@
  */
 
 export * from "./operations";
+export * from "./objectAnchorsAccounts";
 export * from "./spatialAnchorsAccounts";
 export * from "./remoteRenderingAccounts";

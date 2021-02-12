@@ -103,6 +103,35 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
+export const Operation: msRest.CompositeMapper = {
+  serializedName: "Operation",
+  type: {
+    name: "Composite",
+    className: "Operation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay"
+        }
+      }
+    }
+  }
+};
+
 export const LogSpecification: msRest.CompositeMapper = {
   serializedName: "LogSpecification",
   type: {
@@ -251,59 +280,17 @@ export const ServiceSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const OperationProperties: msRest.CompositeMapper = {
-  serializedName: "OperationProperties",
+export const Properties: msRest.CompositeMapper = {
+  serializedName: "properties",
   type: {
     name: "Composite",
-    className: "OperationProperties",
+    className: "Properties",
     modelProperties: {
       serviceSpecification: {
         serializedName: "serviceSpecification",
         type: {
           name: "Composite",
           className: "ServiceSpecification"
-        }
-      }
-    }
-  }
-};
-
-export const Operation: msRest.CompositeMapper = {
-  serializedName: "Operation",
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        type: {
-          name: "Boolean"
-        }
-      },
-      origin: {
-        serializedName: "origin",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "OperationProperties"
         }
       }
     }
@@ -343,49 +330,13 @@ export const Identity: msRest.CompositeMapper = {
   }
 };
 
-export const Sku: msRest.CompositeMapper = {
-  serializedName: "Sku",
+export const ObjectAnchorsAccountIdentity: msRest.CompositeMapper = {
+  serializedName: "ObjectAnchorsAccount_identity",
   type: {
     name: "Composite",
-    className: "Sku",
+    className: "ObjectAnchorsAccountIdentity",
     modelProperties: {
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      tier: {
-        serializedName: "tier",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Free",
-            "Basic",
-            "Standard",
-            "Premium"
-          ]
-        }
-      },
-      size: {
-        serializedName: "size",
-        type: {
-          name: "String"
-        }
-      },
-      family: {
-        serializedName: "family",
-        type: {
-          name: "String"
-        }
-      },
-      capacity: {
-        serializedName: "capacity",
-        type: {
-          name: "Number"
-        }
-      }
+      ...Identity.type.modelProperties
     }
   }
 };
@@ -496,13 +447,20 @@ export const TrackedResource: msRest.CompositeMapper = {
   }
 };
 
-export const SpatialAnchorsAccount: msRest.CompositeMapper = {
-  serializedName: "SpatialAnchorsAccount",
+export const ObjectAnchorsAccount: msRest.CompositeMapper = {
+  serializedName: "ObjectAnchorsAccount",
   type: {
     name: "Composite",
-    className: "SpatialAnchorsAccount",
+    className: "ObjectAnchorsAccount",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ObjectAnchorsAccountIdentity"
+        }
+      },
       storageAccountName: {
         serializedName: "properties.storageAccountName",
         type: {
@@ -523,35 +481,8 @@ export const SpatialAnchorsAccount: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      },
-      plan: {
-        serializedName: "plan",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      kind: {
-        serializedName: "kind",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
       systemData: {
+        readOnly: true,
         serializedName: "systemData",
         type: {
           name: "Composite",
@@ -569,6 +500,53 @@ export const ResourceModelWithAllowedPropertySetIdentity: msRest.CompositeMapper
     className: "ResourceModelWithAllowedPropertySetIdentity",
     modelProperties: {
       ...Identity.type.modelProperties
+    }
+  }
+};
+
+export const Sku: msRest.CompositeMapper = {
+  serializedName: "Sku",
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Free",
+            "Basic",
+            "Standard",
+            "Premium"
+          ]
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        serializedName: "family",
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
+      }
     }
   }
 };
@@ -799,6 +777,72 @@ export const AccountKeyRegenerateRequest: msRest.CompositeMapper = {
   }
 };
 
+export const SpatialAnchorsAccount: msRest.CompositeMapper = {
+  serializedName: "SpatialAnchorsAccount",
+  type: {
+    name: "Composite",
+    className: "SpatialAnchorsAccount",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      storageAccountName: {
+        serializedName: "properties.storageAccountName",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        readOnly: true,
+        serializedName: "properties.accountId",
+        type: {
+          name: "String"
+        }
+      },
+      accountDomain: {
+        readOnly: true,
+        serializedName: "properties.accountDomain",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      plan: {
+        serializedName: "plan",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const RemoteRenderingAccount: msRest.CompositeMapper = {
   serializedName: "RemoteRenderingAccount",
   type: {
@@ -879,6 +923,34 @@ export const OperationPage: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Operation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ObjectAnchorsAccountPage: msRest.CompositeMapper = {
+  serializedName: "ObjectAnchorsAccountPage",
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccountPage",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ObjectAnchorsAccount"
             }
           }
         }

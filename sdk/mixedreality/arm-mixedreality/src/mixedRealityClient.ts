@@ -18,6 +18,7 @@ import { MixedRealityClientContext } from "./mixedRealityClientContext";
 class MixedRealityClient extends MixedRealityClientContext {
   // Operation groups
   operations: operations.Operations;
+  objectAnchorsAccounts: operations.ObjectAnchorsAccounts;
   spatialAnchorsAccounts: operations.SpatialAnchorsAccounts;
   remoteRenderingAccounts: operations.RemoteRenderingAccounts;
 
@@ -31,6 +32,7 @@ class MixedRealityClient extends MixedRealityClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MixedRealityClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
+    this.objectAnchorsAccounts = new operations.ObjectAnchorsAccounts(this);
     this.spatialAnchorsAccounts = new operations.SpatialAnchorsAccounts(this);
     this.remoteRenderingAccounts = new operations.RemoteRenderingAccounts(this);
   }
