@@ -66,6 +66,24 @@ export interface OperationDisplay {
 }
 
 /**
+ * REST API operation
+ */
+export interface Operation {
+  /**
+   * Operation name: {provider}/{resource}/{operation}
+   */
+  name?: string;
+  /**
+   * Indicates whether the operation is a data action
+   */
+  isDataAction?: boolean;
+  /**
+   * The object that represents the operation.
+   */
+  display?: OperationDisplay;
+}
+
+/**
  * Specifications of the Log for Azure Monitoring
  */
 export interface LogSpecification {
@@ -152,37 +170,11 @@ export interface ServiceSpecification {
 /**
  * Operation properties.
  */
-export interface OperationProperties {
+export interface Properties {
   /**
    * Service specification.
    */
   serviceSpecification?: ServiceSpecification;
-}
-
-/**
- * REST API operation
- */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * The object that represents the operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * Whether or not this is a data plane operation
-   */
-  isDataAction?: boolean;
-  /**
-   * The origin
-   */
-  origin?: string;
-  /**
-   * Properties of the operation
-   */
-  properties?: OperationProperties;
 }
 
 /**
@@ -263,7 +255,7 @@ export interface SystemData {
    */
   lastModifiedByType?: CreatedByType;
   /**
-   * The type of identity that last modified the resource.
+   * The timestamp of resource last modification (UTC)
    */
   lastModifiedAt?: Date;
 }
@@ -492,7 +484,7 @@ export interface AccountKeys {
  */
 export interface AccountKeyRegenerateRequest {
   /**
-   * serial of key to be regenerated. Default value: 1.
+   * Serial of key to be regenerated. Default value: 1.
    */
   serial?: number;
 }
@@ -538,6 +530,38 @@ export interface RemoteRenderingAccount extends TrackedResource {
 }
 
 /**
+ * An interface representing ObjectAnchorsAccountIdentity.
+ */
+export interface ObjectAnchorsAccountIdentity extends Identity {
+}
+
+/**
+ * ObjectAnchorsAccount Response.
+ */
+export interface ObjectAnchorsAccount extends TrackedResource {
+  identity?: ObjectAnchorsAccountIdentity;
+  /**
+   * The name of the storage account associated with this accountId
+   */
+  storageAccountName?: string;
+  /**
+   * unique id of certain account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * Correspond domain name of certain Spatial Anchors Account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountDomain?: string;
+  /**
+   * The system metadata related to an object anchors account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
  * An interface representing MixedRealityClientOptions.
  */
 export interface MixedRealityClientOptions extends AzureServiceClientOptions {
@@ -577,6 +601,19 @@ export interface SpatialAnchorsAccountPage extends Array<SpatialAnchorsAccount> 
  * @extends Array<RemoteRenderingAccount>
  */
 export interface RemoteRenderingAccountPage extends Array<RemoteRenderingAccount> {
+  /**
+   * URL to get the next set of resource list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to get resource collection. It contains a list of resources and a URL link
+ * to get the next set of results.
+ * @extends Array<ObjectAnchorsAccount>
+ */
+export interface ObjectAnchorsAccountPage extends Array<ObjectAnchorsAccount> {
   /**
    * URL to get the next set of resource list results if there are any.
    */
@@ -1032,5 +1069,185 @@ export type RemoteRenderingAccountsListByResourceGroupNextResponse = RemoteRende
        * The response body as parsed JSON or XML
        */
       parsedBody: RemoteRenderingAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ObjectAnchorsAccountsListBySubscriptionResponse = ObjectAnchorsAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ObjectAnchorsAccountsListByResourceGroupResponse = ObjectAnchorsAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ObjectAnchorsAccountsGetResponse = ObjectAnchorsAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccount;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ObjectAnchorsAccountsUpdateResponse = ObjectAnchorsAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccount;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ObjectAnchorsAccountsCreateResponse = ObjectAnchorsAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccount;
+    };
+};
+
+/**
+ * Contains response data for the listKeys operation.
+ */
+export type ObjectAnchorsAccountsListKeysResponse = AccountKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountKeys;
+    };
+};
+
+/**
+ * Contains response data for the regenerateKeys operation.
+ */
+export type ObjectAnchorsAccountsRegenerateKeysResponse = AccountKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountKeys;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type ObjectAnchorsAccountsListBySubscriptionNextResponse = ObjectAnchorsAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ObjectAnchorsAccountsListByResourceGroupNextResponse = ObjectAnchorsAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectAnchorsAccountPage;
     };
 };
