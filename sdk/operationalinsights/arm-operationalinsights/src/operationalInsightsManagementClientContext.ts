@@ -16,7 +16,6 @@ const packageVersion = "5.0.0";
 
 export class OperationalInsightsManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  apiVersion?: string;
   subscriptionId: string;
 
   /**
@@ -43,7 +42,6 @@ export class OperationalInsightsManagementClientContext extends msRestAzure.Azur
 
     super(credentials, options);
 
-    this.apiVersion = '2020-08-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

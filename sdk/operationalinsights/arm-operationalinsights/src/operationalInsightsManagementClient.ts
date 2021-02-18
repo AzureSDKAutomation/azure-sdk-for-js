@@ -22,20 +22,20 @@ class OperationalInsightsManagementClient extends OperationalInsightsManagementC
   linkedServices: operations.LinkedServices;
   linkedStorageAccounts: operations.LinkedStorageAccounts;
   managementGroups: operations.ManagementGroups;
-  operations: operations.Operations;
   operationStatuses: operations.OperationStatuses;
   sharedKeys: operations.SharedKeysOperations;
   usages: operations.Usages;
-  workspaces: operations.Workspaces;
-  deletedWorkspaces: operations.DeletedWorkspaces;
-  clusters: operations.Clusters;
   storageInsightConfigs: operations.StorageInsightConfigs;
   savedSearches: operations.SavedSearches;
   availableServiceTiers: operations.AvailableServiceTiers;
   gateways: operations.Gateways;
   schema: operations.Schema;
   workspacePurge: operations.WorkspacePurge;
+  clusters: operations.Clusters;
+  operations: operations.Operations;
   tables: operations.Tables;
+  workspaces: operations.Workspaces;
+  deletedWorkspaces: operations.DeletedWorkspaces;
 
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
@@ -51,20 +51,20 @@ class OperationalInsightsManagementClient extends OperationalInsightsManagementC
     this.linkedServices = new operations.LinkedServices(this);
     this.linkedStorageAccounts = new operations.LinkedStorageAccounts(this);
     this.managementGroups = new operations.ManagementGroups(this);
-    this.operations = new operations.Operations(this);
     this.operationStatuses = new operations.OperationStatuses(this);
     this.sharedKeys = new operations.SharedKeysOperations(this);
     this.usages = new operations.Usages(this);
-    this.workspaces = new operations.Workspaces(this);
-    this.deletedWorkspaces = new operations.DeletedWorkspaces(this);
-    this.clusters = new operations.Clusters(this);
     this.storageInsightConfigs = new operations.StorageInsightConfigs(this);
     this.savedSearches = new operations.SavedSearches(this);
     this.availableServiceTiers = new operations.AvailableServiceTiers(this);
     this.gateways = new operations.Gateways(this);
     this.schema = new operations.Schema(this);
     this.workspacePurge = new operations.WorkspacePurge(this);
+    this.clusters = new operations.Clusters(this);
+    this.operations = new operations.Operations(this);
     this.tables = new operations.Tables(this);
+    this.workspaces = new operations.Workspaces(this);
+    this.deletedWorkspaces = new operations.DeletedWorkspaces(this);
   }
 }
 
