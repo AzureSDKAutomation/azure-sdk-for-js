@@ -15,7 +15,7 @@ npm install @azure/arm-hybridcompute
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get machines as an example written in TypeScript.
+#### nodejs - client creation and get machines as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,19 +26,18 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { HybridComputeManagementClient, HybridComputeManagementModels, HybridComputeManagementMappers } from "@azure/arm-hybridcompute";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new HybridComputeManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
-  const name = "testname";
+  const machineName = "testmachineName";
   const expand = "instanceView";
-  client.machines.get(resourceGroupName, name, expand).then((result) => {
+  client.machines.get(resourceGroupName, machineName, expand).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -82,9 +81,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmHybridcompute.HybridComputeManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
-        const name = "testname";
+        const machineName = "testmachineName";
         const expand = "instanceView";
-        client.machines.get(resourceGroupName, name, expand).then((result) => {
+        client.machines.get(resourceGroupName, machineName, expand).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
