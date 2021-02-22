@@ -259,6 +259,37 @@ export interface Module {
 }
 
 /**
+ * Specifies details of a linked database resource.
+ * @summary Linked Database
+ */
+export interface LinkedDatabase {
+  /**
+   * Resource ID of a database resource to link with this database.
+   */
+  id?: string;
+  /**
+   * State of the link between the database resources. Possible values include: 'Linked',
+   * 'Linking', 'Unlinking', 'LinkFailed', 'UnlinkFailed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: LinkState;
+}
+
+/**
+ * Optional set of properties to configure geo replication for this database.
+ */
+export interface DatabasePropertiesGeoReplication {
+  /**
+   * Name for the group of linked database resources
+   */
+  groupNickname?: string;
+  /**
+   * List of database resources to link with this database
+   */
+  linkedDatabases?: LinkedDatabase[];
+}
+
+/**
  * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
  * and a location
  * @summary Proxy Resource
@@ -312,6 +343,10 @@ export interface Database extends ProxyResource {
    * creation time.
    */
   modules?: Module[];
+  /**
+   * Optional set of properties to configure geo replication for this database.
+   */
+  geoReplication?: DatabasePropertiesGeoReplication;
 }
 
 /**
@@ -360,6 +395,10 @@ export interface DatabaseUpdate {
    * creation time.
    */
   modules?: Module[];
+  /**
+   * Optional set of properties to configure geo replication for this database.
+   */
+  geoReplication?: DatabasePropertiesGeoReplication;
 }
 
 /**
@@ -499,6 +538,17 @@ export interface OperationStatus {
    * Error response describing why the operation failed.
    */
   error?: ErrorResponse;
+}
+
+/**
+ * Parameters for a Redis Enterprise Active Geo Replication Force Unlink operation.
+ * @summary Forcibly unlink another database from this database.
+ */
+export interface ForceUnlinkParameters {
+  /**
+   * The resource IDs of the database resources to be unlinked.
+   */
+  ids: string[];
 }
 
 /**
@@ -752,6 +802,14 @@ export type AofFrequency = '1s' | 'always';
  * @enum {string}
  */
 export type RdbFrequency = '1h' | '6h' | '12h';
+
+/**
+ * Defines values for LinkState.
+ * Possible values include: 'Linked', 'Linking', 'Unlinking', 'LinkFailed', 'UnlinkFailed'
+ * @readonly
+ * @enum {string}
+ */
+export type LinkState = 'Linked' | 'Linking' | 'Unlinking' | 'LinkFailed' | 'UnlinkFailed';
 
 /**
  * Defines values for AccessKeyType.

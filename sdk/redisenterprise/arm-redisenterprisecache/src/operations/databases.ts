@@ -214,6 +214,20 @@ export class Databases {
   }
 
   /**
+   * Forcibly removes the link to the specified database resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param ids The resource IDs of the database resources to be unlinked.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  forceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, ids: string[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginForceUnlink(resourceGroupName,clusterName,databaseName,ids,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the RedisEnterprise cluster.
@@ -340,6 +354,28 @@ export class Databases {
         options
       },
       beginExportMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Forcibly removes the link to the specified database resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param ids The resource IDs of the database resources to be unlinked.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, ids: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        databaseName,
+        ids,
+        options
+      },
+      beginForceUnlinkOperationSpec,
       options);
   }
 
@@ -638,6 +674,40 @@ const beginExportMethodOperationSpec: msRest.OperationSpec = {
     },
     mapper: {
       ...Mappers.ExportClusterParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginForceUnlinkOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      ids: "ids"
+    },
+    mapper: {
+      ...Mappers.ForceUnlinkParameters,
       required: true
     }
   },
