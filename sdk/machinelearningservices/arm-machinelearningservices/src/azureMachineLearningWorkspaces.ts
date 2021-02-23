@@ -20,14 +20,16 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
   operations: operations.Operations;
   workspaces: operations.Workspaces;
   workspaceFeatures: operations.WorkspaceFeatures;
-  notebooks: operations.Notebooks;
   usages: operations.Usages;
   virtualMachineSizes: operations.VirtualMachineSizes;
   quotas: operations.Quotas;
-  workspaceConnections: operations.WorkspaceConnections;
   machineLearningCompute: operations.MachineLearningCompute;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
+  machineLearningService: operations.MachineLearningService;
+  notebooks: operations.Notebooks;
+  storageAccount: operations.StorageAccount;
+  workspaceConnections: operations.WorkspaceConnections;
 
   /**
    * Initializes a new instance of the AzureMachineLearningWorkspaces class.
@@ -40,14 +42,16 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
     this.operations = new operations.Operations(this);
     this.workspaces = new operations.Workspaces(this);
     this.workspaceFeatures = new operations.WorkspaceFeatures(this);
-    this.notebooks = new operations.Notebooks(this);
     this.usages = new operations.Usages(this);
     this.virtualMachineSizes = new operations.VirtualMachineSizes(this);
     this.quotas = new operations.Quotas(this);
-    this.workspaceConnections = new operations.WorkspaceConnections(this);
     this.machineLearningCompute = new operations.MachineLearningCompute(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.machineLearningService = new operations.MachineLearningService(this);
+    this.notebooks = new operations.Notebooks(this);
+    this.storageAccount = new operations.StorageAccount(this);
+    this.workspaceConnections = new operations.WorkspaceConnections(this);
   }
 
   /**
