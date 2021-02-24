@@ -181,7 +181,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -191,7 +191,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataExportListResult
     },
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -207,7 +207,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.dataExportName0
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -227,7 +227,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataExport
     },
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -243,7 +243,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.dataExportName1
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -253,7 +253,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataExport
     },
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -269,7 +269,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.dataExportName1
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -278,7 +278,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     404: {},
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

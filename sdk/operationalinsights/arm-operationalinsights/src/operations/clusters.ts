@@ -276,7 +276,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -286,7 +286,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -299,7 +299,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -309,7 +309,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -324,7 +324,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.clusterName1
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -334,7 +334,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -349,7 +349,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -366,7 +366,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -381,7 +381,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.clusterName0
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -402,7 +402,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -417,7 +417,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -426,7 +426,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -440,7 +440,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -450,7 +450,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -464,7 +464,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -474,7 +474,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
