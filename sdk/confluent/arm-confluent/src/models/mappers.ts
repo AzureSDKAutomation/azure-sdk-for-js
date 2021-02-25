@@ -350,6 +350,7 @@ export const OrganizationResourceProperties: msRest.CompositeMapper = {
         }
       },
       provisioningState: {
+        readOnly: true,
         serializedName: "provisioningState",
         type: {
           name: "String"
@@ -422,6 +423,7 @@ export const OrganizationResource: msRest.CompositeMapper = {
         }
       },
       provisioningState: {
+        readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
