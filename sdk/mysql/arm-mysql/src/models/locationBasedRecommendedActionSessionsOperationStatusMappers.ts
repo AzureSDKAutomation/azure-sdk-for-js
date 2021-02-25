@@ -11,6 +11,5 @@ export {
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,
-  NameAvailability,
-  NameAvailabilityRequest
+  RecommendedActionSessionsOperationStatus
 } from "../models/mappers";
