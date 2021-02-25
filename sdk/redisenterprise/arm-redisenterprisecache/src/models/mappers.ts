@@ -388,6 +388,57 @@ export const Module: msRest.CompositeMapper = {
   }
 };
 
+export const LinkedDatabase: msRest.CompositeMapper = {
+  serializedName: "LinkedDatabase",
+  type: {
+    name: "Composite",
+    className: "LinkedDatabase",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatabasePropertiesGeoReplication: msRest.CompositeMapper = {
+  serializedName: "DatabaseProperties_geoReplication",
+  type: {
+    name: "Composite",
+    className: "DatabasePropertiesGeoReplication",
+    modelProperties: {
+      groupNickname: {
+        serializedName: "groupNickname",
+        type: {
+          name: "String"
+        }
+      },
+      linkedDatabases: {
+        serializedName: "linkedDatabases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedDatabase"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ProxyResource: msRest.CompositeMapper = {
   serializedName: "ProxyResource",
   type: {
@@ -462,6 +513,13 @@ export const Database: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      geoReplication: {
+        serializedName: "properties.geoReplication",
+        type: {
+          name: "Composite",
+          className: "DatabasePropertiesGeoReplication"
+        }
       }
     }
   }
@@ -528,6 +586,13 @@ export const DatabaseUpdate: msRest.CompositeMapper = {
               className: "Module"
             }
           }
+        }
+      },
+      geoReplication: {
+        serializedName: "properties.geoReplication",
+        type: {
+          name: "Composite",
+          className: "DatabasePropertiesGeoReplication"
         }
       }
     }
@@ -752,6 +817,28 @@ export const OperationStatus: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
+export const ForceUnlinkParameters: msRest.CompositeMapper = {
+  serializedName: "ForceUnlinkParameters",
+  type: {
+    name: "Composite",
+    className: "ForceUnlinkParameters",
+    modelProperties: {
+      ids: {
+        required: true,
+        serializedName: "ids",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

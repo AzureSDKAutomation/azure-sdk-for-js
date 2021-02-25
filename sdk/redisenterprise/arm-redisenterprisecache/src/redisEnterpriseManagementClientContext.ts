@@ -43,7 +43,7 @@ export class RedisEnterpriseManagementClientContext extends msRestAzure.AzureSer
 
     super(credentials, options);
 
-    this.apiVersion = '2021-03-01';
+    this.apiVersion = '2021-02-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
