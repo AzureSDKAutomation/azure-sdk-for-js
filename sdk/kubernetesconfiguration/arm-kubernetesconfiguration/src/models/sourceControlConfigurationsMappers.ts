@@ -7,7 +7,6 @@
  */
 
 export {
-  AzureEntityResource,
   BaseResource,
   ComplianceStatus,
   ErrorDefinition,
@@ -17,6 +16,5 @@ export {
   Resource,
   SourceControlConfiguration,
   SourceControlConfigurationList,
-  SystemData,
-  TrackedResource
+  SystemData
 } from "../models/mappers";

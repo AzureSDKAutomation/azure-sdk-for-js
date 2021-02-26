@@ -12,6 +12,75 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * Top level metadata
+ * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+ */
+export interface SystemData {
+  /**
+   * A string identifier for the identity that created the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdBy?: string;
+  /**
+   * The type of identity that created the resource: user, application, managedIdentity, key
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdByType?: string;
+  /**
+   * The timestamp of resource creation (UTC)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * A string identifier for the identity that last modified the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource: user, application, managedIdentity, key
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedByType?: string;
+  /**
+   * The timestamp of resource last modification (UTC)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedAt?: Date;
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Top level metadata
+   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+   */
+  systemData?: SystemData;
+}
+
+/**
+ * ARM proxy resource.
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
  * Sample result definition
  */
 export interface Result {
@@ -84,70 +153,6 @@ export interface HelmOperatorProperties {
 }
 
 /**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The type of identity that last modified the resource.
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
  * The SourceControl Configuration object returned in Get & Put response.
  */
 export interface SourceControlConfiguration extends ProxyResource {
@@ -211,11 +216,6 @@ export interface SourceControlConfiguration extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly complianceStatus?: ComplianceStatus;
-  /**
-   * Top level metadata
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
-   */
-  systemData?: SystemData;
 }
 
 /**
@@ -257,34 +257,6 @@ export interface ResourceProviderOperation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isDataAction?: boolean;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
 }
 
 /**
@@ -360,14 +332,6 @@ export type OperatorScopeType = 'cluster' | 'namespace';
  * @enum {string}
  */
 export type ProvisioningStateType = 'Accepted' | 'Deleting' | 'Running' | 'Succeeded' | 'Failed';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ClusterRp.

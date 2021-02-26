@@ -12,6 +12,107 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "SystemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        readOnly: true,
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        readOnly: true,
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        readOnly: true,
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        readOnly: true,
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        readOnly: true,
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
 export const Result: msRest.CompositeMapper = {
   serializedName: "Result",
   type: {
@@ -126,94 +227,6 @@ export const HelmOperatorProperties: msRest.CompositeMapper = {
   }
 };
 
-export const SystemData: msRest.CompositeMapper = {
-  serializedName: "systemData",
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResource: msRest.CompositeMapper = {
-  serializedName: "ProxyResource",
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
-};
-
 export const SourceControlConfiguration: msRest.CompositeMapper = {
   serializedName: "SourceControlConfiguration",
   type: {
@@ -310,13 +323,6 @@ export const SourceControlConfiguration: msRest.CompositeMapper = {
           name: "Composite",
           className: "ComplianceStatus"
         }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
       }
     }
   }
@@ -380,53 +386,6 @@ export const ResourceProviderOperation: msRest.CompositeMapper = {
         serializedName: "isDataAction",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const TrackedResource: msRest.CompositeMapper = {
-  serializedName: "TrackedResource",
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureEntityResource: msRest.CompositeMapper = {
-  serializedName: "AzureEntityResource",
-  type: {
-    name: "Composite",
-    className: "AzureEntityResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
         }
       }
     }
