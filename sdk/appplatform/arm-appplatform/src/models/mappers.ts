@@ -910,12 +910,6 @@ export const AppResourceProperties: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      enableEndToEndTLS: {
-        serializedName: "enableEndToEndTLS",
-        type: {
-          name: "Boolean"
-        }
-      },
       createdTime: {
         readOnly: true,
         serializedName: "createdTime",
@@ -935,6 +929,12 @@ export const AppResourceProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PersistentDisk"
+        }
+      },
+      enableEndToEndTLS: {
+        serializedName: "enableEndToEndTLS",
+        type: {
+          name: "Boolean"
         }
       }
     }
