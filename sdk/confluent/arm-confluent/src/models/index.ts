@@ -217,8 +217,9 @@ export interface OrganizationResourceProperties {
   /**
    * Provision states for confluent RP. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled', 'Deleted', 'NotSpecified'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisionState;
+  readonly provisioningState?: ProvisionState;
   /**
    * Id of the Confluent organization.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -266,8 +267,9 @@ export interface OrganizationResource extends BaseResource {
   /**
    * Provision states for confluent RP. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled', 'Deleted', 'NotSpecified'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisionState;
+  readonly provisioningState?: ProvisionState;
   /**
    * Id of the Confluent organization.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
