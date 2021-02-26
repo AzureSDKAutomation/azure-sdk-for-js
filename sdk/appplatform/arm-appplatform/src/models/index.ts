@@ -120,11 +120,11 @@ export interface ClusterResourceProperties {
  */
 export interface Sku {
   /**
-   * Name of the Sku
+   * Name of the Sku. Default value: 'S0'.
    */
   name?: string;
   /**
-   * Tier of the Sku
+   * Tier of the Sku. Default value: 'Standard'.
    */
   tier?: string;
   /**
@@ -547,10 +547,6 @@ export interface AppResourceProperties {
    */
   httpsOnly?: boolean;
   /**
-   * Indicate if end to end TLS is enabled.
-   */
-  enableEndToEndTLS?: boolean;
-  /**
    * Date time when the resource is created
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -563,6 +559,10 @@ export interface AppResourceProperties {
    * Persistent disk settings
    */
   persistentDisk?: PersistentDisk;
+  /**
+   * Indicate if end to end TLS is enabled.
+   */
+  enableEndToEndTLS?: boolean;
 }
 
 /**
