@@ -9,12 +9,11 @@
 export {
   discriminators,
   Addon,
+  AddonList,
   BaseResource,
   Circuit,
   CloudError,
   Cluster,
-  ClusterList,
-  ClusterUpdate,
   CommonClusterProperties,
   Datastore,
   DiskPoolVolume,
