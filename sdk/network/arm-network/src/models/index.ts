@@ -426,6 +426,177 @@ export interface NetworkInterfaceDnsSettings {
 }
 
 /**
+ * The private link service ip configuration.
+ */
+export interface PrivateLinkServiceIpConfiguration extends SubResource {
+  /**
+   * The private IP address of the IP configuration.
+   */
+  privateIPAddress?: string;
+  /**
+   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
+   */
+  privateIPAllocationMethod?: IPAllocationMethod;
+  /**
+   * The reference to the subnet resource.
+   */
+  subnet?: Subnet;
+  /**
+   * Whether the ip configuration is primary or not.
+   */
+  primary?: boolean;
+  /**
+   * The provisioning state of the private link service IP configuration resource. Possible values
+   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. Possible values
+   * include: 'IPv4', 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersion;
+  /**
+   * The name of private link service ip configuration.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * PrivateEndpointConnection resource.
+ */
+export interface PrivateEndpointConnection extends SubResource {
+  /**
+   * The resource of private end point.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The consumer link id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linkIdentifier?: string;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * The base resource set for visibility and auto-approval.
+ */
+export interface ResourceSet {
+  /**
+   * The list of subscriptions.
+   */
+  subscriptions?: string[];
+}
+
+/**
+ * The visibility list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
+}
+
+/**
+ * The auto-approval list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
+}
+
+/**
+ * Private link service resource.
+ */
+export interface PrivateLinkService extends Resource {
+  /**
+   * The extended location of the load balancer.
+   */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * An array of references to the load balancer IP configurations.
+   */
+  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
+  /**
+   * An array of private link service IP configurations.
+   */
+  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /**
+   * An array of references to the network interfaces created for this private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * The provisioning state of the private link service resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * An array of list about connections to the private endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The visibility list of the private link service.
+   */
+  visibility?: PrivateLinkServicePropertiesVisibility;
+  /**
+   * The auto-approval list of the private link service.
+   */
+  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+  /**
+   * The list of Fqdn.
+   */
+  fqdns?: string[];
+  /**
+   * The alias of the private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Whether the private link service is enabled for proxy protocol or not.
+   */
+  enableProxyProtocol?: boolean;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * A network interface in a resource group.
  */
 export interface NetworkInterface extends Resource {
@@ -499,6 +670,20 @@ export interface NetworkInterface extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Type of Network Interface resource. Possible values include: 'Standard', 'Elastic'. Default
+   * value: 'Standard'.
+   */
+  nicType?: NetworkInterfaceNicType;
+  /**
+   * Privatelinkservice of the network interface resource.
+   */
+  privateLinkService?: PrivateLinkService;
+  /**
+   * Migration phase of Network Interface resource. Possible values include: 'None', 'Prepare',
+   * 'Commit', 'Abort', 'Committed'
+   */
+  migrationPhase?: NetworkInterfaceMigrationPhase;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -898,6 +1083,63 @@ export interface IpTag {
 }
 
 /**
+ * SKU of nat gateway.
+ */
+export interface NatGatewaySku {
+  /**
+   * Name of Nat Gateway SKU. Possible values include: 'Standard'
+   */
+  name?: NatGatewaySkuName;
+}
+
+/**
+ * Nat Gateway resource.
+ */
+export interface NatGateway extends Resource {
+  /**
+   * The nat gateway SKU.
+   */
+  sku?: NatGatewaySku;
+  /**
+   * The idle timeout of the nat gateway.
+   */
+  idleTimeoutInMinutes?: number;
+  /**
+   * An array of public ip addresses associated with the nat gateway resource.
+   */
+  publicIpAddresses?: SubResource[];
+  /**
+   * An array of public ip prefixes associated with the nat gateway resource.
+   */
+  publicIpPrefixes?: SubResource[];
+  /**
+   * An array of references to the subnets using this nat gateway resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subnets?: SubResource[];
+  /**
+   * The resource GUID property of the NAT gateway resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the NAT gateway resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A list of availability zones denoting the zone in which Nat Gateway should be deployed.
+   */
+  zones?: string[];
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Public IP address resource.
  */
 export interface PublicIPAddress extends Resource {
@@ -957,6 +1199,23 @@ export interface PublicIPAddress extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The service public IP address of the public IP address resource.
+   */
+  servicePublicIPAddress?: PublicIPAddress;
+  /**
+   * The NatGateway for the Public IP address.
+   */
+  natGateway?: NatGateway;
+  /**
+   * Migration phase of Public IP Address. Possible values include: 'None', 'Prepare', 'Commit',
+   * 'Abort', 'Committed'
+   */
+  migrationPhase?: PublicIpAddressMigrationPhase;
+  /**
+   * The source Public IP Address (IPv6) that links to this address (IPv4).
+   */
+  linkedPublicIPAddress?: PublicIPAddress;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1143,6 +1402,42 @@ export interface Delegation extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
+}
+
+/**
+ * IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is
+ * allowed.
+ */
+export interface ApplicationGatewayIPConfiguration extends SubResource {
+  /**
+   * Reference to the subnet resource. A subnet from where application gateway gets its private
+   * address.
+   */
+  subnet?: SubResource;
+  /**
+   * The provisioning state of the application gateway IP configuration resource. Possible values
+   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Name of the IP configuration that is unique within an Application Gateway.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -1223,13 +1518,19 @@ export interface Subnet extends SubResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * Enable or Disable apply network policies on private end point in the subnet.
+   * Enable or Disable apply network policies on private end point in the subnet. Possible values
+   * include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
-  privateEndpointNetworkPolicies?: string;
+  privateEndpointNetworkPolicies?: VirtualNetworkPrivateEndpointNetworkPolicies;
   /**
-   * Enable or Disable apply network policies on private link service in the subnet.
+   * Enable or Disable apply network policies on private link service in the subnet. Possible
+   * values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
-  privateLinkServiceNetworkPolicies?: string;
+  privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
+  /**
+   * Application gateway IP configurations of virtual network resource.
+   */
+  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
   /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
@@ -1240,6 +1541,10 @@ export interface Subnet extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
 }
 
 /**
@@ -1600,6 +1905,10 @@ export interface NetworkInterfaceIPConfiguration extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
 }
 
 /**
@@ -1879,38 +2188,6 @@ export interface ApplicationGatewayClientAuthConfiguration {
    * Verify client certificate issuer name on the application gateway.
    */
   verifyClientCertIssuerDN?: boolean;
-}
-
-/**
- * IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is
- * allowed.
- */
-export interface ApplicationGatewayIPConfiguration extends SubResource {
-  /**
-   * Reference to the subnet resource. A subnet from where application gateway gets its private
-   * address.
-   */
-  subnet?: SubResource;
-  /**
-   * The provisioning state of the application gateway IP configuration resource. Possible values
-   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Name of the IP configuration that is unique within an Application Gateway.
-   */
-  name?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * Type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
 }
 
 /**
@@ -2443,7 +2720,7 @@ export interface ApplicationGatewayRewriteRuleCondition {
    */
   pattern?: string;
   /**
-   * Setting this paramter to truth value with force the pattern to do a case in-sensitive
+   * Setting this parameter to truth value with force the pattern to do a case in-sensitive
    * comparison.
    */
   ignoreCase?: boolean;
@@ -6248,63 +6525,6 @@ export interface LoadBalancer extends Resource {
 }
 
 /**
- * SKU of nat gateway.
- */
-export interface NatGatewaySku {
-  /**
-   * Name of Nat Gateway SKU. Possible values include: 'Standard'
-   */
-  name?: NatGatewaySkuName;
-}
-
-/**
- * Nat Gateway resource.
- */
-export interface NatGateway extends Resource {
-  /**
-   * The nat gateway SKU.
-   */
-  sku?: NatGatewaySku;
-  /**
-   * The idle timeout of the nat gateway.
-   */
-  idleTimeoutInMinutes?: number;
-  /**
-   * An array of public ip addresses associated with the nat gateway resource.
-   */
-  publicIpAddresses?: SubResource[];
-  /**
-   * An array of public ip prefixes associated with the nat gateway resource.
-   */
-  publicIpPrefixes?: SubResource[];
-  /**
-   * An array of references to the subnets using this nat gateway resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subnets?: SubResource[];
-  /**
-   * The resource GUID property of the NAT gateway resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the NAT gateway resource. Possible values include: 'Succeeded',
-   * 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * A list of availability zones denoting the zone in which Nat Gateway should be deployed.
-   */
-  zones?: string[];
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
  * The response body contains the status of the specified asynchronous operation, indicating
  * whether it has succeeded, is in progress, or has failed. Note that this status is distinct from
  * the HTTP status code returned for the Get Operation Status operation itself. If the asynchronous
@@ -6322,6 +6542,64 @@ export interface AzureAsyncOperationResult {
    * Details of the error occurred during specified asynchronous operation.
    */
   error?: ErrorModel;
+}
+
+/**
+ * Proxy resource representation.
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The type of identity that last modified the resource.
+   */
+  lastModifiedAt?: Date;
 }
 
 /**
@@ -6494,6 +6772,574 @@ export interface EffectiveRouteListResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * Scope of Network Manager.
+ */
+export interface NetworkManagerPropertiesNetworkManagerScopes {
+  /**
+   * List of management groups.
+   */
+  managementGroups?: string[];
+  /**
+   * List of subscriptions.
+   */
+  subscriptions?: string[];
+}
+
+/**
+ * The Managed Network resource
+ */
+export interface NetworkManager extends Resource {
+  /**
+   * A friendly name for the network manager.
+   */
+  displayName?: string;
+  /**
+   * A description of the network manager.
+   */
+  description?: string;
+  /**
+   * Scope of Network Manager.
+   */
+  networkManagerScopes?: NetworkManagerPropertiesNetworkManagerScopes;
+  /**
+   * Scope Access.
+   */
+  networkManagerScopeAccesses?: ScopeAccesses[];
+  /**
+   * The provisioning state of the scope assignment resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * The system metadata related to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Network Manager Commit.
+ */
+export interface NetworkManagerCommit {
+  /**
+   * List of target locations.
+   */
+  targetLocations?: string[];
+  /**
+   * List of configuration ids.
+   */
+  configurationIds?: string[];
+  /**
+   * Commit Type. Possible values include: 'AdminPolicy', 'UserPolicy', 'Routing', 'Connectivity'
+   */
+  commitType?: CommitType;
+}
+
+/**
+ * Network Manager Deployment Status Parameter.
+ */
+export interface NetworkManagerDeploymentStatusParameter {
+  /**
+   * List of locations.
+   */
+  regions?: string[];
+  /**
+   * List of configurations' deployment types.
+   */
+  deploymentTypes?: DeploymentType[];
+}
+
+/**
+ * Network Manager Deployment Status.
+ */
+export interface NetworkManagerDeploymentStatus {
+  /**
+   * Commit Time.
+   */
+  commitTime?: Date;
+  /**
+   * Region Name.
+   */
+  region?: string;
+  /**
+   * Deployment Status. Possible values include: 'NotStarted', 'Deploying', 'Deployed', 'Failed'
+   */
+  deploymentStatus?: DeploymentStatus;
+  /**
+   * List of configuration ids.
+   */
+  configurationIds?: string[];
+  /**
+   * Possible values include: 'AdminPolicy', 'UserPolicy', 'Routing', 'Connectivity'
+   */
+  deploymentType?: DeploymentType;
+  /**
+   * Error Message.
+   */
+  errorMessage?: string;
+}
+
+/**
+ * Effective Virtual Networks Parameter.
+ */
+export interface EffectiveVirtualNetworksParameter {
+  /**
+   * Conditional Members.
+   */
+  conditionalMembers?: string;
+}
+
+/**
+ * Effective Virtual Network
+ */
+export interface EffectiveVirtualNetwork {
+  /**
+   * Effective vnet Id.
+   */
+  id?: string;
+  /**
+   * Location of vnet.
+   */
+  location?: string;
+  /**
+   * Membership Type. Possible values include: 'Static', 'Dynamic'
+   */
+  membershipType?: MembershipType;
+}
+
+/**
+ * The network manager effective configuration
+ */
+export interface EffectiveConfiguration {
+  /**
+   * Effective configuration. Possible values include: 'AdminPolicy', 'UserPolicy', 'Connectivity'
+   */
+  configType?: ConfigType;
+  /**
+   * Connectivity configuration object.
+   */
+  connectivityConfiguration?: ConnectivityConfiguration;
+  /**
+   * Security admin rule object.
+   */
+  securityAdminRule?: AdminRule;
+  /**
+   * Security user rule object.
+   */
+  securityUserRule?: UserRule;
+  /**
+   * Effective configuration groups.
+   */
+  configurationGroups?: NetworkGroup[];
+}
+
+/**
+ * Active Configuration.
+ */
+export interface ActiveConfiguration extends EffectiveConfiguration {
+  /**
+   * Deployment time string.
+   */
+  commitTime?: Date;
+  /**
+   * Deployment region.
+   */
+  region?: string;
+}
+
+/**
+ * GroupMembers Item.
+ */
+export interface GroupMembersItem {
+  /**
+   * Resource Id.
+   */
+  resourceId?: string;
+}
+
+/**
+ * The network group resource
+ */
+export interface NetworkGroup extends ProxyResource {
+  /**
+   * A friendly name for the network group.
+   */
+  displayName?: string;
+  /**
+   * A description of the network group.
+   */
+  description?: string;
+  /**
+   * Group member type. Possible values include: 'VirtualNetwork', 'Subnet'
+   */
+  memberType?: MemberType;
+  /**
+   * Group members of network group.
+   */
+  groupMembers?: GroupMembersItem[];
+  /**
+   * Network group conditional filter.
+   */
+  conditionalMembership?: string;
+  /**
+   * The provisioning state of the scope assignment resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The system metadata related to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Address prefix item.
+ */
+export interface AddressPrefixItem {
+  /**
+   * Address prefix.
+   */
+  addressPrefix?: string;
+  /**
+   * Address prefix type. Possible values include: 'IPPrefix', 'ServiceTag'
+   */
+  addressPrefixType?: AddressPrefixType;
+}
+
+/**
+ * Network security admin rule.
+ */
+export interface UserRule extends ProxyResource {
+  /**
+   * A friendly name for the rule.
+   */
+  displayName?: string;
+  /**
+   * A description for this rule. Restricted to 140 chars.
+   */
+  description?: string;
+  /**
+   * Network protocol this rule applies to. Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp',
+   * 'Any', 'Ah'
+   */
+  protocol: SecurityConfigurationRuleProtocol;
+  /**
+   * The CIDR or source IP ranges.
+   */
+  source?: AddressPrefixItem[];
+  /**
+   * The destination address prefixes. CIDR or destination IP ranges.
+   */
+  destination?: AddressPrefixItem[];
+  /**
+   * The source port ranges.
+   */
+  sourcePortRanges?: string[];
+  /**
+   * The destination port ranges.
+   */
+  destinationPortRanges?: string[];
+  /**
+   * Indicates if the traffic matched against the rule in inbound or outbound. Possible values
+   * include: 'Inbound', 'Outbound'
+   */
+  direction: SecurityConfigurationRuleDirection;
+  /**
+   * The provisioning state of the security Configuration resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The system metadata related to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Network manager security group item.
+ */
+export interface NetworkManagerSecurityGroupItem {
+  /**
+   * Network manager group Id.
+   */
+  networkGroupId?: string;
+}
+
+/**
+ * Network admin rule.
+ */
+export interface AdminRule extends ProxyResource {
+  /**
+   * A friendly name for the rule.
+   */
+  displayName?: string;
+  /**
+   * A description for this rule.
+   */
+  description?: string;
+  /**
+   * Network protocol this rule applies to. Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp',
+   * 'Any', 'Ah'
+   */
+  protocol: SecurityConfigurationRuleProtocol;
+  /**
+   * The CIDR or source IP ranges.
+   */
+  source?: AddressPrefixItem[];
+  /**
+   * The destination address prefixes. CIDR or destination IP ranges.
+   */
+  destination?: AddressPrefixItem[];
+  /**
+   * The source port ranges.
+   */
+  sourcePortRanges?: string[];
+  /**
+   * The destination port ranges.
+   */
+  destinationPortRanges?: string[];
+  /**
+   * Indicates the access allowed for this particular rule. Possible values include: 'Allow',
+   * 'Deny', 'AlwaysAllow'
+   */
+  access: SecurityConfigurationRuleAccess;
+  /**
+   * The priority of the rule. The value can be between 1 and 4096. The priority number must be
+   * unique for each rule in the collection. The lower the priority number, the higher the priority
+   * of the rule.
+   */
+  priority?: number;
+  /**
+   * Indicates if the traffic matched against the rule in inbound or outbound. Possible values
+   * include: 'Inbound', 'Outbound'
+   */
+  direction: SecurityConfigurationRuleDirection;
+  /**
+   * The provisioning state of the security Configuration resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Groups for configuration
+   */
+  appliesToGroups?: NetworkManagerSecurityGroupItem[];
+  /**
+   * The system metadata related to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * An interface representing ConnectivityGroupItem.
+ */
+export interface ConnectivityGroupItem {
+  /**
+   * Network group Id.
+   */
+  networkGroupId?: string;
+  /**
+   * Flag if need to use hub gateway.
+   */
+  useHubGateway?: boolean;
+  /**
+   * Flag if global is supported.
+   */
+  isGlobal?: boolean;
+  /**
+   * Group connectivity type. Possible values include: 'None', 'DirectlyConnected'
+   */
+  groupConnectivity?: GroupConnectivity;
+}
+
+/**
+ * The network manager connectivity configuration resource
+ */
+export interface ConnectivityConfiguration extends ProxyResource {
+  /**
+   * A friendly name for the resource.
+   */
+  displayName?: string;
+  /**
+   * A description of the connectivity configuration.
+   */
+  description?: string;
+  /**
+   * Connectivity topology type. Possible values include: 'HubAndSpokeTopology', 'MeshTopology'
+   */
+  connectivityTopology: ConnectivityTopology;
+  /**
+   * The hub vnet Id.
+   */
+  hubId?: string;
+  /**
+   * Flag if global mesh is supported.
+   */
+  isGlobal?: boolean;
+  /**
+   * Groups for configuration
+   */
+  appliesToGroups?: ConnectivityGroupItem[];
+  /**
+   * The provisioning state of the connectivity configuration resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Flag if need to remove current existing peerings.
+   */
+  deleteExistingPeering?: boolean;
+  /**
+   * The system metadata related to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Defines the security Configuration
+ */
+export interface SecurityConfiguration extends ProxyResource {
+  /**
+   * A display name of the security Configuration.
+   */
+  displayName?: string;
+  /**
+   * A description of the security Configuration.
+   */
+  description?: string;
+  /**
+   * Security Type. Possible values include: 'AdminPolicy', 'UserPolicy'
+   */
+  securityType?: SecurityType;
+  /**
+   * Flag if need to delete existing network security groups.
+   */
+  deleteExistingNSGs?: boolean;
+  /**
+   * Groups for configuration
+   */
+  appliesToGroups?: NetworkManagerSecurityGroupItem[];
+  /**
+   * The provisioning state of the scope assignment resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The system metadata related to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * General security configuration Rule.
+ */
+export interface SecurityConfigurationRule {
+  /**
+   * Commit Type. Possible values include: 'AdminPolicy', 'UserPolicy'
+   */
+  securityType?: SecurityType;
+  /**
+   * Security admin rule.
+   */
+  securityAdminRule?: AdminRule;
+  /**
+   * Security user rule.
+   */
+  securityUserRule?: UserRule;
+}
+
+/**
+ * Failed imports object.
+ */
+export interface FailedImport {
+  /**
+   * Failure code.
+   */
+  failureCode?: string;
+  /**
+   * Failure reason.
+   */
+  failureReason?: string;
+}
+
+/**
+ * Network Security Group Import.
+ */
+export interface NetworkSecurityGroupImport {
+  /**
+   * Network Security Group Uri.
+   */
+  networkSecurityGroupUri?: string;
+}
+
+/**
+ * Network manager security configuration import parameters.
+ */
+export interface NetworkManagerSecurityConfigurationImport {
+  /**
+   * List of nsg uris.
+   */
+  networkSecurityGroupImports?: NetworkSecurityGroupImport[];
+  /**
+   * Flag if import deny rules as admin rules.
+   */
+  importDenyRulesAsAdminRules?: boolean;
+  /**
+   * Admin security configuration Uri.
+   */
+  adminSecurityConfigurationUri?: string;
+  /**
+   * Flag if need to remove allow vnet inbound rule.
+   */
+  removeAllowVnetInboundRule?: boolean;
+  /**
+   * Flag if need to remove allow azure load balancer inbound rule.
+   */
+  removeAllowAzureLoadBalancerInboundRule?: boolean;
+  /**
+   * Flag if need to remove allow vnet outbound rule.
+   */
+  removeAllowVnetOutboundRule?: boolean;
+  /**
+   * Flag if need to remove allow Internet outbound rule.
+   */
+  removeAllowInternetOutboundRule?: boolean;
+}
+
+/**
+ * Security configuration import Result.
+ */
+export interface SecurityConfigurationImportResult {
+  /**
+   * User security configuration Id.
+   */
+  userSecurityConfiguration?: string;
+  /**
+   * Admin security configuration Id.
+   */
+  adminSecurityConfiguration?: string;
+  /**
+   * failed imports code and reason
+   */
+  failedImport?: FailedImport;
 }
 
 /**
@@ -8934,177 +9780,6 @@ export interface AvailablePrivateEndpointType {
 }
 
 /**
- * The private link service ip configuration.
- */
-export interface PrivateLinkServiceIpConfiguration extends SubResource {
-  /**
-   * The private IP address of the IP configuration.
-   */
-  privateIPAddress?: string;
-  /**
-   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
-   */
-  privateIPAllocationMethod?: IPAllocationMethod;
-  /**
-   * The reference to the subnet resource.
-   */
-  subnet?: Subnet;
-  /**
-   * Whether the ip configuration is primary or not.
-   */
-  primary?: boolean;
-  /**
-   * The provisioning state of the private link service IP configuration resource. Possible values
-   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. Possible values
-   * include: 'IPv4', 'IPv6'
-   */
-  privateIPAddressVersion?: IPVersion;
-  /**
-   * The name of private link service ip configuration.
-   */
-  name?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * PrivateEndpointConnection resource.
- */
-export interface PrivateEndpointConnection extends SubResource {
-  /**
-   * The resource of private end point.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The consumer link id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly linkIdentifier?: string;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
-   */
-  name?: string;
-  /**
-   * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * The base resource set for visibility and auto-approval.
- */
-export interface ResourceSet {
-  /**
-   * The list of subscriptions.
-   */
-  subscriptions?: string[];
-}
-
-/**
- * The visibility list of the private link service.
- */
-export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
-}
-
-/**
- * The auto-approval list of the private link service.
- */
-export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
-}
-
-/**
- * Private link service resource.
- */
-export interface PrivateLinkService extends Resource {
-  /**
-   * The extended location of the load balancer.
-   */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * An array of references to the load balancer IP configurations.
-   */
-  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
-  /**
-   * An array of private link service IP configurations.
-   */
-  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
-  /**
-   * An array of references to the network interfaces created for this private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * The provisioning state of the private link service resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * An array of list about connections to the private endpoint.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The visibility list of the private link service.
-   */
-  visibility?: PrivateLinkServicePropertiesVisibility;
-  /**
-   * The auto-approval list of the private link service.
-   */
-  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
-  /**
-   * The list of Fqdn.
-   */
-  fqdns?: string[];
-  /**
-   * The alias of the private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alias?: string;
-  /**
-   * Whether the private link service is enabled for proxy protocol or not.
-   */
-  enableProxyProtocol?: boolean;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
  * Request body of the CheckPrivateLinkServiceVisibility API service call.
  */
 export interface CheckPrivateLinkServiceVisibilityRequest {
@@ -9212,6 +9887,10 @@ export interface PublicIPPrefix extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * NatGateway of Public IP Prefix.
+   */
+  natGateway?: NatGateway;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -9643,6 +10322,15 @@ export interface VirtualNetworkPeering extends SubResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * If we need to verify the provisioning state of the remote gateway.
+   */
+  doNotVerifyRemoteGateways?: boolean;
+  /**
+   * The resourceGuid property of the Virtual Network Peering resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -9652,6 +10340,10 @@ export interface VirtualNetworkPeering extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
 }
 
 /**
@@ -12992,6 +13684,471 @@ export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNext
 /**
  * Optional Parameters.
  */
+export interface NetworkManagersListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkManagersListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkManagersListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkManagersListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkManagerDeploymentStatusListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkManagerDeploymentStatusListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EffectiveVirtualNetworksListByNetworkManagerOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+  /**
+   * Effective Virtual Networks Parameter.
+   */
+  parameters?: EffectiveVirtualNetworksParameter;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EffectiveVirtualNetworksListByNetworkGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EffectiveVirtualNetworksListByNetworkManagerNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EffectiveVirtualNetworksListByNetworkGroupNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ActiveConfigurationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+  /**
+   * Location name
+   */
+  region?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ActiveConfigurationsListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+  /**
+   * Location name
+   */
+  region?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ConnectivityConfigurationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ConnectivityConfigurationsListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EffectiveConfigurationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EffectiveConfigurationsListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkGroupsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The ETag of the transformation. Omit this value to always overwrite the current resource.
+   * Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkGroupsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NetworkGroupsListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SecurityConfigurationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SecurityConfigurationsEvaluateImportOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SecurityConfigurationsListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SecurityConfigurationsEvaluateImportNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AdminRulesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AdminRulesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface UserRulesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface UserRulesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * An optional query parameter which specifies the maximum number of records to be returned by
+   * the server.
+   */
+  top?: number;
+  /**
+   * SkipToken is only used if a previous operation returned a partial result. If a previous
+   * response contains a nextLink element, the value of the nextLink element will include a
+   * skipToken parameter that specifies a starting point to use for subsequent calls.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface NetworkProfilesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
@@ -13362,6 +14519,16 @@ export interface VpnConnectionsBeginStopPacketCaptureOptionalParams extends msRe
  */
 export interface NetworkManagementClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
+}
+
+/**
+ * Defines headers for CreateOrUpdate operation.
+ */
+export interface NetworkGroupsCreateOrUpdateHeaders {
+  /**
+   * The current entity tag.
+   */
+  eTag: string;
 }
 
 /**
@@ -13930,6 +15097,160 @@ export interface NetworkInterfaceTapConfigurationListResult extends Array<Networ
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list NetworkManager. It contains a list of network managers and a URL
+ * link to get the next set of results.
+ * @extends Array<NetworkManager>
+ */
+export interface NetworkManagerListResult extends Array<NetworkManager> {
+  /**
+   * Gets the URL to get the next page of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of Network Manager Deployment Status
+ * @extends Array<NetworkManagerDeploymentStatus>
+ */
+export interface NetworkManagerDeploymentStatusListResult extends Array<NetworkManagerDeploymentStatus> {
+  /**
+   * Gets the URL to get the next page of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list Effective Virtual Network. It contains a list of groups and a URL
+ * link to get the next set of results.
+ * @extends Array<EffectiveVirtualNetwork>
+ */
+export interface EffectiveVirtualNetworksListResult extends Array<EffectiveVirtualNetwork> {
+  /**
+   * Total Records.
+   */
+  totalRecords?: number;
+  /**
+   * First Index.
+   */
+  firstIndex?: number;
+  /**
+   * Page Size.
+   */
+  pageSize?: number;
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list active configurations. It contains a list of active configurations
+ * and a URL link to get the next set of results.
+ * @extends Array<ActiveConfiguration>
+ */
+export interface ActiveConfigurationListResult extends Array<ActiveConfiguration> {
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list network manager connectivity configurations. It contains a list of
+ * configurations and a link to get the next set of results.
+ * @extends Array<ConnectivityConfiguration>
+ */
+export interface ConnectivityConfigurationListResult extends Array<ConnectivityConfiguration> {
+  /**
+   * Gets the URL to get the next page of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list networkManagerEffectiveConfiguration. It contains a list of groups
+ * and a URL link to get the next set of results.
+ * @extends Array<EffectiveConfiguration>
+ */
+export interface NetworkManagerEffectiveConfigurationListResult extends Array<EffectiveConfiguration> {
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list NetworkGroup. It contains a list of groups and a URL link to get
+ * the next set of results.
+ * @extends Array<NetworkGroup>
+ */
+export interface NetworkGroupListResult extends Array<NetworkGroup> {
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed network security configurations
+ * @extends Array<SecurityConfiguration>
+ */
+export interface SecurityConfigurationListResult extends Array<SecurityConfiguration> {
+  /**
+   * Gets the URL to get the next page of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Security configuration rule list result.
+ * @extends Array<SecurityConfigurationRule>
+ */
+export interface SecurityConfigurationRuleListResult extends Array<SecurityConfigurationRule> {
+  /**
+   * Failed Imports.
+   */
+  failedImport?: FailedImport;
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Security configuration admin rule list result.
+ * @extends Array<AdminRule>
+ */
+export interface AdminRuleListResult extends Array<AdminRule> {
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Security configuration user rule list result.
+ * @extends Array<UserRule>
+ */
+export interface UserRuleListResult extends Array<UserRule> {
+  /**
+   * Gets the URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -14666,6 +15987,22 @@ export type SecurityRuleAccess = 'Allow' | 'Deny';
 export type SecurityRuleDirection = 'Inbound' | 'Outbound';
 
 /**
+ * Defines values for NetworkInterfaceNicType.
+ * Possible values include: 'Standard', 'Elastic'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkInterfaceNicType = 'Standard' | 'Elastic';
+
+/**
+ * Defines values for NetworkInterfaceMigrationPhase.
+ * Possible values include: 'None', 'Prepare', 'Commit', 'Abort', 'Committed'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkInterfaceMigrationPhase = 'None' | 'Prepare' | 'Commit' | 'Abort' | 'Committed';
+
+/**
  * Defines values for FlowLogFormatType.
  * Possible values include: 'JSON'
  * @readonly
@@ -14705,6 +16042,38 @@ export type PublicIPAddressSkuTier = 'Regional' | 'Global';
  * @enum {string}
  */
 export type DdosSettingsProtectionCoverage = 'Basic' | 'Standard';
+
+/**
+ * Defines values for NatGatewaySkuName.
+ * Possible values include: 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type NatGatewaySkuName = 'Standard';
+
+/**
+ * Defines values for PublicIpAddressMigrationPhase.
+ * Possible values include: 'None', 'Prepare', 'Commit', 'Abort', 'Committed'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicIpAddressMigrationPhase = 'None' | 'Prepare' | 'Commit' | 'Abort' | 'Committed';
+
+/**
+ * Defines values for VirtualNetworkPrivateEndpointNetworkPolicies.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkPrivateEndpointNetworkPolicies = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for VirtualNetworkPrivateLinkServiceNetworkPolicies.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkPrivateLinkServiceNetworkPolicies = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for TransportProtocol.
@@ -15165,20 +16534,20 @@ export type ProbeProtocol = 'Http' | 'Tcp' | 'Https';
 export type LoadBalancerOutboundRuleProtocol = 'Tcp' | 'Udp' | 'All';
 
 /**
- * Defines values for NatGatewaySkuName.
- * Possible values include: 'Standard'
- * @readonly
- * @enum {string}
- */
-export type NatGatewaySkuName = 'Standard';
-
-/**
  * Defines values for NetworkOperationStatus.
  * Possible values include: 'InProgress', 'Succeeded', 'Failed'
  * @readonly
  * @enum {string}
  */
 export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for Access.
@@ -15219,6 +16588,118 @@ export type EffectiveRouteSource = 'Unknown' | 'User' | 'VirtualNetworkGateway' 
  * @enum {string}
  */
 export type EffectiveRouteState = 'Active' | 'Invalid';
+
+/**
+ * Defines values for ScopeAccesses.
+ * Possible values include: 'Security', 'Routing', 'Connectivity'
+ * @readonly
+ * @enum {string}
+ */
+export type ScopeAccesses = 'Security' | 'Routing' | 'Connectivity';
+
+/**
+ * Defines values for CommitType.
+ * Possible values include: 'AdminPolicy', 'UserPolicy', 'Routing', 'Connectivity'
+ * @readonly
+ * @enum {string}
+ */
+export type CommitType = 'AdminPolicy' | 'UserPolicy' | 'Routing' | 'Connectivity';
+
+/**
+ * Defines values for DeploymentType.
+ * Possible values include: 'AdminPolicy', 'UserPolicy', 'Routing', 'Connectivity'
+ * @readonly
+ * @enum {string}
+ */
+export type DeploymentType = 'AdminPolicy' | 'UserPolicy' | 'Routing' | 'Connectivity';
+
+/**
+ * Defines values for DeploymentStatus.
+ * Possible values include: 'NotStarted', 'Deploying', 'Deployed', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type DeploymentStatus = 'NotStarted' | 'Deploying' | 'Deployed' | 'Failed';
+
+/**
+ * Defines values for MembershipType.
+ * Possible values include: 'Static', 'Dynamic'
+ * @readonly
+ * @enum {string}
+ */
+export type MembershipType = 'Static' | 'Dynamic';
+
+/**
+ * Defines values for MemberType.
+ * Possible values include: 'VirtualNetwork', 'Subnet'
+ * @readonly
+ * @enum {string}
+ */
+export type MemberType = 'VirtualNetwork' | 'Subnet';
+
+/**
+ * Defines values for SecurityConfigurationRuleDirection.
+ * Possible values include: 'Inbound', 'Outbound'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityConfigurationRuleDirection = 'Inbound' | 'Outbound';
+
+/**
+ * Defines values for AddressPrefixType.
+ * Possible values include: 'IPPrefix', 'ServiceTag'
+ * @readonly
+ * @enum {string}
+ */
+export type AddressPrefixType = 'IPPrefix' | 'ServiceTag';
+
+/**
+ * Defines values for SecurityConfigurationRuleProtocol.
+ * Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp', 'Any', 'Ah'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityConfigurationRuleProtocol = 'Tcp' | 'Udp' | 'Icmp' | 'Esp' | 'Any' | 'Ah';
+
+/**
+ * Defines values for SecurityConfigurationRuleAccess.
+ * Possible values include: 'Allow', 'Deny', 'AlwaysAllow'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityConfigurationRuleAccess = 'Allow' | 'Deny' | 'AlwaysAllow';
+
+/**
+ * Defines values for GroupConnectivity.
+ * Possible values include: 'None', 'DirectlyConnected'
+ * @readonly
+ * @enum {string}
+ */
+export type GroupConnectivity = 'None' | 'DirectlyConnected';
+
+/**
+ * Defines values for ConnectivityTopology.
+ * Possible values include: 'HubAndSpokeTopology', 'MeshTopology'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectivityTopology = 'HubAndSpokeTopology' | 'MeshTopology';
+
+/**
+ * Defines values for ConfigType.
+ * Possible values include: 'AdminPolicy', 'UserPolicy', 'Connectivity'
+ * @readonly
+ * @enum {string}
+ */
+export type ConfigType = 'AdminPolicy' | 'UserPolicy' | 'Connectivity';
+
+/**
+ * Defines values for SecurityType.
+ * Possible values include: 'AdminPolicy', 'UserPolicy'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityType = 'AdminPolicy' | 'UserPolicy';
 
 /**
  * Defines values for InboundSecurityRulesProtocol.
@@ -21464,6 +22945,811 @@ export type NetworkInterfaceTapConfigurationsListNextResponse = NetworkInterface
        * The response body as parsed JSON or XML
        */
       parsedBody: NetworkInterfaceTapConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NetworkManagersGetResponse = NetworkManager & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManager;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type NetworkManagersCreateOrUpdateResponse = NetworkManager & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManager;
+    };
+};
+
+/**
+ * Contains response data for the patchTags operation.
+ */
+export type NetworkManagersPatchTagsResponse = NetworkManager & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManager;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type NetworkManagersListBySubscriptionResponse = NetworkManagerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type NetworkManagersListResponse = NetworkManagerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type NetworkManagersListBySubscriptionNextResponse = NetworkManagerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type NetworkManagersListNextResponse = NetworkManagerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type NetworkManagerDeploymentStatusListResponse = NetworkManagerDeploymentStatusListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerDeploymentStatusListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type NetworkManagerDeploymentStatusListNextResponse = NetworkManagerDeploymentStatusListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerDeploymentStatusListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByNetworkManager operation.
+ */
+export type EffectiveVirtualNetworksListByNetworkManagerResponse = EffectiveVirtualNetworksListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveVirtualNetworksListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByNetworkGroup operation.
+ */
+export type EffectiveVirtualNetworksListByNetworkGroupResponse = EffectiveVirtualNetworksListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveVirtualNetworksListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByNetworkManagerNext operation.
+ */
+export type EffectiveVirtualNetworksListByNetworkManagerNextResponse = EffectiveVirtualNetworksListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveVirtualNetworksListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByNetworkGroupNext operation.
+ */
+export type EffectiveVirtualNetworksListByNetworkGroupNextResponse = EffectiveVirtualNetworksListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EffectiveVirtualNetworksListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ActiveConfigurationsListResponse = ActiveConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActiveConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ActiveConfigurationsListNextResponse = ActiveConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActiveConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ConnectivityConfigurationsGetResponse = ConnectivityConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectivityConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ConnectivityConfigurationsCreateOrUpdateResponse = ConnectivityConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectivityConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ConnectivityConfigurationsListResponse = ConnectivityConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectivityConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ConnectivityConfigurationsListNextResponse = ConnectivityConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectivityConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type EffectiveConfigurationsListResponse = NetworkManagerEffectiveConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerEffectiveConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type EffectiveConfigurationsListNextResponse = NetworkManagerEffectiveConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkManagerEffectiveConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NetworkGroupsGetResponse = NetworkGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type NetworkGroupsCreateOrUpdateResponse = NetworkGroup & NetworkGroupsCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: NetworkGroupsCreateOrUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkGroup;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type NetworkGroupsListResponse = NetworkGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type NetworkGroupsListNextResponse = NetworkGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecurityConfigurationsListResponse = SecurityConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the importMethod operation.
+ */
+export type SecurityConfigurationsImportMethodResponse = SecurityConfigurationImportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfigurationImportResult;
+    };
+};
+
+/**
+ * Contains response data for the evaluateImport operation.
+ */
+export type SecurityConfigurationsEvaluateImportResponse = SecurityConfigurationRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfigurationRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecurityConfigurationsGetResponse = SecurityConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SecurityConfigurationsCreateOrUpdateResponse = SecurityConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecurityConfigurationsListNextResponse = SecurityConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the evaluateImportNext operation.
+ */
+export type SecurityConfigurationsEvaluateImportNextResponse = SecurityConfigurationRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityConfigurationRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AdminRulesListResponse = AdminRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdminRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AdminRulesGetResponse = AdminRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdminRule;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type AdminRulesCreateOrUpdateResponse = AdminRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdminRule;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AdminRulesListNextResponse = AdminRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdminRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type UserRulesListResponse = UserRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UserRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type UserRulesGetResponse = UserRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UserRule;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type UserRulesCreateOrUpdateResponse = UserRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UserRule;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type UserRulesListNextResponse = UserRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UserRuleListResult;
     };
 };
 
