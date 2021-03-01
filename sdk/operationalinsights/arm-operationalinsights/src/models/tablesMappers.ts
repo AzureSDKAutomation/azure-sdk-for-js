@@ -7,15 +7,17 @@
  */
 
 export {
+  AssociatedWorkspace,
   AzureEntityResource,
   BaseResource,
+  CapacityReservationProperties,
   Cluster,
   ClusterPatch,
   ClusterSku,
   DataExport,
   DataSource,
   ErrorAdditionalInfo,
-  ErrorContract,
+  ErrorDetail,
   ErrorResponse,
   Identity,
   KeyVaultProperties,
@@ -32,6 +34,7 @@ export {
   TablesListResult,
   Tag,
   TrackedResource,
+  UserIdentityProperties,
   Workspace,
   WorkspaceCapping,
   WorkspacePatch,
