@@ -17,6 +17,7 @@ const packageVersion = "2.0.0";
 export class StreamAnalyticsManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the StreamAnalyticsManagementClient class.
@@ -42,6 +43,7 @@ export class StreamAnalyticsManagementClientContext extends msRestAzure.AzureSer
 
     super(credentials, options);
 
+    this.apiVersion = '2017-04-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

@@ -353,7 +353,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -389,7 +389,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -416,7 +416,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -440,7 +440,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -465,7 +465,7 @@ const beginCreateOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -505,7 +505,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -530,7 +530,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -561,7 +561,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -585,7 +585,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -610,7 +610,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

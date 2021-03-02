@@ -169,7 +169,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.transformationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -210,7 +210,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.transformationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -246,7 +246,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.transformationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

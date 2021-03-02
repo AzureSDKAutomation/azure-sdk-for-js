@@ -300,7 +300,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.outputName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -341,7 +341,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.outputName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -377,7 +377,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.outputName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -402,7 +402,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.outputName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -430,7 +430,7 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.select,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -456,7 +456,7 @@ const beginTestOperationSpec: msRest.OperationSpec = {
     Parameters.outputName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -489,7 +489,7 @@ const listByStreamingJobNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.select,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

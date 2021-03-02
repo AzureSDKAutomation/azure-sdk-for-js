@@ -1153,6 +1153,48 @@ export interface AzureSqlReferenceInputDataSource {
 }
 
 /**
+ * Contains the localized display information for this particular operation / action.
+ */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly form of the resource type related to this action/operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resource?: string;
+  /**
+   * The localized friendly name for the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operation?: string;
+  /**
+   * The localized friendly description for the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+}
+
+/**
+ * A Stream Analytics REST API operation
+ */
+export interface Operation {
+  /**
+   * The name of the operation being performed on this particular object.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Contains the localized display information for this particular operation / action.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly display?: OperationDisplay;
+}
+
+/**
  * Contains the possible cases for OutputDataSource.
  */
 export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
@@ -1803,48 +1845,6 @@ export interface External {
 }
 
 /**
- * Contains the localized display information for this particular operation / action.
- */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly form of the resource type related to this action/operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * The localized friendly name for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The localized friendly description for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * A Stream Analytics REST API operation
- */
-export interface Operation {
-  /**
-   * The name of the operation being performed on this particular object.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Contains the localized display information for this particular operation / action.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly display?: OperationDisplay;
-}
-
-/**
  * The properties that are associated with a SKU.
  */
 export interface StreamingJobSku {
@@ -2133,224 +2133,6 @@ export interface SubscriptionQuotasListResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: SubscriptionQuota[];
-}
-
-/**
- * The SKU of the cluster. This determines the size/capacity of the cluster. Required on PUT
- * (CreateOrUpdate) requests.
- */
-export interface ClusterSku {
-  /**
-   * Specifies the SKU name of the cluster. Required on PUT (CreateOrUpdate) requests. Possible
-   * values include: 'Default'
-   */
-  name?: ClusterSkuName;
-  /**
-   * Denotes the number of streaming units the cluster can support. Valid values for this property
-   * are multiples of 36 with a minimum value of 36 and maximum value of 216. Required on PUT
-   * (CreateOrUpdate) requests.
-   */
-  capacity?: number;
-}
-
-/**
- * The properties associated with a Stream Analytics cluster.
- */
-export interface ClusterProperties {
-  /**
-   * The date this cluster was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdDate?: Date;
-  /**
-   * Unique identifier for the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clusterId?: string;
-  /**
-   * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress'
-   */
-  provisioningState?: ClusterProvisioningState;
-  /**
-   * Represents the number of streaming units currently being used on the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly capacityAllocated?: number;
-  /**
-   * Represents the sum of the SUs of all streaming jobs associated with the cluster. If all of the
-   * jobs were running, this would be the capacity allocated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly capacityAssigned?: number;
-}
-
-/**
- * A Stream Analytics Cluster object
- */
-export interface Cluster extends TrackedResource {
-  sku?: ClusterSku;
-  /**
-   * The current entity tag for the cluster. This is an opaque string. You can use it to detect
-   * whether the resource has changed between requests. You can also use it in the If-Match or
-   * If-None-Match headers for write operations for optimistic concurrency.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * The properties associated with a Stream Analytics cluster.
-   */
-  properties?: ClusterProperties;
-}
-
-/**
- * A streaming job.
- */
-export interface ClusterJob {
-  /**
-   * Resource ID of the streaming job.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The number of streaming units that are used by the streaming job.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly streamingUnits?: number;
-  /**
-   * Possible values include: 'Created', 'Starting', 'Running', 'Stopping', 'Stopped', 'Deleting',
-   * 'Failed', 'Degraded', 'Restarting', 'Scaling'
-   */
-  jobState?: JobState;
-}
-
-/**
- * Common error details representation.
- */
-export interface ErrorDetails {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-}
-
-/**
- * Error definition properties.
- */
-export interface ErrorError {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Error details.
-   */
-  details?: ErrorDetails[];
-}
-
-/**
- * Common error representation.
- */
-export interface ErrorModel {
-  /**
-   * Error definition properties.
-   */
-  error?: ErrorError;
-}
-
-/**
- * A collection of read-only information about the state of the connection to the private remote
- * resource.
- */
-export interface PrivateLinkConnectionState {
-  /**
-   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the remote
-   * resource/service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * The reason for approval/rejection of the connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * A message indicating if changes on the service provider require any updates on the consumer.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionsRequired?: string;
-}
-
-/**
- * A grouping of information about the connection to the remote resource.
- */
-export interface PrivateLinkServiceConnection {
-  /**
-   * The resource id of the private link service. Required on PUT (CreateOrUpdate) requests.
-   */
-  privateLinkServiceId?: string;
-  /**
-   * The ID(s) of the group(s) obtained from the remote resource that this private endpoint should
-   * connect to. Required on PUT (CreateOrUpdate) requests.
-   */
-  groupIds?: string[];
-  /**
-   * A message passed to the owner of the remote resource with this connection request. Restricted
-   * to 140 chars.
-   */
-  requestMessage?: string;
-  /**
-   * A collection of read-only information about the state of the connection to the private remote
-   * resource.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
-}
-
-/**
- * The properties associated with a private endpoint.
- */
-export interface PrivateEndpointProperties {
-  /**
-   * The date when this private endpoint was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdDate?: string;
-  /**
-   * A list of connections to the remote resource. Immutable after it is set.
-   */
-  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
-}
-
-/**
- * Complete information about the private endpoint.
- */
-export interface PrivateEndpoint extends ProxyResource {
-  /**
-   * The properties associated with a private endpoint.
-   */
-  properties?: PrivateEndpointProperties;
-  /**
-   * Unique opaque string (generally a GUID) that represents the metadata state of the resource
-   * (private endpoint) and changes whenever the resource is updated. Required on PUT
-   * (CreateOrUpdate) requests.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
 }
 
 /**
@@ -2758,76 +2540,6 @@ export interface TransformationsUpdateOptionalParams extends msRest.RequestOptio
 }
 
 /**
- * Optional Parameters.
- */
-export interface ClustersCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The ETag of the resource. Omit this value to always overwrite the current record set. Specify
-   * the last-seen ETag value to prevent accidentally overwriting concurrent changes.
-   */
-  ifMatch?: string;
-  /**
-   * Set to '*' to allow a new resource to be created, but to prevent updating an existing record
-   * set. Other values will result in a 412 Pre-condition Failed response.
-   */
-  ifNoneMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The ETag of the resource. Omit this value to always overwrite the current record set. Specify
-   * the last-seen ETag value to prevent accidentally overwriting concurrent changes.
-   */
-  ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The ETag of the resource. Omit this value to always overwrite the current record set. Specify
-   * the last-seen ETag value to prevent accidentally overwriting concurrent changes.
-   */
-  ifMatch?: string;
-  /**
-   * Set to '*' to allow a new resource to be created, but to prevent updating an existing record
-   * set. Other values will result in a 412 Pre-condition Failed response.
-   */
-  ifNoneMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The ETag of the resource. Omit this value to always overwrite the current record set. Specify
-   * the last-seen ETag value to prevent accidentally overwriting concurrent changes.
-   */
-  ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PrivateEndpointsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The ETag of the resource. Omit this value to always overwrite the current record set. Specify
-   * the last-seen ETag value to prevent accidentally overwriting concurrent changes.
-   */
-  ifMatch?: string;
-  /**
-   * Set to '*' to allow a new resource to be created, but to prevent updating an existing record
-   * set. Other values will result in a 412 Pre-condition Failed response.
-   */
-  ifNoneMatch?: string;
-}
-
-/**
  * An interface representing StreamAnalyticsManagementClientOptions.
  */
 export interface StreamAnalyticsManagementClientOptions extends AzureServiceClientOptions {
@@ -3042,6 +2754,20 @@ export interface InputListResult extends Array<Input> {
 
 /**
  * @interface
+ * Result of the request to list Stream Analytics operations. It contains a list of operations and
+ * a URL link to get the next set of results.
+ * @extends Array<Operation>
+ */
+export interface OperationListResult extends Array<Operation> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * Object containing a list of outputs under a streaming job.
  * @extends Array<Output>
  */
@@ -3061,59 +2787,6 @@ export interface OutputListResult extends Array<Output> {
 export interface StreamingJobListResult extends Array<StreamingJob> {
   /**
    * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the request to list Stream Analytics operations. It contains a list of operations and
- * a URL link to get the next set of results.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of clusters populated by a 'list' operation.
- * @extends Array<Cluster>
- */
-export interface ClusterListResult extends Array<Cluster> {
-  /**
-   * The URL to fetch the next set of clusters.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of streaming jobs. Populated by a List operation.
- * @extends Array<ClusterJob>
- */
-export interface ClusterJobListResult extends Array<ClusterJob> {
-  /**
-   * The URL to fetch the next set of streaming jobs.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of private endpoints.
- * @extends Array<PrivateEndpoint>
- */
-export interface PrivateEndpointListResult extends Array<PrivateEndpoint> {
-  /**
-   * The URL to fetch the next set of private endpoints.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -3214,31 +2887,6 @@ export type CompatibilityLevel = '1.0';
  * @enum {string}
  */
 export type ContentStoragePolicy = 'SystemAccount' | 'JobStorageAccount';
-
-/**
- * Defines values for ClusterSkuName.
- * Possible values include: 'Default'
- * @readonly
- * @enum {string}
- */
-export type ClusterSkuName = 'Default';
-
-/**
- * Defines values for ClusterProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress'
- * @readonly
- * @enum {string}
- */
-export type ClusterProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'InProgress';
-
-/**
- * Defines values for JobState.
- * Possible values include: 'Created', 'Starting', 'Running', 'Stopping', 'Stopped', 'Deleting',
- * 'Failed', 'Degraded', 'Restarting', 'Scaling'
- * @readonly
- * @enum {string}
- */
-export type JobState = 'Created' | 'Starting' | 'Running' | 'Stopping' | 'Stopped' | 'Deleting' | 'Failed' | 'Degraded' | 'Restarting' | 'Scaling';
 
 /**
  * Contains response data for the createOrReplace operation.
@@ -3567,6 +3215,46 @@ export type InputsListByStreamingJobNextResponse = InputListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: InputListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationsListNextResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
     };
 };
 
@@ -3972,345 +3660,5 @@ export type TransformationsGetResponse = Transformation & TransformationsGetHead
        * The response body as parsed JSON or XML
        */
       parsedBody: Transformation;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ClustersCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ClustersUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ClustersGetResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type ClustersListBySubscriptionResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ClustersListByResourceGroupResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the listStreamingJobs operation.
- */
-export type ClustersListStreamingJobsResponse = ClusterJobListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterJobListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ClustersBeginCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ClustersBeginUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type ClustersListBySubscriptionNextResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the listStreamingJobsNext operation.
- */
-export type ClustersListStreamingJobsNextResponse = ClusterJobListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterJobListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointsCreateOrUpdateResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointsGetResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the listByCluster operation.
- */
-export type PrivateEndpointsListByClusterResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the listByClusterNext operation.
- */
-export type PrivateEndpointsListByClusterNextResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
     };
 };
