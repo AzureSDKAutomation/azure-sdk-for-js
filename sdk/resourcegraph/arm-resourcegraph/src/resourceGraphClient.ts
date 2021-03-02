@@ -30,35 +30,6 @@ class ResourceGraphClient extends ResourceGraphClientContext {
   }
 
   /**
-   * Queries the resources managed by Azure Resource Manager for all subscriptions specified in the
-   * request.
-   * @param query Request specifying query and its options.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ResourcesResponse>
-   */
-  resources(query: Models.QueryRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesResponse>;
-  /**
-   * @param query Request specifying query and its options.
-   * @param callback The callback
-   */
-  resources(query: Models.QueryRequest, callback: msRest.ServiceCallback<Models.QueryResponse>): void;
-  /**
-   * @param query Request specifying query and its options.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  resources(query: Models.QueryRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResponse>): void;
-  resources(query: Models.QueryRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResponse>, callback?: msRest.ServiceCallback<Models.QueryResponse>): Promise<Models.ResourcesResponse> {
-    return this.sendOperationRequest(
-      {
-        query,
-        options
-      },
-      resourcesOperationSpec,
-      callback) as Promise<Models.ResourcesResponse>;
-  }
-
-  /**
    * List changes to a resource for a given time interval.
    * @param parameters the parameters for this request for changes.
    * @param [options] The optional parameters
@@ -97,14 +68,14 @@ class ResourceGraphClient extends ResourceGraphClientContext {
    * @param parameters The parameters for this request for resource change details.
    * @param callback The callback
    */
-  resourceChangeDetails(parameters: Models.ResourceChangeDetailsRequestParameters, callback: msRest.ServiceCallback<Models.ResourceChangeData>): void;
+  resourceChangeDetails(parameters: Models.ResourceChangeDetailsRequestParameters, callback: msRest.ServiceCallback<Models.ResourceChangeData[]>): void;
   /**
    * @param parameters The parameters for this request for resource change details.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resourceChangeDetails(parameters: Models.ResourceChangeDetailsRequestParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceChangeData>): void;
-  resourceChangeDetails(parameters: Models.ResourceChangeDetailsRequestParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceChangeData>, callback?: msRest.ServiceCallback<Models.ResourceChangeData>): Promise<Models.ResourceChangeDetailsResponse> {
+  resourceChangeDetails(parameters: Models.ResourceChangeDetailsRequestParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceChangeData[]>): void;
+  resourceChangeDetails(parameters: Models.ResourceChangeDetailsRequestParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceChangeData[]>, callback?: msRest.ServiceCallback<Models.ResourceChangeData[]>): Promise<Models.ResourceChangeDetailsResponse> {
     return this.sendOperationRequest(
       {
         parameters,
@@ -112,6 +83,35 @@ class ResourceGraphClient extends ResourceGraphClientContext {
       },
       resourceChangeDetailsOperationSpec,
       callback) as Promise<Models.ResourceChangeDetailsResponse>;
+  }
+
+  /**
+   * Queries the resources managed by Azure Resource Manager for all subscriptions specified in the
+   * request.
+   * @param query Request specifying query and its options.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourcesResponse>
+   */
+  resources(query: Models.QueryRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesResponse>;
+  /**
+   * @param query Request specifying query and its options.
+   * @param callback The callback
+   */
+  resources(query: Models.QueryRequest, callback: msRest.ServiceCallback<Models.QueryResponse>): void;
+  /**
+   * @param query Request specifying query and its options.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  resources(query: Models.QueryRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResponse>): void;
+  resources(query: Models.QueryRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResponse>, callback?: msRest.ServiceCallback<Models.QueryResponse>): Promise<Models.ResourcesResponse> {
+    return this.sendOperationRequest(
+      {
+        query,
+        options
+      },
+      resourcesOperationSpec,
+      callback) as Promise<Models.ResourcesResponse>;
   }
 
   /**
@@ -145,38 +145,11 @@ class ResourceGraphClient extends ResourceGraphClientContext {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const resourcesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "providers/Microsoft.ResourceGraph/resources",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "query",
-    mapper: {
-      ...Mappers.QueryRequest,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.QueryResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const resourceChangesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.ResourceGraph/resourceChanges",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -203,7 +176,7 @@ const resourceChangeDetailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.ResourceGraph/resourceChangeDetails",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -217,7 +190,45 @@ const resourceChangeDetailsOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceChangeData
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceChangeData"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const resourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.ResourceGraph/resources",
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "query",
+    mapper: {
+      ...Mappers.QueryRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueryResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -230,7 +241,7 @@ const resourcesHistoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.ResourceGraph/resourcesHistory",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
