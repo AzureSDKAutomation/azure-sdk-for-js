@@ -43,6 +43,18 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2021-02-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const applicationGatewayName: msRest.OperationURLParameter = {
   parameterPath: "applicationGatewayName",
   mapper: {
@@ -132,6 +144,16 @@ export const cloudServiceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "cloudServiceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const configurationName: msRest.OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    required: true,
+    serializedName: "configurationName",
     type: {
       name: "String"
     }
@@ -331,6 +353,18 @@ export const hubName: msRest.OperationURLParameter = {
     }
   }
 };
+export const ifMatch: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "ifMatch"
+  ],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const inboundNatRuleName: msRest.OperationURLParameter = {
   parameterPath: "inboundNatRuleName",
   mapper: {
@@ -519,11 +553,31 @@ export const natRuleName: msRest.OperationURLParameter = {
     }
   }
 };
+export const networkGroupName: msRest.OperationURLParameter = {
+  parameterPath: "networkGroupName",
+  mapper: {
+    required: true,
+    serializedName: "networkGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const networkInterfaceName: msRest.OperationURLParameter = {
   parameterPath: "networkInterfaceName",
   mapper: {
     required: true,
     serializedName: "networkInterfaceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const networkManagerName: msRest.OperationURLParameter = {
+  parameterPath: "networkManagerName",
+  mapper: {
+    required: true,
+    serializedName: "networkManagerName",
     type: {
       name: "String"
     }
@@ -725,6 +779,18 @@ export const publicIpPrefixName: msRest.OperationURLParameter = {
     }
   }
 };
+export const region: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "region"
+  ],
+  mapper: {
+    serializedName: "region",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -865,6 +931,18 @@ export const siteName: msRest.OperationURLParameter = {
     }
   }
 };
+export const skipToken: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "skipToken"
+  ],
+  mapper: {
+    serializedName: "$skipToken",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const skuName: msRest.OperationURLParameter = {
   parameterPath: "skuName",
   mapper: {
@@ -912,6 +990,22 @@ export const tapName: msRest.OperationURLParameter = {
     serializedName: "tapName",
     type: {
       name: "String"
+    }
+  }
+};
+export const top: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "top"
+  ],
+  mapper: {
+    serializedName: "$top",
+    constraints: {
+      InclusiveMaximum: 20,
+      InclusiveMinimum: 1
+    },
+    type: {
+      name: "Number"
     }
   }
 };
