@@ -323,7 +323,6 @@ export {
   MagentoSource,
   ManagedIntegrationRuntime,
   ManagedPrivateEndpoint,
-  ManagedPrivateEndpointListResponse,
   ManagedPrivateEndpointResource,
   ManagedVirtualNetwork,
   ManagedVirtualNetworkReference,
