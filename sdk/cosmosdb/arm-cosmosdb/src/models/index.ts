@@ -434,6 +434,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   keyVaultKeyUri?: string;
   /**
+   * The default identity for accessing key vault
+   */
+  defaultIdentity?: string;
+  /**
    * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
    * 'Disabled'
    */
@@ -1558,6 +1562,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    */
   keyVaultKeyUri?: string;
   /**
+   * The default identity for accessing key vault
+   */
+  defaultIdentity?: string;
+  /**
    * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
    * 'Disabled'
    */
@@ -1655,6 +1663,10 @@ export interface DatabaseAccountUpdateParameters {
    * The URI of the key vault
    */
   keyVaultKeyUri?: string;
+  /**
+   * The default identity for accessing key vault
+   */
+  defaultIdentity?: string;
   /**
    * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
    * 'Disabled'
