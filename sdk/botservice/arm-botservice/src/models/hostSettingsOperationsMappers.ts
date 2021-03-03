@@ -10,7 +10,5 @@ export {
   discriminators,
   ErrorBody,
   ErrorModel,
-  OperationDisplayInfo,
-  OperationEntity,
-  OperationEntityListResult
+  HostSettings
 } from "../models/mappers";
