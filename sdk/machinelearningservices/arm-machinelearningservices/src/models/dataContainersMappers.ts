@@ -72,6 +72,7 @@ export {
   Databricks,
   DatabricksProperties,
   DataContainerResource,
+  DataContainerResourceArmPaginatedResult,
   DataFactory,
   DataLakeAnalytics,
   DataLakeAnalyticsProperties,

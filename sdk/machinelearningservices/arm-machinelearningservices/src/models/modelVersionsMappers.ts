@@ -144,6 +144,7 @@ export {
   ModelPythonSection,
   ModelSparkSection,
   ModelVersionResource,
+  ModelVersionResourceArmPaginatedResult,
   Mpi,
   NodeStateCounts,
   OnlineDeploymentScaleSettings,

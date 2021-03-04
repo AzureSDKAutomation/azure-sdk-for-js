@@ -8,10 +8,12 @@
 
 export {
   discriminators,
+  AKSReplicaStatusError,
   ErrorDetail,
   ErrorResponse,
   MachineLearningServiceError,
   Operation,
   OperationDisplay,
-  OperationListResult
+  OperationListResult,
+  ServiceResponseBaseError
 } from "../models/mappers";

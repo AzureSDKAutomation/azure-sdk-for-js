@@ -131,6 +131,7 @@ export {
   MLAssistConfiguration,
   Model,
   ModelContainerResource,
+  ModelContainerResourceArmPaginatedResult,
   ModelDataCollection,
   ModelDockerSectionResponse,
   ModelDockerSectionResponseBaseImageRegistry,

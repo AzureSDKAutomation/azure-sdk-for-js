@@ -53,6 +53,7 @@ export {
   CodeConfiguration,
   CodeContainerResource,
   CodeVersionResource,
+  CodeVersionResourceArmPaginatedResult,
   CommandJob,
   Compute,
   ComputeBinding,

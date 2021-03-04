@@ -81,6 +81,7 @@ export {
   DatastoreCredentials,
   DatastorePropertiesResource,
   DataVersionResource,
+  DataVersionResourceArmPaginatedResult,
   DeploymentConfigurationBase,
   DistributionConfiguration,
   DockerBuild,

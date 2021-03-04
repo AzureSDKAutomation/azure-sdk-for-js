@@ -90,6 +90,7 @@ export {
   EncryptionProperties,
   EncryptionProperty,
   EnvironmentContainerResource,
+  EnvironmentContainerResourceArmPaginatedResult,
   EnvironmentImageRequestEnvironmentReference,
   EnvironmentImageResponse,
   EnvironmentImageResponseEnvironment,

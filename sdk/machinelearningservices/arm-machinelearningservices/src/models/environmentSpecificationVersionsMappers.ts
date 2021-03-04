@@ -96,6 +96,7 @@ export {
   EnvironmentImageResponseEnvironmentReference,
   EnvironmentReference,
   EnvironmentSpecificationVersionResource,
+  EnvironmentSpecificationVersionResourceArmPaginatedResult,
   ErrorDetail,
   ErrorResponse,
   EvaluationConfiguration,

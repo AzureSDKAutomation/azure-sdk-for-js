@@ -52,6 +52,7 @@ export {
   CertificateSection,
   CodeConfiguration,
   CodeContainerResource,
+  CodeContainerResourceArmPaginatedResult,
   CodeVersionResource,
   CommandJob,
   Compute,

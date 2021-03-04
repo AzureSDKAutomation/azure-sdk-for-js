@@ -43,7 +43,7 @@ export class AzureMachineLearningWorkspacesContext extends msRestAzure.AzureServ
 
     super(credentials, options);
 
-    this.apiVersion = '2020-08-01';
+    this.apiVersion = '2020-09-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

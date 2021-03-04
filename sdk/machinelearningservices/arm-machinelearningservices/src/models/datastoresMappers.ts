@@ -80,6 +80,7 @@ export {
   DatastoreContents,
   DatastoreCredentials,
   DatastorePropertiesResource,
+  DatastorePropertiesResourceArmPaginatedResult,
   DataVersionResource,
   DeploymentConfigurationBase,
   DistributionConfiguration,
