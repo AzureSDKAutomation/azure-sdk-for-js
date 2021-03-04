@@ -229,6 +229,16 @@ export const keyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const libraryName: msRest.OperationURLParameter = {
+  parameterPath: "libraryName",
+  mapper: {
+    required: true,
+    serializedName: "libraryName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const linkId: msRest.OperationURLParameter = {
   parameterPath: "linkId",
   mapper: {
@@ -254,6 +264,26 @@ export const maintenanceWindowOptionsName: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "maintenanceWindowOptionsName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedPrivateEndpointName: msRest.OperationURLParameter = {
+  parameterPath: "managedPrivateEndpointName",
+  mapper: {
+    required: true,
+    serializedName: "managedPrivateEndpointName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedVirtualNetworkName: msRest.OperationURLParameter = {
+  parameterPath: "managedVirtualNetworkName",
+  mapper: {
+    required: true,
+    serializedName: "managedVirtualNetworkName",
     type: {
       name: "String"
     }
