@@ -48,34 +48,14 @@ export interface Operation {
 }
 
 /**
- * An interface representing NotebookListCredentialsResult.
+ * Identity that will be used to access key vault for encryption at rest
  */
-export interface NotebookListCredentialsResult {
-  primaryAccessKey?: string;
-  secondaryAccessKey?: string;
-}
-
-/**
- * An interface representing NotebookPreparationError.
- */
-export interface NotebookPreparationError {
-  errorMessage?: string;
-  statusCode?: number;
-}
-
-/**
- * An interface representing NotebookResourceInfo.
- */
-export interface NotebookResourceInfo {
-  fqdn?: string;
+export interface IdentityForCmk {
   /**
-   * the data plane resourceId that used to initialize notebook component
+   * The ArmId of the user assigned identity that will be used to access the customer managed key
+   * vault
    */
-  resourceId?: string;
-  /**
-   * The error that occurs when preparing notebook.
-   */
-  notebookPreparationError?: NotebookPreparationError;
+  userAssignedIdentity: string;
 }
 
 /**
@@ -106,6 +86,10 @@ export interface EncryptionProperty {
    */
   status: EncryptionStatus;
   /**
+   * The identity that will be used to access the key vault for encryption at rest.
+   */
+  identity?: IdentityForCmk;
+  /**
    * Customer Key vault properties.
    */
   keyVaultProperties: KeyVaultProperties;
@@ -120,6 +104,11 @@ export interface PrivateEndpoint {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
+  /**
+   * The ARM identifier for Subnet resource that private endpoint links to
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subnetArmId?: string;
 }
 
 /**
@@ -143,24 +132,50 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 /**
- * The Private Endpoint Connection resource.
+ * Azure Resource Manager resource envelope.
  */
-export interface PrivateEndpointConnection extends BaseResource {
+export interface Resource extends BaseResource {
   /**
-   * ResourceId of the private endpoint connection.
+   * Specifies the resource ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Friendly name of the private endpoint connection.
+   * Specifies the name of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Resource type of private endpoint connection.
+   * The identity of the resource.
+   */
+  identity?: Identity;
+  /**
+   * Specifies the location of the resource.
+   */
+  location?: string;
+  /**
+   * Specifies the type of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
+  /**
+   * Contains resource tags defined as key/value pairs.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku of the workspace.
+   */
+  sku?: Sku;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends Resource {
   /**
    * The resource of private end point.
    */
@@ -205,40 +220,46 @@ export interface SharedPrivateLinkResource {
 }
 
 /**
- * Azure Resource Manager resource envelope.
+ * An interface representing NotebookPreparationError.
  */
-export interface Resource extends BaseResource {
+export interface NotebookPreparationError {
+  errorMessage?: string;
+  statusCode?: number;
+}
+
+/**
+ * An interface representing NotebookResourceInfo.
+ */
+export interface NotebookResourceInfo {
+  fqdn?: string;
   /**
-   * Specifies the resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * the data plane resourceId that used to initialize notebook component
    */
-  readonly id?: string;
+  resourceId?: string;
   /**
-   * Specifies the name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The error that occurs when preparing notebook.
    */
-  readonly name?: string;
+  notebookPreparationError?: NotebookPreparationError;
+}
+
+/**
+ * An interface representing CosmosDbSettings.
+ */
+export interface CosmosDbSettings {
   /**
-   * The identity of the resource.
+   * The throughput of the collections in cosmosdb database
    */
-  identity?: Identity;
+  collectionsThroughput?: number;
+}
+
+/**
+ * An interface representing ServiceManagedResourcesSettings.
+ */
+export interface ServiceManagedResourcesSettings {
   /**
-   * Specifies the location of the resource.
+   * The settings for the service managed cosmosdb account.
    */
-  location?: string;
-  /**
-   * Specifies the type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Contains resource tags defined as key/value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The sku of the workspace.
-   */
-  sku?: Sku;
+  cosmosDb?: CosmosDbSettings;
 }
 
 /**
@@ -258,11 +279,6 @@ export interface Workspace extends Resource {
    * The friendly name for this workspace. This name in mutable
    */
   friendlyName?: string;
-  /**
-   * The creation time of the machine learning workspace in ISO8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
   /**
    * ARM id of the key vault associated with this workspace. This cannot be changed once the
    * workspace has been created
@@ -337,6 +353,14 @@ export interface Workspace extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly notebookInfo?: NotebookResourceInfo;
+  /**
+   * The service managed resource settings.
+   */
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  /**
+   * The user assigned identity resource id that represents the workspace identity.
+   */
+  primaryUserAssignedIdentity?: string;
 }
 
 /**
@@ -354,6 +378,52 @@ export interface Sku {
 }
 
 /**
+ * User Assigned Identity
+ */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The clientId(aka appId) of the user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned', 'SystemAssigned,UserAssigned',
+   * 'UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The user assigned identities associated with the resource.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/**
  * The parameters for updating a machine learning workspace.
  */
 export interface WorkspaceUpdateParameters {
@@ -366,6 +436,10 @@ export interface WorkspaceUpdateParameters {
    */
   sku?: Sku;
   /**
+   * The identity of the resource.
+   */
+  identity?: Identity;
+  /**
    * The description of this workspace.
    */
   description?: string;
@@ -373,6 +447,18 @@ export interface WorkspaceUpdateParameters {
    * The friendly name for this workspace.
    */
   friendlyName?: string;
+  /**
+   * The compute name for image build
+   */
+  imageBuildCompute?: string;
+  /**
+   * The service managed resource settings.
+   */
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  /**
+   * The user assigned identity resource id that represents the workspace identity.
+   */
+  primaryUserAssignedIdentity?: string;
 }
 
 /**
@@ -418,6 +504,11 @@ export interface Usage {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
+  /**
+   * Region of the AML workspace in the id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly amlWorkspaceLocation?: string;
   /**
    * Specifies the resource type.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -527,10 +618,6 @@ export interface VirtualMachineSize {
    * Estimated VM prices. The estimated price information for using a VM.
    */
   estimatedVMPrices?: EstimatedVMPrices;
-  /**
-   * Supported Compute Types. Specifies the compute types supported by the virtual machine size.
-   */
-  supportedComputeTypes?: string[];
 }
 
 /**
@@ -573,6 +660,10 @@ export interface QuotaUpdateParameters {
    * The list for update quota.
    */
   value?: QuotaBaseProperties[];
+  /**
+   * Region of workspace quota to be updated.
+   */
+  location?: string;
 }
 
 /**
@@ -650,6 +741,11 @@ export interface ResourceQuota {
    */
   readonly id?: string;
   /**
+   * Region of the AML workspace in the id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly amlWorkspaceLocation?: string;
+  /**
    * Specifies the resource type.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -672,46 +768,35 @@ export interface ResourceQuota {
 }
 
 /**
- * An interface representing IdentityUserAssignedIdentitiesValue.
+ * Read only system data
  */
-export interface IdentityUserAssignedIdentitiesValue {
+export interface SystemData {
   /**
-   * The principal id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * An identifier for the identity that created the resource
    */
-  readonly principalId?: string;
+  createdBy?: string;
   /**
-   * The client id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of identity that created the resource. Possible values include: 'user',
+   * 'application', 'managedIdentity', 'key'
    */
-  readonly clientId?: string;
-}
-
-/**
- * Identity for the resource.
- */
-export interface Identity {
+  createdByType?: IdentityType;
   /**
-   * The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The timestamp of resource creation (UTC)
    */
-  readonly principalId?: string;
+  createdAt?: Date;
   /**
-   * The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * An identifier for the identity that last modified the resource
    */
-  readonly tenantId?: string;
+  lastModifiedBy?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned,UserAssigned', 'None'
+   * The type of identity that last modified the resource. Possible values include: 'user',
+   * 'application', 'managedIdentity', 'key'
    */
-  type: ResourceIdentityType;
+  lastModifiedByType?: IdentityType;
   /**
-   * The list of user identities associated with resource. The user identity dictionary key
-   * references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   * The timestamp of resource last modification (UTC)
    */
-  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
+  lastModifiedAt?: Date;
 }
 
 /**
@@ -754,6 +839,20 @@ export interface RegistryListCredentialsResult {
 }
 
 /**
+ * An interface representing ListNotebookKeysResult.
+ */
+export interface ListNotebookKeysResult {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly primaryAccessKey?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly secondaryAccessKey?: string;
+}
+
+/**
  * An interface representing ListWorkspaceKeysResult.
  */
 export interface ListWorkspaceKeysResult {
@@ -773,7 +872,48 @@ export interface ListWorkspaceKeysResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly containerRegistryCredentials?: RegistryListCredentialsResult;
-  notebookAccessKeys?: NotebookListCredentialsResult;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly notebookAccessKeys?: ListNotebookKeysResult;
+}
+
+/**
+ * An interface representing NotebookAccessTokenResult.
+ */
+export interface NotebookAccessTokenResult {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly notebookResourceId?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostName?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly publicDns?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessToken?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tokenType?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expiresIn?: number;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly refreshToken?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scope?: string;
 }
 
 /**
@@ -851,16 +991,6 @@ export interface Compute {
    */
   description?: string;
   /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
    * ARM resource id of the underlying compute
    */
   resourceId?: string;
@@ -913,7 +1043,7 @@ export interface SystemService {
  */
 export interface SslConfiguration {
   /**
-   * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled'
+   * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled', 'Auto'
    */
   status?: Status1;
   /**
@@ -975,7 +1105,12 @@ export interface AKSProperties {
   /**
    * Agent virtual machine size
    */
-  agentVMSize?: string;
+  agentVmSize?: string;
+  /**
+   * Intended usage of the cluster. Possible values include: 'FastProd', 'DenseProd', 'DevTest'.
+   * Default value: 'FastProd'.
+   */
+  clusterPurpose?: ClusterPurpose;
   /**
    * SSL configuration
    */
@@ -1010,16 +1145,6 @@ export interface AKS {
    */
   description?: string;
   /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
    * ARM resource id of the underlying compute
    */
   resourceId?: string;
@@ -1041,6 +1166,16 @@ export interface AKS {
 }
 
 /**
+ * Virtual Machine image for Windows AML Compute
+ */
+export interface VirtualMachineImage {
+  /**
+   * Virtual Machine image path
+   */
+  id: string;
+}
+
+/**
  * scale settings for AML Compute
  */
 export interface ScaleSettings {
@@ -1053,7 +1188,7 @@ export interface ScaleSettings {
    */
   minNodeCount?: number;
   /**
-   * Node Idle Time before scaling down amlCompute
+   * Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format.
    */
   nodeIdleTimeBeforeScaleDown?: string;
 }
@@ -1117,6 +1252,10 @@ export interface NodeStateCounts {
  */
 export interface AmlComputeProperties {
   /**
+   * Compute OS Type. Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
+   */
+  osType?: OsType;
+  /**
    * Virtual Machine Size
    */
   vmSize?: string;
@@ -1124,6 +1263,14 @@ export interface AmlComputeProperties {
    * Virtual Machine priority. Possible values include: 'Dedicated', 'LowPriority'
    */
   vmPriority?: VmPriority;
+  /**
+   * Virtual Machine image for AML Compute - windows only
+   */
+  virtualMachineImage?: VirtualMachineImage;
+  /**
+   * Network is isolated or not
+   */
+  isolatedNetwork?: boolean;
   /**
    * Scale settings for AML Compute
    */
@@ -1186,6 +1333,13 @@ export interface AmlComputeProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nodeStateCounts?: NodeStateCounts;
+  /**
+   * Enable node public IP. Enable or disable node public IP address provisioning. Possible values
+   * are: Possible values are: true - Indicates that the compute nodes will have public IPs
+   * provisioned. false - Indicates that the compute nodes will have a private endpoint and no
+   * public IPs. Default value: true.
+   */
+  enableNodePublicIp?: boolean;
 }
 
 /**
@@ -1211,16 +1365,6 @@ export interface AmlCompute {
    * The description of the Machine Learning compute.
    */
   description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
   /**
    * ARM resource id of the underlying compute
    */
@@ -1271,7 +1415,7 @@ export interface ComputeInstanceSshSettings {
 }
 
 /**
- * Defines all connectivity endpoints and properties for a ComputeInstance.
+ * Defines all connectivity endpoints and properties for an ComputeInstance.
  */
 export interface ComputeInstanceConnectivityEndpoints {
   /**
@@ -1320,6 +1464,76 @@ export interface ComputeInstanceCreatedBy {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly userId?: string;
+}
+
+/**
+ * A user that can be assigned to a compute instance.
+ */
+export interface AssignedUser {
+  /**
+   * User’s AAD Object Id.
+   */
+  objectId: string;
+  /**
+   * User’s AAD Tenant Id.
+   */
+  tenantId: string;
+}
+
+/**
+ * Settings for a personal compute instance.
+ */
+export interface PersonalComputeInstanceSettings {
+  /**
+   * Assigned User. A user explicitly assigned to a personal compute instance.
+   */
+  assignedUser?: AssignedUser;
+}
+
+/**
+ * Script reference
+ */
+export interface ScriptReference {
+  /**
+   * The storage source of the script: inline, workspace.
+   */
+  scriptSource?: string;
+  /**
+   * The location of scripts in the mounted volume.
+   */
+  scriptData?: string;
+  /**
+   * Optional command line arguments passed to the script to run.
+   */
+  scriptArguments?: string;
+  /**
+   * Optional time period passed to timeout command.
+   */
+  timeout?: string;
+}
+
+/**
+ * Customized setup scripts
+ */
+export interface ScriptsToExecute {
+  /**
+   * Script that's run every time the machine starts.
+   */
+  startupScript?: ScriptReference;
+  /**
+   * Script that's run only once during provision of the compute.
+   */
+  creationScript?: ScriptReference;
+}
+
+/**
+ * Details of customized scripts to execute for setting up the cluster.
+ */
+export interface SetupScripts {
+  /**
+   * Customized setup scripts
+   */
+  scripts?: ScriptsToExecute;
 }
 
 /**
@@ -1394,6 +1608,19 @@ export interface ComputeInstanceProperties {
    */
   readonly state?: ComputeInstanceState;
   /**
+   * Compute Instance Authorization type. The Compute Instance Authorization type. Available values
+   * are personal (default). Possible values include: 'personal'. Default value: 'personal'.
+   */
+  computeInstanceAuthorizationType?: ComputeInstanceAuthorizationType;
+  /**
+   * Personal Compute Instance settings. Settings for a personal compute instance.
+   */
+  personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
+  /**
+   * Details of customized scripts to execute for setting up the cluster.
+   */
+  setupScripts?: SetupScripts;
+  /**
    * The last operation on ComputeInstance.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1423,16 +1650,6 @@ export interface ComputeInstance {
    * The description of the Machine Learning compute.
    */
   description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
   /**
    * ARM resource id of the underlying compute
    */
@@ -1522,16 +1739,6 @@ export interface VirtualMachine {
    */
   description?: string;
   /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
    * ARM resource id of the underlying compute
    */
   resourceId?: string;
@@ -1591,16 +1798,6 @@ export interface HDInsight {
    */
   description?: string;
   /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
    * ARM resource id of the underlying compute
    */
   resourceId?: string;
@@ -1642,16 +1839,6 @@ export interface DataFactory {
    */
   description?: string;
   /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
    * ARM resource id of the underlying compute
    */
   resourceId?: string;
@@ -1676,6 +1863,10 @@ export interface DatabricksProperties {
    * Databricks access token
    */
   databricksAccessToken?: string;
+  /**
+   * Workspace Url
+   */
+  workspaceUrl?: string;
 }
 
 /**
@@ -1701,16 +1892,6 @@ export interface Databricks {
    * The description of the Machine Learning compute.
    */
   description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
   /**
    * ARM resource id of the underlying compute
    */
@@ -1762,16 +1943,6 @@ export interface DataLakeAnalytics {
    * The description of the Machine Learning compute.
    */
   description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
   /**
    * ARM resource id of the underlying compute
    */
@@ -1871,26 +2042,6 @@ export interface AmlComputeNodeInformation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly runId?: string;
-}
-
-/**
- * Compute node information related to a AmlCompute.
- */
-export interface AmlComputeNodesInformation {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "AmlCompute";
-  /**
-   * The continuation token.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-  /**
-   * The collection of returned AmlCompute nodes details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nodes?: AmlComputeNodeInformation[];
 }
 
 /**
@@ -2034,7 +2185,7 @@ export interface Restriction {
 /**
  * Describes Workspace Sku details and features
  */
-export interface SkuSettings {
+export interface WorkspaceSku {
   /**
    * The set of locations that the SKU is available. This will be supported and registered Azure
    * Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
@@ -2072,21 +2223,6 @@ export interface SkuSettings {
 }
 
 /**
- * AML workspace sku information
- */
-export interface WorkspaceSku {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * The list of workspace sku settings
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly skus?: SkuSettings[];
-}
-
-/**
  * A private link resource
  */
 export interface PrivateLinkResource extends Resource {
@@ -2114,6 +2250,1499 @@ export interface PrivateLinkResourceListResult {
    * Array of private link resources
    */
   value?: PrivateLinkResource[];
+}
+
+/**
+ * The error details.
+ */
+export interface ServiceResponseBaseError extends MachineLearningServiceError {
+}
+
+/**
+ * Contains the possible cases for ServiceResponseBase.
+ */
+export type ServiceResponseBaseUnion = ServiceResponseBase | ACIServiceResponse | AKSVariantResponseUnion;
+
+/**
+ * The base service response. The correct inherited response based on computeType will be returned
+ * (ex. ACIServiceResponse)
+ */
+export interface ServiceResponseBase {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "ServiceResponseBase";
+  /**
+   * The service description.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service property dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The current state of the service. Possible values include: 'Transitioning', 'Healthy',
+   * 'Unhealthy', 'Failed', 'Unschedulable'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: WebServiceState;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: ServiceResponseBaseError;
+  /**
+   * The deployment type for the service. Possible values include: 'GRPCRealtimeEndpoint',
+   * 'HttpRealtimeEndpoint', 'Batch'
+   */
+  deploymentType?: DeploymentType;
+}
+
+/**
+ * Machine Learning service object wrapped into ARM resource envelope.
+ */
+export interface ServiceResource extends Resource {
+  /**
+   * Service properties
+   */
+  properties?: ServiceResponseBaseUnion;
+}
+
+/**
+ * The resource requirements for the container (cpu and memory).
+ */
+export interface ContainerResourceRequirements {
+  /**
+   * The minimum amount of CPU cores to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  cpu?: number;
+  /**
+   * The maximum amount of CPU cores allowed to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  cpuLimit?: number;
+  /**
+   * The minimum amount of memory (in GB) to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  memoryInGB?: number;
+  /**
+   * The maximum amount of memory (in GB) allowed to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  memoryInGBLimit?: number;
+  /**
+   * The number of GPU cores in the container.
+   */
+  gpu?: number;
+  /**
+   * The number of FPGA PCIE devices exposed to the container. Must be multiple of 2.
+   */
+  fpga?: number;
+}
+
+/**
+ * The Model data collection properties.
+ */
+export interface ModelDataCollection {
+  /**
+   * Option for enabling/disabling Event Hub.
+   */
+  eventHubEnabled?: boolean;
+  /**
+   * Option for enabling/disabling storage.
+   */
+  storageEnabled?: boolean;
+}
+
+/**
+ * Details of the data collection options specified.
+ */
+export interface ACIServiceResponseDataCollection extends ModelDataCollection {
+}
+
+/**
+ * The dataset reference object.
+ */
+export interface DatasetReference {
+  /**
+   * The name of the dataset reference.
+   */
+  name?: string;
+  /**
+   * The id of the dataset reference.
+   */
+  id?: string;
+}
+
+/**
+ * An Azure Machine Learning Model.
+ */
+export interface Model {
+  /**
+   * The Model Id.
+   */
+  id?: string;
+  /**
+   * The Model name.
+   */
+  name: string;
+  /**
+   * The Model framework.
+   */
+  framework?: string;
+  /**
+   * The Model framework version.
+   */
+  frameworkVersion?: string;
+  /**
+   * The Model version assigned by Model Management Service.
+   */
+  version?: number;
+  /**
+   * The list of datasets associated with the model.
+   */
+  datasets?: DatasetReference[];
+  /**
+   * The URL of the Model. Usually a SAS URL.
+   */
+  url: string;
+  /**
+   * The MIME type of Model content. For more details about MIME type, please open
+   * https://www.iana.org/assignments/media-types/media-types.xhtml
+   */
+  mimeType: string;
+  /**
+   * The Model description text.
+   */
+  description?: string;
+  /**
+   * The Model creation time (UTC).
+   */
+  createdTime?: Date;
+  /**
+   * The Model last modified time (UTC).
+   */
+  modifiedTime?: Date;
+  /**
+   * Indicates whether we need to unpack the Model during docker Image creation.
+   */
+  unpack?: boolean;
+  /**
+   * The Parent Model Id.
+   */
+  parentModelId?: string;
+  /**
+   * The RunId that created this model.
+   */
+  runId?: string;
+  /**
+   * The name of the experiment where this model was created.
+   */
+  experimentName?: string;
+  /**
+   * The Model tag dictionary. Items are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The Model property dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * Models derived from this model
+   */
+  derivedModelIds?: string[];
+  /**
+   * Sample Input Data for the Model. A reference to a dataset in the workspace in the format
+   * aml://dataset/{datasetId}
+   */
+  sampleInputData?: string;
+  /**
+   * Sample Output Data for the Model. A reference to a dataset in the workspace in the format
+   * aml://dataset/{datasetId}
+   */
+  sampleOutputData?: string;
+  /**
+   * Resource requirements for the model
+   */
+  resourceRequirements?: ContainerResourceRequirements;
+}
+
+/**
+ * Request to create a Docker image based on Environment.
+ */
+export interface EnvironmentImageResponse {
+  /**
+   * The name of the driver file.
+   */
+  driverProgram?: string;
+  /**
+   * The list of assets.
+   */
+  assets?: ImageAsset[];
+  /**
+   * The list of model Ids.
+   */
+  modelIds?: string[];
+  /**
+   * The list of models.
+   */
+  modelsProperty?: Model[];
+  /**
+   * The details of the AZURE ML environment.
+   */
+  environment?: EnvironmentImageResponseEnvironment;
+  /**
+   * The unique identifying details of the AZURE ML environment.
+   */
+  environmentReference?: EnvironmentImageResponseEnvironmentReference;
+}
+
+/**
+ * The Environment, models and assets used for inferencing.
+ */
+export interface ACIServiceResponseEnvironmentImageRequest extends EnvironmentImageResponse {
+}
+
+/**
+ * An interface representing VnetConfiguration.
+ */
+export interface VnetConfiguration {
+  /**
+   * The name of the virtual network.
+   */
+  vnetName?: string;
+  /**
+   * The name of the virtual network subnet.
+   */
+  subnetName?: string;
+}
+
+/**
+ * The virtual network configuration.
+ */
+export interface ACIServiceResponseVnetConfiguration extends VnetConfiguration {
+}
+
+/**
+ * An interface representing EncryptionProperties.
+ */
+export interface EncryptionProperties {
+  /**
+   * vault base Url
+   */
+  vaultBaseUrl: string;
+  /**
+   * Encryption Key name
+   */
+  keyName: string;
+  /**
+   * Encryption Key Version
+   */
+  keyVersion: string;
+}
+
+/**
+ * The encryption properties.
+ */
+export interface ACIServiceResponseEncryptionProperties extends EncryptionProperties {
+}
+
+/**
+ * The response for an ACI service.
+ */
+export interface ACIServiceResponse {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "ACI";
+  /**
+   * The service description.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service property dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The current state of the service. Possible values include: 'Transitioning', 'Healthy',
+   * 'Unhealthy', 'Failed', 'Unschedulable'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: WebServiceState;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: ServiceResponseBaseError;
+  /**
+   * The deployment type for the service. Possible values include: 'GRPCRealtimeEndpoint',
+   * 'HttpRealtimeEndpoint', 'Batch'
+   */
+  deploymentType?: DeploymentType;
+  /**
+   * The container resource requirements.
+   */
+  containerResourceRequirements?: ContainerResourceRequirements;
+  /**
+   * The Uri for sending scoring requests.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scoringUri?: string;
+  /**
+   * The name of the Azure location/region.
+   */
+  location?: string;
+  /**
+   * Whether or not authentication is enabled on the service.
+   */
+  authEnabled?: boolean;
+  /**
+   * Whether or not SSL is enabled.
+   */
+  sslEnabled?: boolean;
+  /**
+   * Whether or not Application Insights is enabled.
+   */
+  appInsightsEnabled?: boolean;
+  /**
+   * Details of the data collection options specified.
+   */
+  dataCollection?: ACIServiceResponseDataCollection;
+  /**
+   * The public SSL certificate in PEM format to use if SSL is enabled.
+   */
+  sslCertificate?: string;
+  /**
+   * The public SSL key in PEM format for the certificate.
+   */
+  sslKey?: string;
+  /**
+   * The CName for the service.
+   */
+  cname?: string;
+  /**
+   * The public IP address for the service.
+   */
+  publicIp?: string;
+  /**
+   * The public Fqdn for the service.
+   */
+  publicFqdn?: string;
+  /**
+   * The Uri for sending swagger requests.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly swaggerUri?: string;
+  /**
+   * Details on the models and configurations.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modelConfigMap?: { [propertyName: string]: any };
+  /**
+   * The list of models.
+   */
+  modelsProperty?: Model[];
+  /**
+   * The Environment, models and assets used for inferencing.
+   */
+  environmentImageRequest?: ACIServiceResponseEnvironmentImageRequest;
+  /**
+   * The virtual network configuration.
+   */
+  vnetConfiguration?: ACIServiceResponseVnetConfiguration;
+  /**
+   * The encryption properties.
+   */
+  encryptionProperties?: ACIServiceResponseEncryptionProperties;
+}
+
+/**
+ * An Image asset.
+ */
+export interface ImageAsset {
+  /**
+   * The Asset Id.
+   */
+  id?: string;
+  /**
+   * The mime type.
+   */
+  mimeType?: string;
+  /**
+   * The Url of the Asset.
+   */
+  url?: string;
+  /**
+   * Whether the Asset is unpacked.
+   */
+  unpack?: boolean;
+}
+
+/**
+ * An interface representing ModelEnvironmentDefinition.
+ */
+export interface ModelEnvironmentDefinition {
+  /**
+   * The name of the environment.
+   */
+  name?: string;
+  /**
+   * The environment version.
+   */
+  version?: string;
+  /**
+   * Settings for a Python environment.
+   */
+  python?: ModelEnvironmentDefinitionPython;
+  /**
+   * Definition of environment variables to be defined in the environment.
+   */
+  environmentVariables?: { [propertyName: string]: string };
+  /**
+   * The definition of a Docker container.
+   */
+  docker?: ModelEnvironmentDefinitionDocker;
+  /**
+   * The configuration for a Spark environment.
+   */
+  spark?: ModelEnvironmentDefinitionSpark;
+  /**
+   * Settings for a R environment.
+   */
+  r?: ModelEnvironmentDefinitionR;
+  /**
+   * The inferencing stack version added to the image. To avoid adding an inferencing stack, do not
+   * set this value. Valid values: "latest".
+   */
+  inferencingStackVersion?: string;
+}
+
+/**
+ * The details of the AZURE ML environment.
+ */
+export interface EnvironmentImageRequestEnvironment extends ModelEnvironmentDefinition {
+}
+
+/**
+ * An interface representing EnvironmentReference.
+ */
+export interface EnvironmentReference {
+  /**
+   * Name of the environment.
+   */
+  name?: string;
+  /**
+   * Version of the environment.
+   */
+  version?: string;
+}
+
+/**
+ * The unique identifying details of the AZURE ML environment.
+ */
+export interface EnvironmentImageRequestEnvironmentReference extends EnvironmentReference {
+}
+
+/**
+ * Request to create a Docker image based on Environment.
+ */
+export interface EnvironmentImageRequest {
+  /**
+   * The name of the driver file.
+   */
+  driverProgram?: string;
+  /**
+   * The list of assets.
+   */
+  assets?: ImageAsset[];
+  /**
+   * The list of model Ids.
+   */
+  modelIds?: string[];
+  /**
+   * The list of models.
+   */
+  modelsProperty?: Model[];
+  /**
+   * The details of the AZURE ML environment.
+   */
+  environment?: EnvironmentImageRequestEnvironment;
+  /**
+   * The unique identifying details of the AZURE ML environment.
+   */
+  environmentReference?: EnvironmentImageRequestEnvironmentReference;
+}
+
+/**
+ * An interface representing ModelEnvironmentDefinitionResponse.
+ */
+export interface ModelEnvironmentDefinitionResponse {
+  /**
+   * The name of the environment.
+   */
+  name?: string;
+  /**
+   * The environment version.
+   */
+  version?: string;
+  /**
+   * Settings for a Python environment.
+   */
+  python?: ModelEnvironmentDefinitionResponsePython;
+  /**
+   * Definition of environment variables to be defined in the environment.
+   */
+  environmentVariables?: { [propertyName: string]: string };
+  /**
+   * The definition of a Docker container.
+   */
+  docker?: ModelEnvironmentDefinitionResponseDocker;
+  /**
+   * The configuration for a Spark environment.
+   */
+  spark?: ModelEnvironmentDefinitionResponseSpark;
+  /**
+   * Settings for a R environment.
+   */
+  r?: ModelEnvironmentDefinitionResponseR;
+  /**
+   * The inferencing stack version added to the image. To avoid adding an inferencing stack, do not
+   * set this value. Valid values: "latest".
+   */
+  inferencingStackVersion?: string;
+}
+
+/**
+ * The details of the AZURE ML environment.
+ */
+export interface EnvironmentImageResponseEnvironment extends ModelEnvironmentDefinitionResponse {
+}
+
+/**
+ * The unique identifying details of the AZURE ML environment.
+ */
+export interface EnvironmentImageResponseEnvironmentReference extends EnvironmentReference {
+}
+
+/**
+ * An interface representing ModelPythonSection.
+ */
+export interface ModelPythonSection {
+  /**
+   * The python interpreter path to use if an environment build is not required. The path specified
+   * gets used to call the user script.
+   */
+  interpreterPath?: string;
+  /**
+   * True means that AzureML reuses an existing python environment; False means that AzureML will
+   * create a python environment based on the Conda dependencies specification.
+   */
+  userManagedDependencies?: boolean;
+  /**
+   * A JObject containing Conda dependencies.
+   */
+  condaDependencies?: any;
+  baseCondaEnvironment?: string;
+}
+
+/**
+ * Settings for a Python environment.
+ */
+export interface ModelEnvironmentDefinitionPython extends ModelPythonSection {
+}
+
+/**
+ * An interface representing ModelDockerSection.
+ */
+export interface ModelDockerSection {
+  /**
+   * Base image used for Docker-based runs. Mutually exclusive with BaseDockerfile.
+   */
+  baseImage?: string;
+  /**
+   * Base Dockerfile used for Docker-based runs. Mutually exclusive with BaseImage.
+   */
+  baseDockerfile?: string;
+  /**
+   * Image registry that contains the base image.
+   */
+  baseImageRegistry?: ModelDockerSectionBaseImageRegistry;
+}
+
+/**
+ * The definition of a Docker container.
+ */
+export interface ModelEnvironmentDefinitionDocker extends ModelDockerSection {
+}
+
+/**
+ * An interface representing ModelSparkSection.
+ */
+export interface ModelSparkSection {
+  /**
+   * The list of spark repositories.
+   */
+  repositories?: string[];
+  /**
+   * The Spark packages to use.
+   */
+  packages?: SparkMavenPackage[];
+  /**
+   * Whether to precache the packages.
+   */
+  precachePackages?: boolean;
+}
+
+/**
+ * The configuration for a Spark environment.
+ */
+export interface ModelEnvironmentDefinitionSpark extends ModelSparkSection {
+}
+
+/**
+ * An interface representing RSection.
+ */
+export interface RSection {
+  /**
+   * The version of R to be installed
+   */
+  rVersion?: string;
+  /**
+   * Indicates whether the environment is managed by user or by AzureML.
+   */
+  userManaged?: boolean;
+  /**
+   * The Rscript path to use if an environment build is not required.
+   * The path specified gets used to call the user script.
+   */
+  rscriptPath?: string;
+  /**
+   * Date of MRAN snapshot to use in YYYY-MM-DD format, e.g. "2019-04-17"
+   */
+  snapshotDate?: string;
+  /**
+   * The CRAN packages to use.
+   */
+  cranPackages?: RCranPackage[];
+  /**
+   * The packages directly from GitHub.
+   */
+  gitHubPackages?: RGitHubPackage[];
+  /**
+   * The packages from custom urls.
+   */
+  customUrlPackages?: string[];
+  /**
+   * The packages from Bioconductor.
+   */
+  bioConductorPackages?: string[];
+}
+
+/**
+ * Settings for a R environment.
+ */
+export interface ModelEnvironmentDefinitionR extends RSection {
+}
+
+/**
+ * Settings for a Python environment.
+ */
+export interface ModelEnvironmentDefinitionResponsePython extends ModelPythonSection {
+}
+
+/**
+ * An interface representing ModelDockerSectionResponse.
+ */
+export interface ModelDockerSectionResponse {
+  /**
+   * Base image used for Docker-based runs. Mutually exclusive with BaseDockerfile.
+   */
+  baseImage?: string;
+  /**
+   * Base Dockerfile used for Docker-based runs. Mutually exclusive with BaseImage.
+   */
+  baseDockerfile?: string;
+  /**
+   * Image registry that contains the base image.
+   */
+  baseImageRegistry?: ModelDockerSectionResponseBaseImageRegistry;
+}
+
+/**
+ * The definition of a Docker container.
+ */
+export interface ModelEnvironmentDefinitionResponseDocker extends ModelDockerSectionResponse {
+}
+
+/**
+ * The configuration for a Spark environment.
+ */
+export interface ModelEnvironmentDefinitionResponseSpark extends ModelSparkSection {
+}
+
+/**
+ * An interface representing RSectionResponse.
+ */
+export interface RSectionResponse {
+  /**
+   * The version of R to be installed
+   */
+  rVersion?: string;
+  /**
+   * Indicates whether the environment is managed by user or by AzureML.
+   */
+  userManaged?: boolean;
+  /**
+   * The Rscript path to use if an environment build is not required.
+   * The path specified gets used to call the user script.
+   */
+  rscriptPath?: string;
+  /**
+   * Date of MRAN snapshot to use in YYYY-MM-DD format, e.g. "2019-04-17"
+   */
+  snapshotDate?: string;
+  /**
+   * The CRAN packages to use.
+   */
+  cranPackages?: RCranPackage[];
+  /**
+   * The packages directly from GitHub.
+   */
+  gitHubPackages?: RGitHubPackageResponse[];
+  /**
+   * The packages from custom urls.
+   */
+  customUrlPackages?: string[];
+  /**
+   * The packages from Bioconductor.
+   */
+  bioConductorPackages?: string[];
+}
+
+/**
+ * Settings for a R environment.
+ */
+export interface ModelEnvironmentDefinitionResponseR extends RSectionResponse {
+}
+
+/**
+ * An interface representing ContainerRegistry.
+ */
+export interface ContainerRegistry {
+  address?: string;
+  username?: string;
+  password?: string;
+}
+
+/**
+ * An interface representing ContainerRegistryResponse.
+ */
+export interface ContainerRegistryResponse {
+  address?: string;
+}
+
+/**
+ * Image registry that contains the base image.
+ */
+export interface ModelDockerSectionBaseImageRegistry extends ContainerRegistry {
+}
+
+/**
+ * Image registry that contains the base image.
+ */
+export interface ModelDockerSectionResponseBaseImageRegistry extends ContainerRegistryResponse {
+}
+
+/**
+ * An interface representing SparkMavenPackage.
+ */
+export interface SparkMavenPackage {
+  group?: string;
+  artifact?: string;
+  version?: string;
+}
+
+/**
+ * An interface representing RCranPackage.
+ */
+export interface RCranPackage {
+  /**
+   * The package name.
+   */
+  name?: string;
+  /**
+   * The repository name.
+   */
+  repository?: string;
+}
+
+/**
+ * An interface representing RGitHubPackage.
+ */
+export interface RGitHubPackage {
+  /**
+   * Repository address in the format username/repo[/subdir][@ref|#pull].
+   */
+  repository?: string;
+  /**
+   * Personal access token to install from a private repo
+   */
+  authToken?: string;
+}
+
+/**
+ * An interface representing RGitHubPackageResponse.
+ */
+export interface RGitHubPackageResponse {
+  /**
+   * Repository address in the format username/repo[/subdir][@ref|#pull].
+   */
+  repository?: string;
+}
+
+/**
+ * Contains the possible cases for AKSVariantResponse.
+ */
+export type AKSVariantResponseUnion = AKSVariantResponse | AKSServiceResponse;
+
+/**
+ * The response for an AKS variant.
+ */
+export interface AKSVariantResponse {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "Custom";
+  /**
+   * The service description.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service property dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The current state of the service. Possible values include: 'Transitioning', 'Healthy',
+   * 'Unhealthy', 'Failed', 'Unschedulable'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: WebServiceState;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: ServiceResponseBaseError;
+  /**
+   * The deployment type for the service. Possible values include: 'GRPCRealtimeEndpoint',
+   * 'HttpRealtimeEndpoint', 'Batch'
+   */
+  deploymentType?: DeploymentType;
+  /**
+   * Is this the default variant.
+   */
+  isDefault?: boolean;
+  /**
+   * The amount of traffic variant receives.
+   */
+  trafficPercentile?: number;
+  /**
+   * The type of the variant. Possible values include: 'Control', 'Treatment'
+   */
+  type?: VariantType;
+}
+
+/**
+ * The Auto Scaler properties.
+ */
+export interface AutoScaler {
+  /**
+   * Option to enable/disable auto scaling.
+   */
+  autoscaleEnabled?: boolean;
+  /**
+   * The minimum number of replicas to scale down to.
+   */
+  minReplicas?: number;
+  /**
+   * The maximum number of replicas in the cluster.
+   */
+  maxReplicas?: number;
+  /**
+   * The target utilization percentage to use for determining whether to scale the cluster.
+   */
+  targetUtilization?: number;
+  /**
+   * The amount of seconds to wait between auto scale updates.
+   */
+  refreshPeriodInSeconds?: number;
+}
+
+/**
+ * The error details.
+ */
+export interface AKSReplicaStatusError extends MachineLearningServiceError {
+}
+
+/**
+ * An interface representing AKSReplicaStatus.
+ */
+export interface AKSReplicaStatus {
+  /**
+   * The desired number of replicas.
+   */
+  desiredReplicas?: number;
+  /**
+   * The number of updated replicas.
+   */
+  updatedReplicas?: number;
+  /**
+   * The number of available replicas.
+   */
+  availableReplicas?: number;
+  /**
+   * The error details.
+   */
+  error?: AKSReplicaStatusError;
+}
+
+/**
+ * The liveness probe requirements.
+ */
+export interface LivenessProbeRequirements {
+  /**
+   * The number of failures to allow before returning an unhealthy status.
+   */
+  failureThreshold?: number;
+  /**
+   * The number of successful probes before returning a healthy status.
+   */
+  successThreshold?: number;
+  /**
+   * The probe timeout in seconds.
+   */
+  timeoutSeconds?: number;
+  /**
+   * The length of time between probes in seconds.
+   */
+  periodSeconds?: number;
+  /**
+   * The delay before the first probe in seconds.
+   */
+  initialDelaySeconds?: number;
+}
+
+/**
+ * Details of the data collection options specified.
+ */
+export interface AKSServiceResponseDataCollection extends ModelDataCollection {
+}
+
+/**
+ * The auto scaler properties.
+ */
+export interface AKSServiceResponseAutoScaler extends AutoScaler {
+}
+
+/**
+ * The deployment status.
+ */
+export interface AKSServiceResponseDeploymentStatus extends AKSReplicaStatus {
+}
+
+/**
+ * The liveness probe requirements.
+ */
+export interface AKSServiceResponseLivenessProbeRequirements extends LivenessProbeRequirements {
+}
+
+/**
+ * The Environment, models and assets used for inferencing.
+ */
+export interface AKSServiceResponseEnvironmentImageRequest extends EnvironmentImageResponse {
+}
+
+/**
+ * The response for an AKS service.
+ */
+export interface AKSServiceResponse {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "AKS";
+  /**
+   * The service description.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service property dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The current state of the service. Possible values include: 'Transitioning', 'Healthy',
+   * 'Unhealthy', 'Failed', 'Unschedulable'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: WebServiceState;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: ServiceResponseBaseError;
+  /**
+   * The deployment type for the service. Possible values include: 'GRPCRealtimeEndpoint',
+   * 'HttpRealtimeEndpoint', 'Batch'
+   */
+  deploymentType?: DeploymentType;
+  /**
+   * Is this the default variant.
+   */
+  isDefault?: boolean;
+  /**
+   * The amount of traffic variant receives.
+   */
+  trafficPercentile?: number;
+  /**
+   * The type of the variant. Possible values include: 'Control', 'Treatment'
+   */
+  type?: VariantType;
+  /**
+   * The list of models.
+   */
+  modelsProperty?: Model[];
+  /**
+   * The container resource requirements.
+   */
+  containerResourceRequirements?: ContainerResourceRequirements;
+  /**
+   * The maximum number of concurrent requests per container.
+   */
+  maxConcurrentRequestsPerContainer?: number;
+  /**
+   * Maximum time a request will wait in the queue (in milliseconds). After this time, the service
+   * will return 503 (Service Unavailable)
+   */
+  maxQueueWaitMs?: number;
+  /**
+   * The name of the compute resource.
+   */
+  computeName?: string;
+  /**
+   * The Kubernetes namespace of the deployment.
+   */
+  namespace?: string;
+  /**
+   * The number of replicas on the cluster.
+   */
+  numReplicas?: number;
+  /**
+   * Details of the data collection options specified.
+   */
+  dataCollection?: AKSServiceResponseDataCollection;
+  /**
+   * Whether or not Application Insights is enabled.
+   */
+  appInsightsEnabled?: boolean;
+  /**
+   * The auto scaler properties.
+   */
+  autoScaler?: AKSServiceResponseAutoScaler;
+  /**
+   * The Uri for sending scoring requests.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scoringUri?: string;
+  /**
+   * The deployment status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deploymentStatus?: AKSServiceResponseDeploymentStatus;
+  /**
+   * The scoring timeout in milliseconds.
+   */
+  scoringTimeoutMs?: number;
+  /**
+   * The liveness probe requirements.
+   */
+  livenessProbeRequirements?: AKSServiceResponseLivenessProbeRequirements;
+  /**
+   * Whether or not authentication is enabled.
+   */
+  authEnabled?: boolean;
+  /**
+   * Whether or not AAD authentication is enabled.
+   */
+  aadAuthEnabled?: boolean;
+  /**
+   * The Uri for sending swagger requests.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly swaggerUri?: string;
+  /**
+   * Details on the models and configurations.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modelConfigMap?: { [propertyName: string]: any };
+  /**
+   * The Environment, models and assets used for inferencing.
+   */
+  environmentImageRequest?: AKSServiceResponseEnvironmentImageRequest;
+}
+
+/**
+ * An interface representing AuthKeys.
+ */
+export interface AuthKeys {
+  /**
+   * The primary key.
+   */
+  primaryKey?: string;
+  /**
+   * The secondary key.
+   */
+  secondaryKey?: string;
+}
+
+/**
+ * The authentication keys.
+ */
+export interface CreateServiceRequestKeys extends AuthKeys {
+}
+
+/**
+ * The Environment, models and assets needed for inferencing.
+ */
+export interface CreateServiceRequestEnvironmentImageRequest extends EnvironmentImageRequest {
+}
+
+/**
+ * Contains the possible cases for CreateServiceRequest.
+ */
+export type CreateServiceRequestUnion = CreateServiceRequest | ACIServiceCreateRequest | CreateEndpointVariantRequestUnion;
+
+/**
+ * The base class for creating a service.
+ */
+export interface CreateServiceRequest {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "CreateServiceRequest";
+  /**
+   * The description of the service.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service properties dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The authentication keys.
+   */
+  keys?: CreateServiceRequestKeys;
+  /**
+   * The Environment, models and assets needed for inferencing.
+   */
+  environmentImageRequest?: CreateServiceRequestEnvironmentImageRequest;
+  /**
+   * The name of the Azure location/region.
+   */
+  location?: string;
+}
+
+/**
+ * Details of the data collection options specified.
+ */
+export interface ACIServiceCreateRequestDataCollection extends ModelDataCollection {
+}
+
+/**
+ * The virtual network configuration.
+ */
+export interface ACIServiceCreateRequestVnetConfiguration extends VnetConfiguration {
+}
+
+/**
+ * The encryption properties.
+ */
+export interface ACIServiceCreateRequestEncryptionProperties extends EncryptionProperties {
+}
+
+/**
+ * An interface representing ACIServiceCreateRequest.
+ */
+export interface ACIServiceCreateRequest {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "ACI";
+  /**
+   * The description of the service.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service properties dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The authentication keys.
+   */
+  keys?: CreateServiceRequestKeys;
+  /**
+   * The Environment, models and assets needed for inferencing.
+   */
+  environmentImageRequest?: CreateServiceRequestEnvironmentImageRequest;
+  /**
+   * The name of the Azure location/region.
+   */
+  location?: string;
+  /**
+   * The container resource requirements.
+   */
+  containerResourceRequirements?: ContainerResourceRequirements;
+  /**
+   * Whether or not authentication is enabled on the service. Default value: false.
+   */
+  authEnabled?: boolean;
+  /**
+   * Whether or not SSL is enabled. Default value: false.
+   */
+  sslEnabled?: boolean;
+  /**
+   * Whether or not Application Insights is enabled. Default value: false.
+   */
+  appInsightsEnabled?: boolean;
+  /**
+   * Details of the data collection options specified.
+   */
+  dataCollection?: ACIServiceCreateRequestDataCollection;
+  /**
+   * The public SSL certificate in PEM format to use if SSL is enabled.
+   */
+  sslCertificate?: string;
+  /**
+   * The public SSL key in PEM format for the certificate.
+   */
+  sslKey?: string;
+  /**
+   * The CName for the service.
+   */
+  cname?: string;
+  /**
+   * The Dns label for the service.
+   */
+  dnsNameLabel?: string;
+  /**
+   * The virtual network configuration.
+   */
+  vnetConfiguration?: ACIServiceCreateRequestVnetConfiguration;
+  /**
+   * The encryption properties.
+   */
+  encryptionProperties?: ACIServiceCreateRequestEncryptionProperties;
+}
+
+/**
+ * Details of the data collection options specified.
+ */
+export interface AKSServiceCreateRequestDataCollection extends ModelDataCollection {
+}
+
+/**
+ * The auto scaler properties.
+ */
+export interface AKSServiceCreateRequestAutoScaler extends AutoScaler {
+}
+
+/**
+ * The liveness probe requirements.
+ */
+export interface AKSServiceCreateRequestLivenessProbeRequirements extends LivenessProbeRequirements {
+}
+
+/**
+ * Contains the possible cases for CreateEndpointVariantRequest.
+ */
+export type CreateEndpointVariantRequestUnion = CreateEndpointVariantRequest | AKSServiceCreateRequest;
+
+/**
+ * The Variant properties.
+ */
+export interface CreateEndpointVariantRequest {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "Custom";
+  /**
+   * The description of the service.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service properties dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The authentication keys.
+   */
+  keys?: CreateServiceRequestKeys;
+  /**
+   * The Environment, models and assets needed for inferencing.
+   */
+  environmentImageRequest?: CreateServiceRequestEnvironmentImageRequest;
+  /**
+   * The name of the Azure location/region.
+   */
+  location?: string;
+  /**
+   * Is this the default variant.
+   */
+  isDefault?: boolean;
+  /**
+   * The amount of traffic variant receives.
+   */
+  trafficPercentile?: number;
+  /**
+   * The type of the variant. Possible values include: 'Control', 'Treatment'
+   */
+  type?: VariantType;
+}
+
+/**
+ * The request to create an AKS service.
+ */
+export interface AKSServiceCreateRequest {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "AKS";
+  /**
+   * The description of the service.
+   */
+  description?: string;
+  /**
+   * The service tag dictionary. Tags are mutable.
+   */
+  kvTags?: { [propertyName: string]: string };
+  /**
+   * The service properties dictionary. Properties are immutable.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * The authentication keys.
+   */
+  keys?: CreateServiceRequestKeys;
+  /**
+   * The Environment, models and assets needed for inferencing.
+   */
+  environmentImageRequest?: CreateServiceRequestEnvironmentImageRequest;
+  /**
+   * The name of the Azure location/region.
+   */
+  location?: string;
+  /**
+   * Is this the default variant.
+   */
+  isDefault?: boolean;
+  /**
+   * The amount of traffic variant receives.
+   */
+  trafficPercentile?: number;
+  /**
+   * The type of the variant. Possible values include: 'Control', 'Treatment'
+   */
+  type?: VariantType;
+  /**
+   * The number of replicas on the cluster.
+   */
+  numReplicas?: number;
+  /**
+   * Details of the data collection options specified.
+   */
+  dataCollection?: AKSServiceCreateRequestDataCollection;
+  /**
+   * The name of the compute resource.
+   */
+  computeName?: string;
+  /**
+   * Whether or not Application Insights is enabled.
+   */
+  appInsightsEnabled?: boolean;
+  /**
+   * The auto scaler properties.
+   */
+  autoScaler?: AKSServiceCreateRequestAutoScaler;
+  /**
+   * The container resource requirements.
+   */
+  containerResourceRequirements?: ContainerResourceRequirements;
+  /**
+   * The maximum number of concurrent requests per container.
+   */
+  maxConcurrentRequestsPerContainer?: number;
+  /**
+   * Maximum time a request will wait in the queue (in milliseconds). After this time, the service
+   * will return 503 (Service Unavailable)
+   */
+  maxQueueWaitMs?: number;
+  /**
+   * Kubernetes namespace for the service.
+   */
+  namespace?: string;
+  /**
+   * The scoring timeout in milliseconds.
+   */
+  scoringTimeoutMs?: number;
+  /**
+   * Whether or not authentication is enabled.
+   */
+  authEnabled?: boolean;
+  /**
+   * The liveness probe requirements.
+   */
+  livenessProbeRequirements?: AKSServiceCreateRequestLivenessProbeRequirements;
+  /**
+   * Whether or not AAD authentication is enabled.
+   */
+  aadAuthEnabled?: boolean;
+}
+
+/**
+ * An interface representing ListStorageAccountKeysResult.
+ */
+export interface ListStorageAccountKeysResult {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly userStorageKey?: string;
 }
 
 /**
@@ -2151,6 +3780,10 @@ export interface WorkspaceConnection extends BaseResource {
    * Value details of the workspace connection.
    */
   value?: string;
+  /**
+   * format for the workspace connection value. Possible values include: 'JSON'
+   */
+  valueFormat?: ValueFormat;
 }
 
 /**
@@ -2177,6 +3810,10 @@ export interface WorkspaceConnectionDto {
    * Value details of the workspace connection.
    */
   value?: string;
+  /**
+   * format for the workspace connection value. Possible values include: 'JSON'
+   */
+  valueFormat?: ValueFormat;
 }
 
 /**
@@ -2186,7 +3823,7 @@ export interface WorkspacesListByResourceGroupOptionalParams extends msRest.Requ
   /**
    * Continuation token for pagination.
    */
-  skiptoken?: string;
+  skip?: string;
 }
 
 /**
@@ -2196,7 +3833,7 @@ export interface WorkspacesListBySubscriptionOptionalParams extends msRest.Reque
   /**
    * Continuation token for pagination.
    */
-  skiptoken?: string;
+  skip?: string;
 }
 
 /**
@@ -2206,7 +3843,7 @@ export interface WorkspacesListByResourceGroupNextOptionalParams extends msRest.
   /**
    * Continuation token for pagination.
    */
-  skiptoken?: string;
+  skip?: string;
 }
 
 /**
@@ -2216,21 +3853,127 @@ export interface WorkspacesListBySubscriptionNextOptionalParams extends msRest.R
   /**
    * Continuation token for pagination.
    */
-  skiptoken?: string;
+  skip?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineSizesListOptionalParams extends msRest.RequestOptionsBase {
+export interface MachineLearningComputeListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Type of compute to filter by.
+   * Continuation token for pagination.
    */
-  computeType?: string;
+  skip?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface MachineLearningComputeListByWorkspaceNextOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Specifies whether to return recommended vm sizes or all vm sizes
+   * Continuation token for pagination.
    */
-  recommended?: boolean;
+  skip?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface MachineLearningServiceListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Continuation token for pagination.
+   */
+  skip?: string;
+  /**
+   * The Model Id.
+   */
+  modelId?: string;
+  /**
+   * The Model name.
+   */
+  modelName?: string;
+  /**
+   * The object tag.
+   */
+  tag?: string;
+  /**
+   * A set of tags with which to filter the returned services. It is a comma separated string of
+   * tags key or tags key=value Example: tagKey1,tagKey2,tagKey3=value3 .
+   */
+  tags?: string;
+  /**
+   * A set of properties with which to filter the returned services. It is a comma separated string
+   * of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 .
+   */
+  properties?: string;
+  /**
+   * runId for model associated with service.
+   */
+  runId?: string;
+  /**
+   * Set to True to include Model details.
+   */
+  expand?: boolean;
+  /**
+   * The option to order the response. Possible values include: 'CreatedAtDesc', 'CreatedAtAsc',
+   * 'UpdatedAtDesc', 'UpdatedAtAsc'. Default value: 'UpdatedAtDesc'.
+   */
+  orderby?: OrderString;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface MachineLearningServiceGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Set to True to include Model details. Default value: false.
+   */
+  expand?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface MachineLearningServiceListByWorkspaceNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Continuation token for pagination.
+   */
+  skip?: string;
+  /**
+   * The Model Id.
+   */
+  modelId?: string;
+  /**
+   * The Model name.
+   */
+  modelName?: string;
+  /**
+   * The object tag.
+   */
+  tag?: string;
+  /**
+   * A set of tags with which to filter the returned services. It is a comma separated string of
+   * tags key or tags key=value Example: tagKey1,tagKey2,tagKey3=value3 .
+   */
+  tags?: string;
+  /**
+   * A set of properties with which to filter the returned services. It is a comma separated string
+   * of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 .
+   */
+  properties?: string;
+  /**
+   * runId for model associated with service.
+   */
+  runId?: string;
+  /**
+   * Set to True to include Model details.
+   */
+  expand?: boolean;
+  /**
+   * The option to order the response. Possible values include: 'CreatedAtDesc', 'CreatedAtAsc',
+   * 'UpdatedAtDesc', 'UpdatedAtAsc'. Default value: 'UpdatedAtDesc'.
+   */
+  orderby?: OrderString;
 }
 
 /**
@@ -2245,26 +3988,6 @@ export interface WorkspaceConnectionsListOptionalParams extends msRest.RequestOp
    * Category of the workspace connection.
    */
   category?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface MachineLearningComputeListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface MachineLearningComputeListByWorkspaceNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
 }
 
 /**
@@ -2296,6 +4019,16 @@ export interface MachineLearningComputeDeleteHeaders {
    * URI to poll for asynchronous operation result.
    */
   location: string;
+}
+
+/**
+ * Defines headers for CreateOrUpdate operation.
+ */
+export interface MachineLearningServiceCreateOrUpdateHeaders {
+  /**
+   * URI to poll for asynchronous operation status.
+   */
+  azureAsyncOperation: string;
 }
 
 /**
@@ -2362,18 +4095,6 @@ export interface ListWorkspaceQuotas extends Array<ResourceQuota> {
 
 /**
  * @interface
- * Paginated list of Workspace connection objects.
- * @extends Array<WorkspaceConnection>
- */
-export interface PaginatedWorkspaceConnectionsList extends Array<WorkspaceConnection> {
-  /**
-   * A continuation link (absolute URI) to the next page of results in the list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * Paginated list of Machine Learning compute objects wrapped in ARM resource envelope.
  * @extends Array<ComputeResource>
  */
@@ -2386,6 +4107,28 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
 
 /**
  * @interface
+ * Compute node information related to a AmlCompute.
+ * @extends Array<AmlComputeNodeInformation>
+ */
+export interface AmlComputeNodesInformation extends Array<AmlComputeNodeInformation> {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "AmlCompute";
+  /**
+   * The continuation token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+  /**
+   * The collection of returned AmlCompute nodes details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodes?: AmlComputeNodeInformation[];
+}
+
+/**
+ * @interface
  * List of skus with features
  * @extends Array<WorkspaceSku>
  */
@@ -2393,6 +4136,31 @@ export interface SkuListResult extends Array<WorkspaceSku> {
   /**
    * The URI to fetch the next page of Workspace Skus. Call ListNext() with this URI to fetch the
    * next page of Workspace Skus
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Paginated list of Machine Learning service objects wrapped in ARM resource envelope.
+ * @extends Array<ServiceResource>
+ */
+export interface PaginatedServiceList extends Array<ServiceResource> {
+  /**
+   * A continuation link (absolute URI) to the next page of results in the list.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Paginated list of Workspace connection objects.
+ * @extends Array<WorkspaceConnection>
+ */
+export interface PaginatedWorkspaceConnectionsList extends Array<WorkspaceConnection> {
+  /**
+   * A continuation link (absolute URI) to the next page of results in the list.
    */
   nextLink?: string;
 }
@@ -2429,6 +4197,14 @@ export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'R
  * @enum {string}
  */
 export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'SystemAssigned,UserAssigned', 'UserAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned' | 'None';
 
 /**
  * Defines values for UsageUnit.
@@ -2473,12 +4249,28 @@ export type QuotaUnit = 'Count';
 export type Status = 'Undefined' | 'Success' | 'Failure' | 'InvalidQuotaBelowClusterMinimum' | 'InvalidQuotaExceedsSubscriptionLimit' | 'InvalidVMFamilyName' | 'OperationNotSupportedForSku' | 'OperationNotEnabledForRegion';
 
 /**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
+ * Defines values for IdentityType.
+ * Possible values include: 'user', 'application', 'managedIdentity', 'key'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned' | 'None';
+export type IdentityType = 'user' | 'application' | 'managedIdentity' | 'key';
+
+/**
+ * Defines values for ClusterPurpose.
+ * Possible values include: 'FastProd', 'DenseProd', 'DevTest'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterPurpose = 'FastProd' | 'DenseProd' | 'DevTest';
+
+/**
+ * Defines values for OsType.
+ * Possible values include: 'Linux', 'Windows'
+ * @readonly
+ * @enum {string}
+ */
+export type OsType = 'Linux' | 'Windows';
 
 /**
  * Defines values for VmPriority.
@@ -2531,6 +4323,14 @@ export type SshPublicAccess = 'Enabled' | 'Disabled';
 export type ComputeInstanceState = 'Creating' | 'CreateFailed' | 'Deleting' | 'Running' | 'Restarting' | 'JobRunning' | 'SettingUp' | 'SetupFailed' | 'Starting' | 'Stopped' | 'Stopping' | 'UserSettingUp' | 'UserSetupFailed' | 'Unknown' | 'Unusable';
 
 /**
+ * Defines values for ComputeInstanceAuthorizationType.
+ * Possible values include: 'personal'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputeInstanceAuthorizationType = 'personal';
+
+/**
  * Defines values for OperationName.
  * Possible values include: 'Create', 'Start', 'Stop', 'Restart', 'Reimage', 'Delete'
  * @readonly
@@ -2573,6 +4373,38 @@ export type ComputeType = 'AKS' | 'AmlCompute' | 'ComputeInstance' | 'DataFactor
 export type ReasonCode = 'NotSpecified' | 'NotAvailableForRegion' | 'NotAvailableForSubscription';
 
 /**
+ * Defines values for WebServiceState.
+ * Possible values include: 'Transitioning', 'Healthy', 'Unhealthy', 'Failed', 'Unschedulable'
+ * @readonly
+ * @enum {string}
+ */
+export type WebServiceState = 'Transitioning' | 'Healthy' | 'Unhealthy' | 'Failed' | 'Unschedulable';
+
+/**
+ * Defines values for DeploymentType.
+ * Possible values include: 'GRPCRealtimeEndpoint', 'HttpRealtimeEndpoint', 'Batch'
+ * @readonly
+ * @enum {string}
+ */
+export type DeploymentType = 'GRPCRealtimeEndpoint' | 'HttpRealtimeEndpoint' | 'Batch';
+
+/**
+ * Defines values for VariantType.
+ * Possible values include: 'Control', 'Treatment'
+ * @readonly
+ * @enum {string}
+ */
+export type VariantType = 'Control' | 'Treatment';
+
+/**
+ * Defines values for ValueFormat.
+ * Possible values include: 'JSON'
+ * @readonly
+ * @enum {string}
+ */
+export type ValueFormat = 'JSON';
+
+/**
  * Defines values for UnderlyingResourceAction.
  * Possible values include: 'Delete', 'Detach'
  * @readonly
@@ -2581,12 +4413,20 @@ export type ReasonCode = 'NotSpecified' | 'NotAvailableForRegion' | 'NotAvailabl
 export type UnderlyingResourceAction = 'Delete' | 'Detach';
 
 /**
- * Defines values for Status1.
- * Possible values include: 'Disabled', 'Enabled'
+ * Defines values for OrderString.
+ * Possible values include: 'CreatedAtDesc', 'CreatedAtAsc', 'UpdatedAtDesc', 'UpdatedAtAsc'
  * @readonly
  * @enum {string}
  */
-export type Status1 = 'Disabled' | 'Enabled';
+export type OrderString = 'CreatedAtDesc' | 'CreatedAtAsc' | 'UpdatedAtDesc' | 'UpdatedAtAsc';
+
+/**
+ * Defines values for Status1.
+ * Possible values include: 'Disabled', 'Enabled', 'Auto'
+ * @readonly
+ * @enum {string}
+ */
+export type Status1 = 'Disabled' | 'Enabled' | 'Auto';
 
 /**
  * Contains response data for the list operation.
@@ -2729,6 +4569,26 @@ export type WorkspacesListBySubscriptionResponse = WorkspaceListResult & {
 };
 
 /**
+ * Contains response data for the listNotebookAccessToken operation.
+ */
+export type WorkspacesListNotebookAccessTokenResponse = NotebookAccessTokenResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookAccessTokenResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
@@ -2825,46 +4685,6 @@ export type WorkspaceFeaturesListNextResponse = ListAmlUserFeatureResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListAmlUserFeatureResult;
-    };
-};
-
-/**
- * Contains response data for the prepare operation.
- */
-export type NotebooksPrepareResponse = NotebookResourceInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotebookResourceInfo;
-    };
-};
-
-/**
- * Contains response data for the beginPrepare operation.
- */
-export type NotebooksBeginPrepareResponse = NotebookResourceInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotebookResourceInfo;
     };
 };
 
@@ -2985,66 +4805,6 @@ export type QuotasListNextResponse = ListWorkspaceQuotas & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListWorkspaceQuotas;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceConnectionsListResponse = PaginatedWorkspaceConnectionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedWorkspaceConnectionsList;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type WorkspaceConnectionsCreateResponse = WorkspaceConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceConnection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceConnectionsGetResponse = WorkspaceConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceConnection;
     };
 };
 
@@ -3229,6 +4989,26 @@ export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedCompute
 };
 
 /**
+ * Contains response data for the listNodesNext operation.
+ */
+export type MachineLearningComputeListNodesNextResponse = AmlComputeNodesInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AmlComputeNodesInformation;
+    };
+};
+
+/**
  * Contains response data for the listSkus operation.
  */
 export type ListSkusResponse = SkuListResult & {
@@ -3325,5 +5105,230 @@ export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceLis
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type MachineLearningServiceListByWorkspaceResponse = PaginatedServiceList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PaginatedServiceList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MachineLearningServiceGetResponse = ServiceResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceResource;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type MachineLearningServiceCreateOrUpdateResponse = ServiceResource & MachineLearningServiceCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: MachineLearningServiceCreateOrUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceResource;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type MachineLearningServiceListByWorkspaceNextResponse = PaginatedServiceList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PaginatedServiceList;
+    };
+};
+
+/**
+ * Contains response data for the prepare operation.
+ */
+export type NotebooksPrepareResponse = NotebookResourceInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookResourceInfo;
+    };
+};
+
+/**
+ * Contains response data for the listKeys operation.
+ */
+export type NotebooksListKeysResponse = ListNotebookKeysResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListNotebookKeysResult;
+    };
+};
+
+/**
+ * Contains response data for the beginPrepare operation.
+ */
+export type NotebooksBeginPrepareResponse = NotebookResourceInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookResourceInfo;
+    };
+};
+
+/**
+ * Contains response data for the listKeys operation.
+ */
+export type StorageAccountListKeysResponse = ListStorageAccountKeysResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListStorageAccountKeysResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceConnectionsListResponse = PaginatedWorkspaceConnectionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PaginatedWorkspaceConnectionsList;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type WorkspaceConnectionsCreateResponse = WorkspaceConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceConnection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceConnectionsGetResponse = WorkspaceConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceConnection;
     };
 };
