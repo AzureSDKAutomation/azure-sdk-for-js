@@ -17,13 +17,13 @@ import { AzureReservationAPIContext } from "./azureReservationAPIContext";
 
 class AzureReservationAPI extends AzureReservationAPIContext {
   // Operation groups
+  quota: operations.Quota;
+  quotaRequestStatus: operations.QuotaRequestStatus;
   reservation: operations.Reservation;
   reservationOrder: operations.ReservationOrder;
   operation: operations.Operation;
   calculateExchange: operations.CalculateExchange;
   exchange: operations.Exchange;
-  quota: operations.Quota;
-  quotaRequestStatus: operations.QuotaRequestStatus;
 
   /**
    * Initializes a new instance of the AzureReservationAPI class.
@@ -32,13 +32,13 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
     super(credentials, options);
+    this.quota = new operations.Quota(this);
+    this.quotaRequestStatus = new operations.QuotaRequestStatus(this);
     this.reservation = new operations.Reservation(this);
     this.reservationOrder = new operations.ReservationOrder(this);
     this.operation = new operations.Operation(this);
     this.calculateExchange = new operations.CalculateExchange(this);
     this.exchange = new operations.Exchange(this);
-    this.quota = new operations.Quota(this);
-    this.quotaRequestStatus = new operations.QuotaRequestStatus(this);
   }
 
   /**
@@ -114,9 +114,9 @@ const getCatalogOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.reservedResourceType,
-    Parameters.location0
+    Parameters.location1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -150,7 +150,7 @@ const getAppliedReservationListOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

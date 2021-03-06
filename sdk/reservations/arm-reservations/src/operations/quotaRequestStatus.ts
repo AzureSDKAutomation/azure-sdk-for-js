@@ -26,7 +26,7 @@ export class QuotaRequestStatus {
   }
 
   /**
-   * For the specified Azure region (location), get the details and status of the quota request by
+   * For the specified Azure region (location), get the details and status of the `quota request` by
    * the quota request ID for the resources of the resource provider. The PUT request for the quota
    * (service limit) returns a response with the requestId parameter.
    * @param subscriptionId Azure subscription ID.
@@ -69,7 +69,7 @@ export class QuotaRequestStatus {
 
   /**
    * For the specified Azure region (location), subscription, and resource provider, get the history
-   * of the quota requests for the past year. To select specific quota requests, use the oData
+   * of the `quota request`s for the past year. To select specific quota requests, use the oData
    * filter.
    * @param subscriptionId Azure subscription ID.
    * @param providerId Azure resource provider ID.
@@ -107,7 +107,7 @@ export class QuotaRequestStatus {
 
   /**
    * For the specified Azure region (location), subscription, and resource provider, get the history
-   * of the quota requests for the past year. To select specific quota requests, use the oData
+   * of the `quota request`s for the past year. To select specific quota requests, use the oData
    * filter.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -144,11 +144,11 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1,
+    Parameters.location0,
     Parameters.id
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -170,10 +170,10 @@ const listOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1
+    Parameters.location0
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion0,
     Parameters.filter,
     Parameters.top,
     Parameters.skiptoken
@@ -200,7 +200,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion0,
     Parameters.filter,
     Parameters.top,
     Parameters.skiptoken

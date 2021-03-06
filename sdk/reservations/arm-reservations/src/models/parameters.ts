@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-10-01-preview',
+    defaultValue: '2020-10-25',
     type: {
       name: "String"
     }
@@ -37,7 +37,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-10-25',
+    defaultValue: '2020-10-01-preview',
     type: {
       name: "String"
     }
@@ -89,22 +89,22 @@ export const id: msRest.OperationURLParameter = {
     }
   }
 };
-export const location0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "location"
-  ],
+export const location0: msRest.OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
+    required: true,
     serializedName: "location",
     type: {
       name: "String"
     }
   }
 };
-export const location1: msRest.OperationURLParameter = {
-  parameterPath: "location",
+export const location1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "location"
+  ],
   mapper: {
-    required: true,
     serializedName: "location",
     type: {
       name: "String"

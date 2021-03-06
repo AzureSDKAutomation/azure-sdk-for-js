@@ -89,7 +89,7 @@ export class ReservationOrder {
    * @returns Promise<Models.ReservationOrderPurchaseResponse>
    */
   purchase(reservationOrderId: string, body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderPurchaseResponse> {
-    return this.beginPurchase(reservationOrderId, body, options)
+    return this.beginPurchase(reservationOrderId,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationOrderPurchaseResponse>;
   }
 
@@ -177,7 +177,7 @@ const calculateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Capacity/calculatePrice",
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -204,7 +204,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Capacity/reservationOrders",
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -227,7 +227,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.expand1
   ],
   headerParameters: [
@@ -251,7 +251,7 @@ const beginPurchaseOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -285,7 +285,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

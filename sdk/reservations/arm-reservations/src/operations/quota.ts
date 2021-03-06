@@ -27,8 +27,8 @@ export class Quota {
   }
 
   /**
-   * Get the current quota (service limit) and usage of a resource. You can use the response from the
-   * GET operation to submit quota update request.
+   * Get the current `quota` (service limit) and usage of a resource. You can use the response from
+   * the GET operation to submit quota update request.
    * @param subscriptionId Azure subscription ID.
    * @param providerId Azure resource provider ID.
    * @param location Azure region.
@@ -71,7 +71,7 @@ export class Quota {
   }
 
   /**
-   * Create or update the quota (service limits) of a resource to the requested value.
+   * Create or update the `quota` (service limits) of a resource to the requested value.
    * Steps:
    *
    * 1. Make the Get request to get the quota information for specific resource.
@@ -91,12 +91,12 @@ export class Quota {
    * @returns Promise<Models.QuotaCreateOrUpdateResponse>
    */
   createOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: Models.CurrentQuotaLimitBase, options?: msRest.RequestOptionsBase): Promise<Models.QuotaCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(subscriptionId, providerId, location, resourceName, createQuotaRequest, options)
+    return this.beginCreateOrUpdate(subscriptionId,providerId,location,resourceName,createQuotaRequest,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.QuotaCreateOrUpdateResponse>;
   }
 
   /**
-   * Update the quota (service limits) of this resource to the requested value.
+   * Update the `quota` (service limits) of this resource to the requested value.
    *
    * • To get the quota information for specific resource, send a GET request.
    *
@@ -115,12 +115,12 @@ export class Quota {
    * @returns Promise<Models.QuotaUpdateResponse>
    */
   update(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: Models.CurrentQuotaLimitBase, options?: msRest.RequestOptionsBase): Promise<Models.QuotaUpdateResponse> {
-    return this.beginUpdate(subscriptionId, providerId, location, resourceName, createQuotaRequest, options)
+    return this.beginUpdate(subscriptionId,providerId,location,resourceName,createQuotaRequest,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.QuotaUpdateResponse>;
   }
 
   /**
-   * Gets a list of current quotas (service limits) and usage for all resources. The response from
+   * Gets a list of current `quotas` (service limits) and usage for all resources. The response from
    * the list quota operation can be leveraged to request quota updates.
    * @param subscriptionId Azure subscription ID.
    * @param providerId Azure resource provider ID.
@@ -157,7 +157,7 @@ export class Quota {
   }
 
   /**
-   * Create or update the quota (service limits) of a resource to the requested value.
+   * Create or update the `quota` (service limits) of a resource to the requested value.
    * Steps:
    *
    * 1. Make the Get request to get the quota information for specific resource.
@@ -191,7 +191,7 @@ export class Quota {
   }
 
   /**
-   * Update the quota (service limits) of this resource to the requested value.
+   * Update the `quota` (service limits) of this resource to the requested value.
    *
    * • To get the quota information for specific resource, send a GET request.
    *
@@ -224,7 +224,7 @@ export class Quota {
   }
 
   /**
-   * Gets a list of current quotas (service limits) and usage for all resources. The response from
+   * Gets a list of current `quotas` (service limits) and usage for all resources. The response from
    * the list quota operation can be leveraged to request quota updates.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -261,11 +261,11 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1,
+    Parameters.location0,
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -289,10 +289,10 @@ const listOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1
+    Parameters.location0
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -316,11 +316,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1,
+    Parameters.location0,
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -352,11 +352,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1,
+    Parameters.location0,
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -390,7 +390,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

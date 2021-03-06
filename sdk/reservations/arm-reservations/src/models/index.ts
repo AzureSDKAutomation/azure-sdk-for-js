@@ -12,6 +12,362 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * Resource name provided by the resource provider. Use this property for quotaRequest parameter.
+ */
+export interface ResourceName {
+  /**
+   * Resource name.
+   */
+  value?: string;
+  /**
+   * Resource display localized name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly localizedValue?: string;
+}
+
+/**
+ * Quota properties for the resource.
+ */
+export interface QuotaProperties {
+  /**
+   * Quota properties.
+   */
+  limit?: number;
+  /**
+   * Current usage value for the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentValue?: number;
+  /**
+   * The limit units, such as **count** and **bytes**. Use the unit field provided in the response
+   * of the GET quota operation.
+   */
+  unit?: string;
+  /**
+   * Name of the resource provide by the resource provider. Use this property for quotaRequests
+   * resource operations.
+   */
+  name?: ResourceName;
+  /**
+   * The name of the resource type.
+   */
+  resourceType?: any;
+  /**
+   * The time period over which the quota usage values are summarized. For example, P1D (per one
+   * day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because,
+   * for some resources such as compute, the time period is irrelevant.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly quotaPeriod?: string;
+  /**
+   * Additional properties for the specified resource provider.
+   */
+  properties?: any;
+}
+
+/**
+ * Quota properties.
+ */
+export interface CurrentQuotaLimitBase extends BaseResource {
+  /**
+   * Quota properties for the resource.
+   */
+  properties?: QuotaProperties;
+}
+
+/**
+ * Current quota limits.
+ */
+export interface CurrentQuotaLimit extends BaseResource {
+  /**
+   * Quota properties for the resource.
+   */
+  properties?: QuotaProperties;
+  /**
+   * The details of the quota request status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: any;
+  /**
+   * A user friendly message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+}
+
+/**
+ * Quotas (service limits) in the request response.
+ */
+export interface QuotaLimitsResponse {
+  /**
+   * List of quotas with the quota request status.
+   */
+  value?: CurrentQuotaLimit[];
+  /**
+   * The URI for fetching the next page of quota limits. When no more pages exist, the value is
+   * null.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Quota change requests information.
+ */
+export interface CreateGenericQuotaRequestParameters {
+  /**
+   * Quota change requests.
+   */
+  value?: CurrentQuotaLimitBase[];
+}
+
+/**
+ * The sub-request submitted with the quota request.
+ */
+export interface SubRequest {
+  /**
+   * Quota (resource limit).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The resource name.
+   */
+  name?: ResourceName;
+  /**
+   * Resource type for which the quota check was made.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * The limit units, such as **count** and **bytes**. Use the unit field provided in the response
+   * of the GET quota operation.
+   */
+  unit?: string;
+  /**
+   * The quota request status.
+   */
+  provisioningState?: any;
+  /**
+   * User-friendly status message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * Sub request ID for individual request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subRequestId?: string;
+}
+
+/**
+ * Response for the quota submission request.
+ */
+export interface QuotaRequestOneResourceSubmitResponse extends BaseResource {
+  /**
+   * The quota request ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The quota request status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: any;
+  /**
+   * User friendly status message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
+   * by the ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * Quota properties for the resource.
+   */
+  properties?: QuotaProperties;
+}
+
+/**
+ * The details of quota request.
+ */
+export interface QuotaRequestProperties {
+  /**
+   * The quota request status.
+   */
+  provisioningState?: any;
+  /**
+   * User friendly status message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
+   * by the ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * The quotaRequests.
+   */
+  value?: SubRequest[];
+}
+
+/**
+ * Response for the quota submission request.
+ */
+export interface QuotaRequestSubmitResponse extends BaseResource {
+  /**
+   * The quota request ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The quota request details.
+   */
+  properties?: QuotaRequestProperties;
+  /**
+   * Type of resource. "Microsoft.Capacity/serviceLimits"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Response with request ID that the quota request was accepted.
+ */
+export interface QuotaRequestSubmitResponse201 {
+  /**
+   * The quota request ID. Use the requestId parameter to check the request status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Operation ID
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The details of the quota request status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: any;
+  /**
+   * A user friendly message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+}
+
+/**
+ * Quota request details.
+ */
+export interface QuotaRequestDetails extends BaseResource {
+  /**
+   * Quota request ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Quota request name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The quota request status.
+   */
+  provisioningState?: any;
+  /**
+   * User friendly status message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
+   * by the ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * The quotaRequests.
+   */
+  value?: SubRequest[];
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The error details.
+ */
+export interface ServiceErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+}
+
+/**
+ * The API error details.
+ */
+export interface ServiceError {
+  /**
+   * The error code.
+   */
+  code?: string;
+  /**
+   * The error message text.
+   */
+  message?: string;
+  /**
+   * The list of error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ServiceErrorDetail[];
+}
+
+/**
+ * The API error.
+ */
+export interface ExceptionResponse {
+  /**
+   * The API error details.
+   */
+  error?: ServiceError;
+}
+
+/**
  * Available scope request properties
  */
 export interface AvailableScopeRequestProperties {
@@ -926,393 +1282,6 @@ export interface AvailableScopeProperties {
 }
 
 /**
- * Resource name provided by the resource provider. Use this property for quotaRequest parameter.
- */
-export interface ResourceName {
-  /**
-   * Resource name.
-   */
-  value?: string;
-  /**
-   * Resource display localized name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly localizedValue?: string;
-}
-
-/**
- * Quota properties for the resource.
- */
-export interface QuotaProperties {
-  /**
-   * Quota properties.
-   */
-  limit?: number;
-  /**
-   * Current usage value for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentValue?: number;
-  /**
-   * The limit units, such as **count** and **bytes**. Use the unit field provided in the response
-   * of the GET quota operation.
-   */
-  unit?: string;
-  /**
-   * Name of the resource provide by the resource provider. Use this property for quotaRequests
-   * resource operations.
-   */
-  name?: ResourceName;
-  /**
-   * The name of the resource type.
-   */
-  resourceType?: any;
-  /**
-   * The time period over which the quota usage values are summarized. For example, P1D (per one
-   * day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because,
-   * for some resources such as compute, the time period is irrelevant.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotaPeriod?: string;
-  /**
-   * Additional properties for the specified resource provider.
-   */
-  properties?: any;
-}
-
-/**
- * Quota properties.
- */
-export interface CurrentQuotaLimitBase extends BaseResource {
-  /**
-   * Quota properties for the resource.
-   */
-  properties?: QuotaProperties;
-}
-
-/**
- * Current quota limits.
- */
-export interface CurrentQuotaLimit extends BaseResource {
-  /**
-   * Quota properties for the resource.
-   */
-  properties?: QuotaProperties;
-  /**
-   * The details of the quota request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: any;
-  /**
-   * A user friendly message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * Quotas (service limits) in the request response.
- */
-export interface QuotaLimitsResponse {
-  /**
-   * List of quotas with the quota request status.
-   */
-  value?: CurrentQuotaLimit[];
-  /**
-   * The URI for fetching the next page of quota limits. When no more pages exist, the value is
-   * null.
-   */
-  nextLink?: string;
-}
-
-/**
- * Quota change requests information.
- */
-export interface CreateGenericQuotaRequestParameters {
-  /**
-   * Quota change requests.
-   */
-  value?: CurrentQuotaLimitBase[];
-}
-
-/**
- * The sub-request submitted with the quota request.
- */
-export interface SubRequest {
-  /**
-   * Quota (resource limit).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The resource name.
-   */
-  name?: ResourceName;
-  /**
-   * Resource type for which the quota check was made.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * The limit units, such as **count** and **bytes**. Use the unit field provided in the response
-   * of the GET quota operation.
-   */
-  unit?: string;
-  /**
-   * The quota request status.
-   */
-  provisioningState?: any;
-  /**
-   * User-friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * Sub request ID for individual request.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subRequestId?: string;
-}
-
-/**
- * Response for the quota submission request.
- */
-export interface QuotaRequestOneResourceSubmitResponse extends BaseResource {
-  /**
-   * The quota request ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The quota request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: any;
-  /**
-   * User friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
-   * by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * Quota properties for the resource.
-   */
-  properties?: QuotaProperties;
-}
-
-/**
- * The details of quota request.
- */
-export interface QuotaRequestProperties {
-  /**
-   * The quota request status.
-   */
-  provisioningState?: any;
-  /**
-   * User friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
-   * by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * The quotaRequests.
-   */
-  value?: SubRequest[];
-}
-
-/**
- * Response for the quota submission request.
- */
-export interface QuotaRequestSubmitResponse extends BaseResource {
-  /**
-   * The quota request ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The quota request details.
-   */
-  properties?: QuotaRequestProperties;
-  /**
-   * Type of resource. "Microsoft.Capacity/serviceLimits"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * Response with request ID that the quota request was accepted.
- */
-export interface QuotaRequestSubmitResponse201 {
-  /**
-   * The quota request ID. Use the requestId parameter to check the request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Operation ID
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The details of the quota request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: any;
-  /**
-   * A user friendly message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * Quota request details.
- */
-export interface QuotaRequestDetails extends BaseResource {
-  /**
-   * Quota request ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Quota request name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The quota request status.
-   */
-  provisioningState?: any;
-  /**
-   * User friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
-   * by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * The quotaRequests.
-   */
-  value?: SubRequest[];
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The error details.
- */
-export interface ServiceErrorDetail {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * The API error details.
- */
-export interface ServiceError {
-  /**
-   * The error code.
-   */
-  code?: string;
-  /**
-   * The error message text.
-   */
-  message?: string;
-  /**
-   * The list of error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ServiceErrorDetail[];
-}
-
-/**
- * The API error.
- */
-export interface ExceptionResponse {
-  /**
-   * The API error details.
-   */
-  error?: ServiceError;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ReservationGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Supported value of this query is renewProperties
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface AzureReservationAPIGetCatalogOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Filters the skus based on the location specified in this parameter. This can be an azure
-   * region or global
-   */
-  location?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ReservationOrderGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * May be used to expand the planInformation.
-   */
-  expand?: string;
-}
-
-/**
  * Optional Parameters.
  */
 export interface QuotaRequestStatusListOptionalParams extends msRest.RequestOptionsBase {
@@ -1359,10 +1328,63 @@ export interface QuotaRequestStatusListNextOptionalParams extends msRest.Request
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ReservationGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Supported value of this query is renewProperties
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AzureReservationAPIGetCatalogOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filters the skus based on the location specified in this parameter. This can be an azure
+   * region or global
+   */
+  location?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ReservationOrderGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * May be used to expand the planInformation.
+   */
+  expand?: string;
+}
+
+/**
  * An interface representing AzureReservationAPIOptions.
  */
 export interface AzureReservationAPIOptions extends AzureServiceClientOptions {
   baseUri?: string;
+}
+
+/**
+ * Defines headers for Get operation.
+ */
+export interface QuotaGetHeaders {
+  /**
+   * Current entity state version. It should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for List operation.
+ */
+export interface QuotaListHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
 }
 
 /**
@@ -1404,25 +1426,28 @@ export interface ExchangePostHeaders {
 }
 
 /**
- * Defines headers for Get operation.
+ * @interface
+ * Quota limits.
+ * @extends Array<CurrentQuotaLimitBase>
  */
-export interface QuotaGetHeaders {
+export interface QuotaLimits extends Array<CurrentQuotaLimitBase> {
   /**
-   * Current entity state version. It should be treated as opaque and used to make conditional HTTP
-   * requests.
+   * The URI for fetching the next page of quotas (service limits). When no more pages exist, the
+   * value is null.
    */
-  eTag: string;
+  nextLink?: string;
 }
 
 /**
- * Defines headers for List operation.
+ * @interface
+ * Quota request details.
+ * @extends Array<QuotaRequestDetails>
  */
-export interface QuotaListHeaders {
+export interface QuotaRequestDetailsList extends Array<QuotaRequestDetails> {
   /**
-   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
-   * requests.
+   * The URI to fetch the next page of quota limits. When there are no more pages, this is null.
    */
-  eTag: string;
+  nextLink?: string;
 }
 
 /**
@@ -1457,31 +1482,6 @@ export interface ReservationOrderList extends Array<ReservationOrderResponse> {
 export interface OperationList extends Array<OperationResponse> {
   /**
    * Url to get the next page of items.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Quota limits.
- * @extends Array<CurrentQuotaLimitBase>
- */
-export interface QuotaLimits extends Array<CurrentQuotaLimitBase> {
-  /**
-   * The URI for fetching the next page of quotas (service limits). When no more pages exist, the
-   * value is null.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Quota request details.
- * @extends Array<QuotaRequestDetails>
- */
-export interface QuotaRequestDetailsList extends Array<QuotaRequestDetails> {
-  /**
-   * The URI to fetch the next page of quota limits. When there are no more pages, this is null.
    */
   nextLink?: string;
 }
@@ -1598,516 +1598,6 @@ export type OperationStatus = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending';
 export type PaymentStatus = 'Succeeded' | 'Failed' | 'Scheduled' | 'Cancelled';
 
 /**
- * Contains response data for the availableScopes operation.
- */
-export type ReservationAvailableScopesResponse = AvailableScopeProperties & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AvailableScopeProperties;
-  };
-};
-
-/**
- * Contains response data for the split operation.
- */
-export type ReservationSplitResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the merge operation.
- */
-export type ReservationMergeResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ReservationListResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ReservationGetResponse = ReservationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ReservationUpdateResponse = ReservationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse;
-  };
-};
-
-/**
- * Contains response data for the listRevisions operation.
- */
-export type ReservationListRevisionsResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the beginAvailableScopes operation.
- */
-export type ReservationBeginAvailableScopesResponse = AvailableScopeProperties & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AvailableScopeProperties;
-  };
-};
-
-/**
- * Contains response data for the beginSplit operation.
- */
-export type ReservationBeginSplitResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the beginMerge operation.
- */
-export type ReservationBeginMergeResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ReservationBeginUpdateResponse = ReservationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ReservationListNextResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the listRevisionsNext operation.
- */
-export type ReservationListRevisionsNextResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the getCatalog operation.
- */
-export type GetCatalogResponse = Array<Catalog> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Catalog[];
-  };
-};
-
-/**
- * Contains response data for the getAppliedReservationList operation.
- */
-export type GetAppliedReservationListResponse = AppliedReservations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AppliedReservations;
-  };
-};
-
-/**
- * Contains response data for the calculate operation.
- */
-export type ReservationOrderCalculateResponse = CalculatePriceResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CalculatePriceResponse;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ReservationOrderListResponse = ReservationOrderList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderList;
-  };
-};
-
-/**
- * Contains response data for the purchase operation.
- */
-export type ReservationOrderPurchaseResponse = ReservationOrderResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderResponse;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ReservationOrderGetResponse = ReservationOrderResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderResponse;
-  };
-};
-
-/**
- * Contains response data for the beginPurchase operation.
- */
-export type ReservationOrderBeginPurchaseResponse = ReservationOrderResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderResponse;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ReservationOrderListNextResponse = ReservationOrderList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderList;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationListResponse = OperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationList;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationListNextResponse = OperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationList;
-  };
-};
-
-/**
- * Contains response data for the post operation.
- */
-export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse & CalculateExchangePostHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: CalculateExchangePostHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CalculateExchangeOperationResultResponse;
-  };
-};
-
-/**
- * Contains response data for the post operation.
- */
-export type ExchangePostResponse = ExchangeOperationResultResponse & ExchangePostHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ExchangePostHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ExchangeOperationResultResponse;
-  };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type QuotaGetResponse = CurrentQuotaLimitBase & QuotaGetHeaders & {
@@ -2115,21 +1605,21 @@ export type QuotaGetResponse = CurrentQuotaLimitBase & QuotaGetHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: QuotaGetHeaders;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: QuotaGetHeaders;
 
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CurrentQuotaLimitBase;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CurrentQuotaLimitBase;
+    };
 };
 
 /**
@@ -2145,16 +1635,16 @@ export type QuotaCreateOrUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
 };
 
 /**
@@ -2170,16 +1660,16 @@ export type QuotaUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
 };
 
 /**
@@ -2190,21 +1680,21 @@ export type QuotaListResponse = QuotaLimits & QuotaListHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: QuotaListHeaders;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: QuotaListHeaders;
 
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaLimits;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QuotaLimits;
+    };
 };
 
 /**
@@ -2220,16 +1710,16 @@ export type QuotaBeginCreateOrUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
 };
 
 /**
@@ -2245,16 +1735,16 @@ export type QuotaBeginUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
 };
 
 /**
@@ -2265,16 +1755,16 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaRequestDetails;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QuotaRequestDetails;
+    };
 };
 
 /**
@@ -2285,16 +1775,16 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaRequestDetailsList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QuotaRequestDetailsList;
+    };
 };
 
 /**
@@ -2305,14 +1795,524 @@ export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaRequestDetailsList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QuotaRequestDetailsList;
+    };
+};
+
+/**
+ * Contains response data for the availableScopes operation.
+ */
+export type ReservationAvailableScopesResponse = AvailableScopeProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailableScopeProperties;
+    };
+};
+
+/**
+ * Contains response data for the split operation.
+ */
+export type ReservationSplitResponse = Array<ReservationResponse> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse[];
+    };
+};
+
+/**
+ * Contains response data for the merge operation.
+ */
+export type ReservationMergeResponse = Array<ReservationResponse> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse[];
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ReservationListResponse = ReservationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ReservationGetResponse = ReservationResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ReservationUpdateResponse = ReservationResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse;
+    };
+};
+
+/**
+ * Contains response data for the listRevisions operation.
+ */
+export type ReservationListRevisionsResponse = ReservationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationList;
+    };
+};
+
+/**
+ * Contains response data for the beginAvailableScopes operation.
+ */
+export type ReservationBeginAvailableScopesResponse = AvailableScopeProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailableScopeProperties;
+    };
+};
+
+/**
+ * Contains response data for the beginSplit operation.
+ */
+export type ReservationBeginSplitResponse = Array<ReservationResponse> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse[];
+    };
+};
+
+/**
+ * Contains response data for the beginMerge operation.
+ */
+export type ReservationBeginMergeResponse = Array<ReservationResponse> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse[];
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ReservationBeginUpdateResponse = ReservationResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationResponse;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ReservationListNextResponse = ReservationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationList;
+    };
+};
+
+/**
+ * Contains response data for the listRevisionsNext operation.
+ */
+export type ReservationListRevisionsNextResponse = ReservationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationList;
+    };
+};
+
+/**
+ * Contains response data for the getCatalog operation.
+ */
+export type GetCatalogResponse = Array<Catalog> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Catalog[];
+    };
+};
+
+/**
+ * Contains response data for the getAppliedReservationList operation.
+ */
+export type GetAppliedReservationListResponse = AppliedReservations & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppliedReservations;
+    };
+};
+
+/**
+ * Contains response data for the calculate operation.
+ */
+export type ReservationOrderCalculateResponse = CalculatePriceResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CalculatePriceResponse;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ReservationOrderListResponse = ReservationOrderList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderList;
+    };
+};
+
+/**
+ * Contains response data for the purchase operation.
+ */
+export type ReservationOrderPurchaseResponse = ReservationOrderResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ReservationOrderGetResponse = ReservationOrderResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginPurchase operation.
+ */
+export type ReservationOrderBeginPurchaseResponse = ReservationOrderResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderResponse;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ReservationOrderListNextResponse = ReservationOrderList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationListResponse = OperationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationListNextResponse = OperationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationList;
+    };
+};
+
+/**
+ * Contains response data for the post operation.
+ */
+export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse & CalculateExchangePostHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CalculateExchangePostHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CalculateExchangeOperationResultResponse;
+    };
+};
+
+/**
+ * Contains response data for the post operation.
+ */
+export type ExchangePostResponse = ExchangeOperationResultResponse & ExchangePostHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ExchangePostHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExchangeOperationResultResponse;
+    };
 };

@@ -7,10 +7,10 @@
  * regenerated.
  */
 
+export * from "./quota";
+export * from "./quotaRequestStatus";
 export * from "./reservation";
 export * from "./reservationOrder";
 export * from "./operation";
 export * from "./calculateExchange";
 export * from "./exchange";
-export * from "./quota";
-export * from "./quotaRequestStatus";

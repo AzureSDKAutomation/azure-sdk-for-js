@@ -12,6 +12,562 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const ResourceName: msRest.CompositeMapper = {
+  serializedName: "ResourceName",
+  type: {
+    name: "Composite",
+    className: "ResourceName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      localizedValue: {
+        readOnly: true,
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaProperties: msRest.CompositeMapper = {
+  serializedName: "QuotaProperties",
+  type: {
+    name: "Composite",
+    className: "QuotaProperties",
+    modelProperties: {
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      currentValue: {
+        readOnly: true,
+        serializedName: "currentValue",
+        type: {
+          name: "Number"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "ResourceName"
+        }
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        type: {
+          name: "Object"
+        }
+      },
+      quotaPeriod: {
+        readOnly: true,
+        serializedName: "quotaPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const CurrentQuotaLimitBase: msRest.CompositeMapper = {
+  serializedName: "CurrentQuotaLimitBase",
+  type: {
+    name: "Composite",
+    className: "CurrentQuotaLimitBase",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "QuotaProperties"
+        }
+      }
+    }
+  }
+};
+
+export const CurrentQuotaLimit: msRest.CompositeMapper = {
+  serializedName: "CurrentQuotaLimit",
+  type: {
+    name: "Composite",
+    className: "CurrentQuotaLimit",
+    modelProperties: {
+      properties: {
+        serializedName: "quotaInformation.properties",
+        type: {
+          name: "Composite",
+          className: "QuotaProperties"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "properties.message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaLimitsResponse: msRest.CompositeMapper = {
+  serializedName: "QuotaLimitsResponse",
+  type: {
+    name: "Composite",
+    className: "QuotaLimitsResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CurrentQuotaLimit"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CreateGenericQuotaRequestParameters: msRest.CompositeMapper = {
+  serializedName: "CreateGenericQuotaRequestParameters",
+  type: {
+    name: "Composite",
+    className: "CreateGenericQuotaRequestParameters",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CurrentQuotaLimitBase"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SubRequest: msRest.CompositeMapper = {
+  serializedName: "SubRequest",
+  type: {
+    name: "Composite",
+    className: "SubRequest",
+    modelProperties: {
+      limit: {
+        readOnly: true,
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "ResourceName"
+        }
+      },
+      resourceType: {
+        readOnly: true,
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      subRequestId: {
+        readOnly: true,
+        serializedName: "subRequestId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestOneResourceSubmitResponse: msRest.CompositeMapper = {
+  serializedName: "QuotaRequestOneResourceSubmitResponse",
+  type: {
+    name: "Composite",
+    className: "QuotaRequestOneResourceSubmitResponse",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "properties.message",
+        type: {
+          name: "String"
+        }
+      },
+      requestSubmitTime: {
+        readOnly: true,
+        serializedName: "properties.requestSubmitTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      properties: {
+        serializedName: "properties.properties.properties",
+        type: {
+          name: "Composite",
+          className: "QuotaProperties"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestProperties: msRest.CompositeMapper = {
+  serializedName: "QuotaRequestProperties",
+  type: {
+    name: "Composite",
+    className: "QuotaRequestProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      requestSubmitTime: {
+        readOnly: true,
+        serializedName: "requestSubmitTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubRequest"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestSubmitResponse: msRest.CompositeMapper = {
+  serializedName: "QuotaRequestSubmitResponse",
+  type: {
+    name: "Composite",
+    className: "QuotaRequestSubmitResponse",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "QuotaRequestProperties"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestSubmitResponse201: msRest.CompositeMapper = {
+  serializedName: "QuotaRequestSubmitResponse201",
+  type: {
+    name: "Composite",
+    className: "QuotaRequestSubmitResponse201",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "properties.message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestDetails: msRest.CompositeMapper = {
+  serializedName: "QuotaRequestDetails",
+  type: {
+    name: "Composite",
+    className: "QuotaRequestDetails",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "properties.message",
+        type: {
+          name: "String"
+        }
+      },
+      requestSubmitTime: {
+        readOnly: true,
+        serializedName: "properties.requestSubmitTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      value: {
+        serializedName: "properties.value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubRequest"
+            }
+          }
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceErrorDetail: msRest.CompositeMapper = {
+  serializedName: "ServiceErrorDetail",
+  type: {
+    name: "Composite",
+    className: "ServiceErrorDetail",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceError: msRest.CompositeMapper = {
+  serializedName: "ServiceError",
+  type: {
+    name: "Composite",
+    className: "ServiceError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServiceErrorDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ExceptionResponse: msRest.CompositeMapper = {
+  serializedName: "ExceptionResponse",
+  type: {
+    name: "Composite",
+    className: "ExceptionResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ServiceError"
+        }
+      }
+    }
+  }
+};
+
 export const AvailableScopeRequestProperties: msRest.CompositeMapper = {
   serializedName: "AvailableScopeRequestProperties",
   type: {
@@ -1926,21 +2482,14 @@ export const AvailableScopeProperties: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceName: msRest.CompositeMapper = {
-  serializedName: "ResourceName",
+export const QuotaGetHeaders: msRest.CompositeMapper = {
+  serializedName: "quota-get-headers",
   type: {
     name: "Composite",
-    className: "ResourceName",
+    className: "QuotaGetHeaders",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      },
-      localizedValue: {
-        readOnly: true,
-        serializedName: "localizedValue",
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -1949,533 +2498,16 @@ export const ResourceName: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaProperties: msRest.CompositeMapper = {
-  serializedName: "QuotaProperties",
+export const QuotaListHeaders: msRest.CompositeMapper = {
+  serializedName: "quota-list-headers",
   type: {
     name: "Composite",
-    className: "QuotaProperties",
+    className: "QuotaListHeaders",
     modelProperties: {
-      limit: {
-        serializedName: "limit",
-        type: {
-          name: "Number"
-        }
-      },
-      currentValue: {
-        readOnly: true,
-        serializedName: "currentValue",
-        type: {
-          name: "Number"
-        }
-      },
-      unit: {
-        serializedName: "unit",
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "ResourceName"
-        }
-      },
-      resourceType: {
-        serializedName: "resourceType",
-        type: {
-          name: "Object"
-        }
-      },
-      quotaPeriod: {
-        readOnly: true,
-        serializedName: "quotaPeriod",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const CurrentQuotaLimitBase: msRest.CompositeMapper = {
-  serializedName: "CurrentQuotaLimitBase",
-  type: {
-    name: "Composite",
-    className: "CurrentQuotaLimitBase",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "QuotaProperties"
-        }
-      }
-    }
-  }
-};
-
-export const CurrentQuotaLimit: msRest.CompositeMapper = {
-  serializedName: "CurrentQuotaLimit",
-  type: {
-    name: "Composite",
-    className: "CurrentQuotaLimit",
-    modelProperties: {
-      properties: {
-        serializedName: "quotaInformation.properties",
-        type: {
-          name: "Composite",
-          className: "QuotaProperties"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "properties.message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaLimitsResponse: msRest.CompositeMapper = {
-  serializedName: "QuotaLimitsResponse",
-  type: {
-    name: "Composite",
-    className: "QuotaLimitsResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CurrentQuotaLimit"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CreateGenericQuotaRequestParameters: msRest.CompositeMapper = {
-  serializedName: "CreateGenericQuotaRequestParameters",
-  type: {
-    name: "Composite",
-    className: "CreateGenericQuotaRequestParameters",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SubRequest: msRest.CompositeMapper = {
-  serializedName: "SubRequest",
-  type: {
-    name: "Composite",
-    className: "SubRequest",
-    modelProperties: {
-      limit: {
-        readOnly: true,
-        serializedName: "limit",
-        type: {
-          name: "Number"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "ResourceName"
-        }
-      },
-      resourceType: {
-        readOnly: true,
-        serializedName: "resourceType",
-        type: {
-          name: "String"
-        }
-      },
-      unit: {
-        serializedName: "unit",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      subRequestId: {
-        readOnly: true,
-        serializedName: "subRequestId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestOneResourceSubmitResponse: msRest.CompositeMapper = {
-  serializedName: "QuotaRequestOneResourceSubmitResponse",
-  type: {
-    name: "Composite",
-    className: "QuotaRequestOneResourceSubmitResponse",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "properties.message",
-        type: {
-          name: "String"
-        }
-      },
-      requestSubmitTime: {
-        readOnly: true,
-        serializedName: "properties.requestSubmitTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      properties: {
-        serializedName: "properties.properties.properties",
-        type: {
-          name: "Composite",
-          className: "QuotaProperties"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestProperties: msRest.CompositeMapper = {
-  serializedName: "QuotaRequestProperties",
-  type: {
-    name: "Composite",
-    className: "QuotaRequestProperties",
-    modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      requestSubmitTime: {
-        readOnly: true,
-        serializedName: "requestSubmitTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubRequest"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestSubmitResponse: msRest.CompositeMapper = {
-  serializedName: "QuotaRequestSubmitResponse",
-  type: {
-    name: "Composite",
-    className: "QuotaRequestSubmitResponse",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "QuotaRequestProperties"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestSubmitResponse201: msRest.CompositeMapper = {
-  serializedName: "QuotaRequestSubmitResponse201",
-  type: {
-    name: "Composite",
-    className: "QuotaRequestSubmitResponse201",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "properties.message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestDetails: msRest.CompositeMapper = {
-  serializedName: "QuotaRequestDetails",
-  type: {
-    name: "Composite",
-    className: "QuotaRequestDetails",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "properties.message",
-        type: {
-          name: "String"
-        }
-      },
-      requestSubmitTime: {
-        readOnly: true,
-        serializedName: "properties.requestSubmitTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      value: {
-        serializedName: "properties.value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubRequest"
-            }
-          }
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceErrorDetail: msRest.CompositeMapper = {
-  serializedName: "ServiceErrorDetail",
-  type: {
-    name: "Composite",
-    className: "ServiceErrorDetail",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceError: msRest.CompositeMapper = {
-  serializedName: "ServiceError",
-  type: {
-    name: "Composite",
-    className: "ServiceError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ServiceErrorDetail"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ExceptionResponse: msRest.CompositeMapper = {
-  serializedName: "ExceptionResponse",
-  type: {
-    name: "Composite",
-    className: "ExceptionResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ServiceError"
         }
       }
     }
@@ -2538,14 +2570,26 @@ export const ExchangePostHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaGetHeaders: msRest.CompositeMapper = {
-  serializedName: "quota-get-headers",
+export const QuotaLimits: msRest.CompositeMapper = {
+  serializedName: "QuotaLimits",
   type: {
     name: "Composite",
-    className: "QuotaGetHeaders",
+    className: "QuotaLimits",
     modelProperties: {
-      eTag: {
-        serializedName: "etag",
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CurrentQuotaLimitBase"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -2554,14 +2598,26 @@ export const QuotaGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaListHeaders: msRest.CompositeMapper = {
-  serializedName: "quota-list-headers",
+export const QuotaRequestDetailsList: msRest.CompositeMapper = {
+  serializedName: "QuotaRequestDetailsList",
   type: {
     name: "Composite",
-    className: "QuotaListHeaders",
+    className: "QuotaRequestDetailsList",
     modelProperties: {
-      eTag: {
-        serializedName: "etag",
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QuotaRequestDetails"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -2640,62 +2696,6 @@ export const OperationList: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "OperationResponse"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaLimits: msRest.CompositeMapper = {
-  serializedName: "QuotaLimits",
-  type: {
-    name: "Composite",
-    className: "QuotaLimits",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QuotaRequestDetailsList: msRest.CompositeMapper = {
-  serializedName: "QuotaRequestDetailsList",
-  type: {
-    name: "Composite",
-    className: "QuotaRequestDetailsList",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QuotaRequestDetails"
             }
           }
         }
