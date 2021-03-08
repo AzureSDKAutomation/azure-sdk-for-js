@@ -542,7 +542,7 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId
+    Parameters.subscriptionId0
   ],
   queryParameters: [
     Parameters.apiVersion2,
@@ -574,8 +574,8 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0
   ],
   queryParameters: [
     Parameters.apiVersion2,
@@ -640,7 +640,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
   path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.authorizationNamespace,
     Parameters.policySetDefinitionName
   ],
@@ -674,7 +674,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.authorizationNamespace,
     Parameters.policyDefinitionName
   ],
@@ -708,7 +708,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
   path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.authorizationNamespace,
     Parameters.policyAssignmentName
   ],
@@ -742,8 +742,8 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.authorizationNamespace,
     Parameters.policyAssignmentName
   ],
