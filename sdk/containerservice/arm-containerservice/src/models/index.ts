@@ -482,7 +482,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -554,6 +554,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Enable public IP for nodes
    */
   enableNodePublicIP?: boolean;
+  /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
   /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
@@ -678,7 +682,7 @@ export interface AgentPool extends SubResource {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -750,6 +754,10 @@ export interface AgentPool extends SubResource {
    * Enable public IP for nodes
    */
   enableNodePublicIP?: boolean;
+  /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
   /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
@@ -1072,6 +1080,65 @@ export interface MaintenanceConfiguration extends SubResource {
 }
 
 /**
+ * run command request
+ */
+export interface RunCommandRequest {
+  /**
+   * command to run.
+   */
+  command: string;
+  /**
+   * base64 encoded zip file, contains files required by the command
+   */
+  context?: string;
+  /**
+   * AuthToken issued for AKS AAD Server App.
+   */
+  clusterToken?: string;
+}
+
+/**
+ * run command result.
+ */
+export interface RunCommandResult {
+  /**
+   * command id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * provisioning State
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * exit code of the command
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly exitCode?: number;
+  /**
+   * time when the command started.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startedAt?: Date;
+  /**
+   * time when the command finished.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly finishedAt?: Date;
+  /**
+   * command output.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logs?: string;
+  /**
+   * explain why provisioningState is set to failed (if so).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reason?: string;
+}
+
+/**
  * Profile for diagnostics on the container service VMs.
  */
 export interface ContainerServiceVMDiagnostics {
@@ -1203,6 +1270,10 @@ export interface ManagedClusterPodIdentityProfile {
    * Whether the pod identity addon is enabled.
    */
   enabled?: boolean;
+  /**
+   * Customer consent for enabling AAD pod identity addon in cluster using Kubenet network plugin.
+   */
+  allowNetworkPluginKubenet?: boolean;
   /**
    * User assigned pod identity settings.
    */
@@ -1397,6 +1468,10 @@ export interface ManagedCluster extends Resource {
    */
   dnsPrefix?: string;
   /**
+   * FQDN subdomain specified when creating private cluster with custom private dns zone.
+   */
+  fqdnSubdomain?: string;
+  /**
    * FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1406,6 +1481,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateFQDN?: string;
+  /**
+   * FQDN for the master pool which used by proxy config.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly azurePortalFQDN?: string;
   /**
    * Properties of the agent pool.
    */
@@ -1909,11 +1989,11 @@ export type OSDiskType = 'Managed' | 'Ephemeral';
 
 /**
  * Defines values for KubeletDiskType.
- * Possible values include: 'OS'
+ * Possible values include: 'OS', 'Temporary'
  * @readonly
  * @enum {string}
  */
-export type KubeletDiskType = 'OS';
+export type KubeletDiskType = 'OS' | 'Temporary';
 
 /**
  * Defines values for OSType.
@@ -2313,6 +2393,46 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster & {
 };
 
 /**
+ * Contains response data for the runCommand operation.
+ */
+export type ManagedClustersRunCommandResponse = RunCommandResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RunCommandResult;
+    };
+};
+
+/**
+ * Contains response data for the getCommandResult operation.
+ */
+export type ManagedClustersGetCommandResultResponse = RunCommandResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RunCommandResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ManagedClustersBeginCreateOrUpdateResponse = ManagedCluster & {
@@ -2349,6 +2469,26 @@ export type ManagedClustersBeginUpdateTagsResponse = ManagedCluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginRunCommand operation.
+ */
+export type ManagedClustersBeginRunCommandResponse = RunCommandResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RunCommandResult;
     };
 };
 

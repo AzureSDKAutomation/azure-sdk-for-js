@@ -723,6 +723,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "Boolean"
         }
       },
+      nodePublicIPPrefixID: {
+        serializedName: "nodePublicIPPrefixID",
+        type: {
+          name: "String"
+        }
+      },
       scaleSetPriority: {
         serializedName: "scaleSetPriority",
         defaultValue: 'Regular',
@@ -969,6 +975,12 @@ export const AgentPool: msRest.CompositeMapper = {
         serializedName: "properties.enableNodePublicIP",
         type: {
           name: "Boolean"
+        }
+      },
+      nodePublicIPPrefixID: {
+        serializedName: "properties.nodePublicIPPrefixID",
+        type: {
+          name: "String"
         }
       },
       scaleSetPriority: {
@@ -1524,6 +1536,94 @@ export const MaintenanceConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const RunCommandRequest: msRest.CompositeMapper = {
+  serializedName: "RunCommandRequest",
+  type: {
+    name: "Composite",
+    className: "RunCommandRequest",
+    modelProperties: {
+      command: {
+        required: true,
+        serializedName: "command",
+        type: {
+          name: "String"
+        }
+      },
+      context: {
+        serializedName: "context",
+        type: {
+          name: "String"
+        }
+      },
+      clusterToken: {
+        serializedName: "clusterToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RunCommandResult: msRest.CompositeMapper = {
+  serializedName: "RunCommandResult",
+  type: {
+    name: "Composite",
+    className: "RunCommandResult",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      exitCode: {
+        readOnly: true,
+        serializedName: "properties.exitCode",
+        type: {
+          name: "Number"
+        }
+      },
+      startedAt: {
+        readOnly: true,
+        serializedName: "properties.startedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      finishedAt: {
+        readOnly: true,
+        serializedName: "properties.finishedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      logs: {
+        readOnly: true,
+        serializedName: "properties.logs",
+        type: {
+          name: "String"
+        }
+      },
+      reason: {
+        readOnly: true,
+        serializedName: "properties.reason",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerServiceVMDiagnostics: msRest.CompositeMapper = {
   serializedName: "ContainerServiceVMDiagnostics",
   type: {
@@ -1749,6 +1849,12 @@ export const ManagedClusterPodIdentityProfile: msRest.CompositeMapper = {
     modelProperties: {
       enabled: {
         serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowNetworkPluginKubenet: {
+        serializedName: "allowNetworkPluginKubenet",
         type: {
           name: "Boolean"
         }
@@ -2144,6 +2250,12 @@ export const ManagedCluster: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      fqdnSubdomain: {
+        serializedName: "properties.fqdnSubdomain",
+        type: {
+          name: "String"
+        }
+      },
       fqdn: {
         readOnly: true,
         serializedName: "properties.fqdn",
@@ -2154,6 +2266,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
       privateFQDN: {
         readOnly: true,
         serializedName: "properties.privateFQDN",
+        type: {
+          name: "String"
+        }
+      },
+      azurePortalFQDN: {
+        readOnly: true,
+        serializedName: "properties.azurePortalFQDN",
         type: {
           name: "String"
         }

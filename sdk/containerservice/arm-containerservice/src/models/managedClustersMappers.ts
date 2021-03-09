@@ -54,6 +54,8 @@ export {
   PrivateLinkServiceConnectionState,
   Resource,
   ResourceReference,
+  RunCommandRequest,
+  RunCommandResult,
   SubResource,
   SysctlConfig,
   SystemData,

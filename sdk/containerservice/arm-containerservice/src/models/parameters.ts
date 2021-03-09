@@ -39,6 +39,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const commandId: msRest.OperationURLParameter = {
+  parameterPath: "commandId",
+  mapper: {
+    required: true,
+    serializedName: "commandId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const configName: msRest.OperationURLParameter = {
   parameterPath: "configName",
   mapper: {

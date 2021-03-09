@@ -405,6 +405,58 @@ export class ManagedClusters {
   }
 
   /**
+   * Submit a command to run against managed kubernetes service, it will create a pod to run the
+   * command.
+   * @summary Run Command against Managed Kubernetes Service
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param requestPayload Parameters supplied to the RunCommand operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagedClustersRunCommandResponse>
+   */
+  runCommand(resourceGroupName: string, resourceName: string, requestPayload: Models.RunCommandRequest, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersRunCommandResponse> {
+    return this.beginRunCommand(resourceGroupName,resourceName,requestPayload,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedClustersRunCommandResponse>;
+  }
+
+  /**
+   * Get command result from previous runCommand invoke.
+   * @summary Get command result.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param commandId Id of the command request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagedClustersGetCommandResultResponse>
+   */
+  getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersGetCommandResultResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param commandId Id of the command request.
+   * @param callback The callback
+   */
+  getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, callback: msRest.ServiceCallback<Models.RunCommandResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param commandId Id of the command request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandResult>): void;
+  getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandResult>, callback?: msRest.ServiceCallback<Models.RunCommandResult>): Promise<Models.ManagedClustersGetCommandResultResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        commandId,
+        options
+      },
+      getCommandResultOperationSpec,
+      callback) as Promise<Models.ManagedClustersGetCommandResultResponse>;
+  }
+
+  /**
    * Creates or updates a managed cluster with the specified configuration for agents and Kubernetes
    * version.
    * @summary Creates or updates a managed cluster.
@@ -563,6 +615,28 @@ export class ManagedClusters {
         options
       },
       beginStartOperationSpec,
+      options);
+  }
+
+  /**
+   * Submit a command to run against managed kubernetes service, it will create a pod to run the
+   * command.
+   * @summary Run Command against Managed Kubernetes Service
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param requestPayload Parameters supplied to the RunCommand operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRunCommand(resourceGroupName: string, resourceName: string, requestPayload: Models.RunCommandRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        requestPayload,
+        options
+      },
+      beginRunCommandOperationSpec,
       options);
   }
 
@@ -827,6 +901,33 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getCommandResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/commandResults/{commandId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.commandId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RunCommandResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
@@ -1045,6 +1146,39 @@ const beginStartOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRunCommandOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "requestPayload",
+    mapper: {
+      ...Mappers.RunCommandRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.RunCommandResult
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
