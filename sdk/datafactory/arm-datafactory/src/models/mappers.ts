@@ -269,9 +269,7 @@ export const FactoryIdentity: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         required: true,
-        isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
         type: {
           name: "String"
         }
@@ -1226,6 +1224,39 @@ export const PipelineFolder: msRest.CompositeMapper = {
   }
 };
 
+export const PipelineElapsedTimeMetricPolicy: msRest.CompositeMapper = {
+  serializedName: "PipelineElapsedTimeMetricPolicy",
+  type: {
+    name: "Composite",
+    className: "PipelineElapsedTimeMetricPolicy",
+    modelProperties: {
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const PipelinePolicy: msRest.CompositeMapper = {
+  serializedName: "PipelinePolicy",
+  type: {
+    name: "Composite",
+    className: "PipelinePolicy",
+    modelProperties: {
+      elapsedTimeMetric: {
+        serializedName: "elapsedTimeMetric",
+        type: {
+          name: "Composite",
+          className: "PipelineElapsedTimeMetricPolicy"
+        }
+      }
+    }
+  }
+};
+
 export const PipelineResource: msRest.CompositeMapper = {
   serializedName: "PipelineResource",
   type: {
@@ -1316,6 +1347,13 @@ export const PipelineResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PipelineFolder"
+        }
+      },
+      policy: {
+        serializedName: "properties.policy",
+        type: {
+          name: "Composite",
+          className: "PipelinePolicy"
         }
       }
     },
@@ -3869,14 +3907,12 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         }
       },
       servicePrincipalId: {
-        required: true,
         serializedName: "typeProperties.servicePrincipalId",
         type: {
           name: "Object"
         }
       },
       servicePrincipalKey: {
-        required: true,
         serializedName: "typeProperties.servicePrincipalKey",
         type: {
           name: "Composite",
@@ -3891,7 +3927,6 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         }
       },
       tenant: {
-        required: true,
         serializedName: "typeProperties.tenant",
         type: {
           name: "Object"
@@ -6966,6 +7001,12 @@ export const HttpLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
+        }
+      },
       embeddedCertData: {
         serializedName: "typeProperties.embeddedCertData",
         type: {
@@ -7195,6 +7236,12 @@ export const RestServiceLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
         }
       },
       servicePrincipalId: {
@@ -8054,6 +8101,12 @@ export const ODataLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
         }
       },
       tenant: {
@@ -9284,6 +9337,43 @@ export const CosmosDbLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "Object"
+        }
+      },
+      connectionMode: {
+        serializedName: "typeProperties.connectionMode",
+        type: {
+          name: "String"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -9700,6 +9790,12 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
+        }
+      },
+      accountKind: {
+        serializedName: "typeProperties.accountKind",
+        type: {
+          name: "String"
         }
       },
       encryptedCredential: {
@@ -15450,7 +15546,7 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
       username: {
         serializedName: "username",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       password: {
@@ -15463,7 +15559,7 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       userTenant: {

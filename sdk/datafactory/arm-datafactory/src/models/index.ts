@@ -164,6 +164,11 @@ export interface AzureKeyVaultSecretReference {
  */
 export interface FactoryIdentity {
   /**
+   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned,UserAssigned'
+   */
+  type: FactoryIdentityType;
+  /**
    * The principal id of the identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -706,6 +711,23 @@ export interface PipelineFolder {
 }
 
 /**
+ * Pipeline ElapsedTime Metric Policy.
+ */
+export interface PipelineElapsedTimeMetricPolicy {
+  /**
+   * TimeSpan value, after which an Azure Monitoring Metric is fired.
+   */
+  duration?: any;
+}
+
+/**
+ * Pipeline Policy.
+ */
+export interface PipelinePolicy {
+  elapsedTimeMetric?: PipelineElapsedTimeMetricPolicy;
+}
+
+/**
  * Pipeline resource type.
  */
 export interface PipelineResource extends SubResource {
@@ -741,6 +763,7 @@ export interface PipelineResource extends SubResource {
    * The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.
    */
   folder?: PipelineFolder;
+  policy?: PipelinePolicy;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -2360,11 +2383,11 @@ export interface AzureDataExplorerLinkedService {
    * The ID of the service principal used to authenticate against Azure Data Explorer. Type: string
    * (or Expression with resultType string).
    */
-  servicePrincipalId: any;
+  servicePrincipalId?: any;
   /**
    * The key of the service principal used to authenticate against Kusto.
    */
-  servicePrincipalKey: SecretBaseUnion;
+  servicePrincipalKey?: SecretBaseUnion;
   /**
    * Database name for connection. Type: string (or Expression with resultType string).
    */
@@ -2373,7 +2396,7 @@ export interface AzureDataExplorerLinkedService {
    * The name or ID of the tenant to which the service principal belongs. Type: string (or
    * Expression with resultType string).
    */
-  tenant: any;
+  tenant?: any;
 }
 
 /**
@@ -5169,7 +5192,7 @@ export interface SftpServerLinkedService {
   port?: any;
   /**
    * The authentication type to be used to connect to the FTP server. Possible values include:
-   * 'Basic', 'SshPublicKey'
+   * 'Basic', 'SshPublicKey', 'MultiFactor'
    */
   authenticationType?: SftpAuthenticationType;
   /**
@@ -5322,6 +5345,11 @@ export interface HttpLinkedService {
    * authentication.
    */
   password?: SecretBaseUnion;
+  /**
+   * The additional HTTP headers in the request to RESTful API used for authorization. Type: object
+   * (or Expression with resultType object).
+   */
+  authHeaders?: any;
   /**
    * Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy
    * with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password
@@ -5571,6 +5599,11 @@ export interface RestServiceLinkedService {
    * The password used in Basic authentication type.
    */
   password?: SecretBaseUnion;
+  /**
+   * The additional HTTP headers in the request to RESTful API used for authorization. Type: object
+   * (or Expression with resultType object).
+   */
+  authHeaders?: any;
   /**
    * The application's client ID used in AadServicePrincipal authentication type.
    */
@@ -6456,6 +6489,11 @@ export interface ODataLinkedService {
    * Password of the OData service.
    */
   password?: SecretBaseUnion;
+  /**
+   * The additional HTTP headers in the request to RESTful API used for authorization. Type: object
+   * (or Expression with resultType object).
+   */
+  authHeaders?: any;
   /**
    * Specify the tenant information (domain name or tenant ID) under which your application
    * resides. Type: string (or Expression with resultType string).
@@ -7710,6 +7748,41 @@ export interface CosmosDbLinkedService {
    */
   accountKey?: SecretBaseUnion;
   /**
+   * The client ID of the application in Azure Active Directory used for Server-To-Server
+   * authentication. Type: string (or Expression with resultType string).
+   */
+  servicePrincipalId?: any;
+  /**
+   * The service principal credential type to use in Server-To-Server authentication.
+   * 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or
+   * Expression with resultType string). Possible values include: 'ServicePrincipalKey',
+   * 'ServicePrincipalCert'
+   */
+  servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
+  /**
+   * The credential of the service principal object in Azure Active Directory. If
+   * servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be
+   * SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is
+   * 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference.
+   */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /**
+   * The name or ID of the tenant to which the service principal belongs. Type: string (or
+   * Expression with resultType string).
+   */
+  tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
+   * The connection mode used to access CosmosDB account. Type: string (or Expression with
+   * resultType string). Possible values include: 'Gateway', 'Direct'
+   */
+  connectionMode?: CosmosDbConnectionMode;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -8136,6 +8209,12 @@ export interface AzureBlobStorageLinkedService {
    * type. Type: string (or Expression with resultType string).
    */
   azureCloudType?: any;
+  /**
+   * Specify the kind of your storage account. Allowed values are: Storage (general purpose v1),
+   * StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type: string (or Expression
+   * with resultType string).
+   */
+  accountKind?: string;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -15354,17 +15433,18 @@ export interface WebActivityAuthentication {
   pfx?: SecretBaseUnion;
   /**
    * Web activity authentication user name for basic authentication or ClientID when used for
-   * ServicePrincipal
+   * ServicePrincipal. Type: string (or Expression with resultType string).
    */
-  username?: string;
+  username?: any;
   /**
    * Password for the PFX file or basic authentication / Secret when used for ServicePrincipal
    */
   password?: SecretBaseUnion;
   /**
-   * Resource for which Azure Auth token will be requested when using MSI Authentication.
+   * Resource for which Azure Auth token will be requested when using MSI Authentication. Type:
+   * string (or Expression with resultType string).
    */
-  resource?: string;
+  resource?: any;
   /**
    * TenantId for which Azure Auth token will be requested when using ServicePrincipal
    * Authentication. Type: string (or Expression with resultType string).
@@ -24962,6 +25042,14 @@ export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivate
 }
 
 /**
+ * Defines values for FactoryIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type FactoryIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned';
+
+/**
  * Defines values for GlobalParameterType.
  * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool', 'Array'
  * @readonly
@@ -25202,11 +25290,11 @@ export type SapHanaAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for SftpAuthenticationType.
- * Possible values include: 'Basic', 'SshPublicKey'
+ * Possible values include: 'Basic', 'SshPublicKey', 'MultiFactor'
  * @readonly
  * @enum {string}
  */
-export type SftpAuthenticationType = 'Basic' | 'SshPublicKey';
+export type SftpAuthenticationType = 'Basic' | 'SshPublicKey' | 'MultiFactor';
 
 /**
  * Defines values for FtpAuthenticationType.
@@ -25296,6 +25384,22 @@ export type DynamicsDeploymentType = 'Online' | 'OnPremisesWithIfd';
  * @enum {string}
  */
 export type DynamicsAuthenticationType = 'Office365' | 'Ifd' | 'AADServicePrincipal';
+
+/**
+ * Defines values for CosmosDbServicePrincipalCredentialType.
+ * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
+ * @readonly
+ * @enum {string}
+ */
+export type CosmosDbServicePrincipalCredentialType = 'ServicePrincipalKey' | 'ServicePrincipalCert';
+
+/**
+ * Defines values for CosmosDbConnectionMode.
+ * Possible values include: 'Gateway', 'Direct'
+ * @readonly
+ * @enum {string}
+ */
+export type CosmosDbConnectionMode = 'Gateway' | 'Direct';
 
 /**
  * Defines values for OrcCompressionCodec.
