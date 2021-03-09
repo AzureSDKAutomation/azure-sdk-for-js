@@ -482,7 +482,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -555,6 +555,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   enableNodePublicIP?: boolean;
   /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
@@ -600,6 +604,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Whether to enable EncryptionAtHost
    */
   enableEncryptionAtHost?: boolean;
+  /**
+   * Whether to use FIPS enabled OS
+   */
+  enableFIPS?: boolean;
 }
 
 /**
@@ -678,7 +686,7 @@ export interface AgentPool extends SubResource {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -751,6 +759,10 @@ export interface AgentPool extends SubResource {
    */
   enableNodePublicIP?: boolean;
   /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
@@ -796,6 +808,10 @@ export interface AgentPool extends SubResource {
    * Whether to enable EncryptionAtHost
    */
   enableEncryptionAtHost?: boolean;
+  /**
+   * Whether to use FIPS enabled OS
+   */
+  enableFIPS?: boolean;
 }
 
 /**
@@ -1204,6 +1220,10 @@ export interface ManagedClusterPodIdentityProfile {
    */
   enabled?: boolean;
   /**
+   * Customer consent for enabling AAD pod identity addon in cluster using Kubenet network plugin.
+   */
+  allowNetworkPluginKubenet?: boolean;
+  /**
    * User assigned pod identity settings.
    */
   userAssignedIdentities?: ManagedClusterPodIdentity[];
@@ -1397,6 +1417,10 @@ export interface ManagedCluster extends Resource {
    */
   dnsPrefix?: string;
   /**
+   * FQDN subdomain specified when creating private cluster with custom private dns zone.
+   */
+  fqdnSubdomain?: string;
+  /**
    * FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1406,6 +1430,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateFQDN?: string;
+  /**
+   * FQDN for the master pool which used by proxy config.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly azurePortalFQDN?: string;
   /**
    * Properties of the agent pool.
    */
@@ -1909,11 +1938,11 @@ export type OSDiskType = 'Managed' | 'Ephemeral';
 
 /**
  * Defines values for KubeletDiskType.
- * Possible values include: 'OS'
+ * Possible values include: 'OS', 'Temporary'
  * @readonly
  * @enum {string}
  */
-export type KubeletDiskType = 'OS';
+export type KubeletDiskType = 'OS' | 'Temporary';
 
 /**
  * Defines values for OSType.
