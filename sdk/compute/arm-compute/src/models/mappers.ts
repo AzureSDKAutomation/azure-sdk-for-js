@@ -2812,12 +2812,6 @@ export const DataDisk: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      detachOption: {
-        serializedName: "detachOption",
-        type: {
-          name: "String"
-        }
-      },
       diskIOPSReadWrite: {
         readOnly: true,
         serializedName: "diskIOPSReadWrite",
@@ -2830,6 +2824,12 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4057,6 +4057,45 @@ export const VirtualMachineInstanceView: msRest.CompositeMapper = {
   }
 };
 
+export const TerminateNotificationProfile: msRest.CompositeMapper = {
+  serializedName: "TerminateNotificationProfile",
+  type: {
+    name: "Composite",
+    className: "TerminateNotificationProfile",
+    modelProperties: {
+      notBeforeTimeout: {
+        serializedName: "notBeforeTimeout",
+        type: {
+          name: "String"
+        }
+      },
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ScheduledEventsProfile: msRest.CompositeMapper = {
+  serializedName: "ScheduledEventsProfile",
+  type: {
+    name: "Composite",
+    className: "ScheduledEventsProfile",
+    modelProperties: {
+      terminateNotificationProfile: {
+        serializedName: "terminateNotificationProfile",
+        type: {
+          name: "Composite",
+          className: "TerminateNotificationProfile"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachine: msRest.CompositeMapper = {
   serializedName: "VirtualMachine",
   type: {
@@ -4141,12 +4180,6 @@ export const VirtualMachine: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4212,6 +4245,19 @@ export const VirtualMachine: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
+        }
+      },
+      scheduledEventsProfile: {
+        serializedName: "properties.scheduledEventsProfile",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsProfile"
         }
       },
       resources: {
@@ -4340,12 +4386,6 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4411,6 +4451,19 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
+        }
+      },
+      scheduledEventsProfile: {
+        serializedName: "properties.scheduledEventsProfile",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsProfile"
         }
       },
       identity: {
@@ -6033,45 +6086,6 @@ export const VirtualMachineScaleSetExtensionProfile: msRest.CompositeMapper = {
   }
 };
 
-export const TerminateNotificationProfile: msRest.CompositeMapper = {
-  serializedName: "TerminateNotificationProfile",
-  type: {
-    name: "Composite",
-    className: "TerminateNotificationProfile",
-    modelProperties: {
-      notBeforeTimeout: {
-        serializedName: "notBeforeTimeout",
-        type: {
-          name: "String"
-        }
-      },
-      enable: {
-        serializedName: "enable",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ScheduledEventsProfile: msRest.CompositeMapper = {
-  serializedName: "ScheduledEventsProfile",
-  type: {
-    name: "Composite",
-    className: "ScheduledEventsProfile",
-    modelProperties: {
-      terminateNotificationProfile: {
-        serializedName: "terminateNotificationProfile",
-        type: {
-          name: "Composite",
-          className: "TerminateNotificationProfile"
-        }
-      }
-    }
-  }
-};
-
 export const VirtualMachineScaleSetVMProfile: msRest.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMProfile",
   type: {
@@ -6345,11 +6359,7 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
       orchestrationMode: {
         serializedName: "properties.orchestrationMode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Uniform",
-            "Flexible"
-          ]
+          name: "String"
         }
       },
       identity: {
