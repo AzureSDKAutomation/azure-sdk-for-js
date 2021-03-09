@@ -1685,7 +1685,7 @@ export interface ManagedDiskParameters extends SubResource {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
    * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   storageAccountType?: StorageAccountTypes;
   /**
@@ -1818,18 +1818,6 @@ export interface DataDisk {
    */
   toBeDetached?: boolean;
   /**
-   * Specifies the detach behavior to be used while detaching a disk or which is already in the
-   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
-   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
-   * detachment attempt of the data disk did not complete due to an unexpected failure from the
-   * virtual machine and the disk is still not released then use force-detach as a last resort
-   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
-   * using this detach behavior. <br><br> This feature is still in preview mode and is not
-   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
-   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
-   */
-  detachOption?: DiskDetachOptionTypes;
-  /**
    * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS.
    * Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the
    * VirtualMachine Scale Set.
@@ -1843,6 +1831,18 @@ export interface DataDisk {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly diskMBpsReadWrite?: number;
+  /**
+   * Specifies the detach behavior to be used while detaching a disk or which is already in the
+   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
+   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
+   * detachment attempt of the data disk did not complete due to an unexpected failure from the
+   * virtual machine and the disk is still not released then use force-detach as a last resort
+   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
+   * using this detach behavior. <br><br> This feature is still in preview mode and is not
+   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
+   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
+   */
+  detachOption?: DiskDetachOptionTypes;
 }
 
 /**
@@ -1993,10 +1993,10 @@ export interface PatchSettings {
    * You do this by applying patches manually inside the VM. In this mode, automatic updates are
    * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
    * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
-   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **
-   * AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The
-   * properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
-   * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform**
+   * - the virtual machine will automatically updated by the platform. The properties
+   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true. Possible values
+   * include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
    */
   patchMode?: WindowsVMGuestPatchMode;
   /**
@@ -2794,16 +2794,6 @@ export interface VirtualMachine extends Resource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -2866,6 +2856,16 @@ export interface VirtualMachine extends Resource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The virtual machine child extension resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2956,16 +2956,6 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -3028,6 +3018,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The identity of the virtual machine, if configured.
    */
@@ -3172,7 +3172,7 @@ export interface ImageDisk {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
    * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   storageAccountType?: StorageAccountTypes;
   /**
@@ -3251,8 +3251,11 @@ export interface Image extends Resource {
    */
   readonly provisioningState?: string;
   /**
-   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
-   * include: 'V1', 'V2'
+   * Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API
+   * Version 2019-03-01 if the image source is a blob, then we need the user to specify the value,
+   * if the source is managed resource like disk or snapshot, we may require the user to specify
+   * the property if we cannot deduce it from the source managed resource. Possible values include:
+   * 'V1', 'V2'
    */
   hyperVGeneration?: HyperVGenerationTypes;
   /**
@@ -3279,8 +3282,11 @@ export interface ImageUpdate extends UpdateResource {
    */
   readonly provisioningState?: string;
   /**
-   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
-   * include: 'V1', 'V2'
+   * Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API
+   * Version 2019-03-01 if the image source is a blob, then we need the user to specify the value,
+   * if the source is managed resource like disk or snapshot, we may require the user to specify
+   * the property if we cannot deduce it from the source managed resource. Possible values include:
+   * 'V1', 'V2'
    */
   hyperVGeneration?: HyperVGenerationTypes;
 }
@@ -3429,7 +3435,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
    * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   storageAccountType?: StorageAccountTypes;
   /**
@@ -8359,11 +8365,12 @@ export type DiskDetachOptionTypes = 'ForceDetach';
 
 /**
  * Defines values for StorageAccountTypes.
- * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS',
+ * 'Premium_ZRS', 'StandardSSD_ZRS'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS';
+export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS' | 'Premium_ZRS' | 'StandardSSD_ZRS';
 
 /**
  * Defines values for DiffDiskOptions.

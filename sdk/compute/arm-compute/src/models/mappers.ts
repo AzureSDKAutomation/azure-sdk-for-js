@@ -2812,12 +2812,6 @@ export const DataDisk: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      detachOption: {
-        serializedName: "detachOption",
-        type: {
-          name: "String"
-        }
-      },
       diskIOPSReadWrite: {
         readOnly: true,
         serializedName: "diskIOPSReadWrite",
@@ -2830,6 +2824,12 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4141,12 +4141,6 @@ export const VirtualMachine: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4212,6 +4206,12 @@ export const VirtualMachine: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
         }
       },
       resources: {
@@ -4340,12 +4340,6 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4411,6 +4405,12 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
         }
       },
       identity: {
@@ -6345,11 +6345,7 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
       orchestrationMode: {
         serializedName: "properties.orchestrationMode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Uniform",
-            "Flexible"
-          ]
+          name: "String"
         }
       },
       identity: {
