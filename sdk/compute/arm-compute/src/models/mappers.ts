@@ -2812,12 +2812,6 @@ export const DataDisk: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      detachOption: {
-        serializedName: "detachOption",
-        type: {
-          name: "String"
-        }
-      },
       diskIOPSReadWrite: {
         readOnly: true,
         serializedName: "diskIOPSReadWrite",
@@ -2830,6 +2824,12 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4141,12 +4141,6 @@ export const VirtualMachine: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4212,6 +4206,12 @@ export const VirtualMachine: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
         }
       },
       resources: {
@@ -4340,12 +4340,6 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4411,6 +4405,12 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
         }
       },
       identity: {
@@ -6345,11 +6345,7 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
       orchestrationMode: {
         serializedName: "properties.orchestrationMode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Uniform",
-            "Flexible"
-          ]
+          name: "String"
         }
       },
       identity: {
@@ -8781,6 +8777,38 @@ export const ShareInfoElement: msRest.CompositeMapper = {
   }
 };
 
+export const PropertyUpdatesInProgress: msRest.CompositeMapper = {
+  serializedName: "PropertyUpdatesInProgress",
+  type: {
+    name: "Composite",
+    className: "PropertyUpdatesInProgress",
+    modelProperties: {
+      targetTier: {
+        serializedName: "targetTier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiskSecurityProfile: msRest.CompositeMapper = {
+  serializedName: "DiskSecurityProfile",
+  type: {
+    name: "Composite",
+    className: "DiskSecurityProfile",
+    modelProperties: {
+      securityType: {
+        serializedName: "securityType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Disk: msRest.CompositeMapper = {
   serializedName: "Disk",
   type: {
@@ -8983,6 +9011,27 @@ export const Disk: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      propertyUpdatesInProgress: {
+        readOnly: true,
+        serializedName: "properties.propertyUpdatesInProgress",
+        type: {
+          name: "Composite",
+          className: "PropertyUpdatesInProgress"
+        }
+      },
+      supportsHibernation: {
+        serializedName: "properties.supportsHibernation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "DiskSecurityProfile"
+        }
       }
     }
   }
@@ -9083,6 +9132,20 @@ export const DiskUpdate: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PurchasePlan"
+        }
+      },
+      propertyUpdatesInProgress: {
+        readOnly: true,
+        serializedName: "properties.propertyUpdatesInProgress",
+        type: {
+          name: "Composite",
+          className: "PropertyUpdatesInProgress"
+        }
+      },
+      supportsHibernation: {
+        serializedName: "properties.supportsHibernation",
+        type: {
+          name: "Boolean"
         }
       },
       tags: {
@@ -9325,6 +9388,12 @@ export const Snapshot: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      supportsHibernation: {
+        serializedName: "properties.supportsHibernation",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -9376,6 +9445,12 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
         serializedName: "properties.diskAccessId",
         type: {
           name: "String"
+        }
+      },
+      supportsHibernation: {
+        serializedName: "properties.supportsHibernation",
+        type: {
+          name: "Boolean"
         }
       },
       tags: {
@@ -9476,6 +9551,19 @@ export const DiskEncryptionSet: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      rotationToLatestKeyVersionEnabled: {
+        serializedName: "properties.rotationToLatestKeyVersionEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastKeyRotationTimestamp: {
+        readOnly: true,
+        serializedName: "properties.lastKeyRotationTimestamp",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -9500,6 +9588,12 @@ export const DiskEncryptionSetUpdate: msRest.CompositeMapper = {
           className: "KeyForDiskEncryptionSet"
         }
       },
+      rotationToLatestKeyVersionEnabled: {
+        serializedName: "properties.rotationToLatestKeyVersionEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -9509,6 +9603,13 @@ export const DiskEncryptionSetUpdate: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "EncryptionSetIdentity"
         }
       }
     }
@@ -9567,6 +9668,7 @@ export const PrivateEndpointConnection: msRest.CompositeMapper = {
     className: "PrivateEndpointConnection",
     modelProperties: {
       privateEndpoint: {
+        readOnly: true,
         serializedName: "properties.privateEndpoint",
         type: {
           name: "Composite",
@@ -9797,6 +9899,12 @@ export const DiskRestorePoint: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      supportsHibernation: {
+        serializedName: "properties.supportsHibernation",
+        type: {
+          name: "Boolean"
         }
       }
     }
