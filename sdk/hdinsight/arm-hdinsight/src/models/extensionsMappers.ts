@@ -7,8 +7,10 @@
  */
 
 export {
+  AsyncOperationResult,
   ClusterMonitoringRequest,
   ClusterMonitoringResponse,
   ErrorResponse,
+  Errors,
   Extension
 } from "../models/mappers";
