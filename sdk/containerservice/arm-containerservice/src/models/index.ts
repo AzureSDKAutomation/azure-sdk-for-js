@@ -482,7 +482,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -555,6 +555,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   enableNodePublicIP?: boolean;
   /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
@@ -600,6 +604,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Whether to enable EncryptionAtHost
    */
   enableEncryptionAtHost?: boolean;
+  /**
+   * Whether to use FIPS enabled OS
+   */
+  enableFIPS?: boolean;
 }
 
 /**
@@ -678,7 +686,7 @@ export interface AgentPool extends SubResource {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -751,6 +759,10 @@ export interface AgentPool extends SubResource {
    */
   enableNodePublicIP?: boolean;
   /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
@@ -796,6 +808,10 @@ export interface AgentPool extends SubResource {
    * Whether to enable EncryptionAtHost
    */
   enableEncryptionAtHost?: boolean;
+  /**
+   * Whether to use FIPS enabled OS
+   */
+  enableFIPS?: boolean;
 }
 
 /**
@@ -825,6 +841,10 @@ export interface ManagedClusterWindowsProfile {
    * Benefits for Windows VMs. Possible values include: 'None', 'Windows_Server'
    */
   licenseType?: LicenseType;
+  /**
+   * Whether to enable CSI proxy.
+   */
+  enableCSIProxy?: boolean;
 }
 
 /**
@@ -1204,6 +1224,10 @@ export interface ManagedClusterPodIdentityProfile {
    */
   enabled?: boolean;
   /**
+   * Customer consent for enabling AAD pod identity addon in cluster using Kubenet network plugin.
+   */
+  allowNetworkPluginKubenet?: boolean;
+  /**
    * User assigned pod identity settings.
    */
   userAssignedIdentities?: ManagedClusterPodIdentity[];
@@ -1309,6 +1333,37 @@ export interface ManagedClusterPropertiesIdentityProfileValue extends UserAssign
 }
 
 /**
+ * A private link resource
+ */
+export interface PrivateLinkResource {
+  /**
+   * The ID of the private link resource.
+   */
+  id?: string;
+  /**
+   * The name of the private link resource.
+   */
+  name?: string;
+  /**
+   * The resource type.
+   */
+  type?: string;
+  /**
+   * The group ID of the resource.
+   */
+  groupId?: string;
+  /**
+   * RequiredMembers of the resource
+   */
+  requiredMembers?: string[];
+  /**
+   * The private link service ID of the resource, this field is exposed only to NRP internally.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateLinkServiceID?: string;
+}
+
+/**
  * An interface representing ManagedClusterIdentityUserAssignedIdentitiesValue.
  */
 export interface ManagedClusterIdentityUserAssignedIdentitiesValue {
@@ -1397,6 +1452,10 @@ export interface ManagedCluster extends Resource {
    */
   dnsPrefix?: string;
   /**
+   * FQDN subdomain specified when creating private cluster with custom private dns zone.
+   */
+  fqdnSubdomain?: string;
+  /**
    * FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1406,6 +1465,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateFQDN?: string;
+  /**
+   * FQDN for the master pool which used by proxy config.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly azurePortalFQDN?: string;
   /**
    * Properties of the agent pool.
    */
@@ -1472,6 +1536,15 @@ export interface ManagedCluster extends Resource {
    * Identities associated with the cluster.
    */
   identityProfile?: { [propertyName: string]: ManagedClusterPropertiesIdentityProfileValue };
+  /**
+   * Private link resources associated with the cluster.
+   */
+  privateLinkResources?: PrivateLinkResource[];
+  /**
+   * If set to true, getting static credential will be disabled for this cluster. Expected to only
+   * be used for AAD clusters.
+   */
+  disableLocalAccounts?: boolean;
   /**
    * The identity of the managed cluster, if configured.
    */
@@ -1752,37 +1825,6 @@ export interface PrivateEndpointConnectionListResult {
 }
 
 /**
- * A private link resource
- */
-export interface PrivateLinkResource {
-  /**
-   * The ID of the private link resource.
-   */
-  id?: string;
-  /**
-   * The name of the private link resource.
-   */
-  name?: string;
-  /**
-   * The resource type.
-   */
-  type?: string;
-  /**
-   * The group ID of the resource.
-   */
-  groupId?: string;
-  /**
-   * RequiredMembers of the resource
-   */
-  requiredMembers?: string[];
-  /**
-   * The private link service ID of the resource, this field is exposed only to NRP internally.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateLinkServiceID?: string;
-}
-
-/**
  * A list of private link resources
  */
 export interface PrivateLinkResourcesListResult {
@@ -1909,11 +1951,11 @@ export type OSDiskType = 'Managed' | 'Ephemeral';
 
 /**
  * Defines values for KubeletDiskType.
- * Possible values include: 'OS'
+ * Possible values include: 'OS', 'Temporary'
  * @readonly
  * @enum {string}
  */
-export type KubeletDiskType = 'OS';
+export type KubeletDiskType = 'OS' | 'Temporary';
 
 /**
  * Defines values for OSType.

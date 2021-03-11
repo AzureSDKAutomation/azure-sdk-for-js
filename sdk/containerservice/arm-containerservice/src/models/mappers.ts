@@ -723,6 +723,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "Boolean"
         }
       },
+      nodePublicIPPrefixID: {
+        serializedName: "nodePublicIPPrefixID",
+        type: {
+          name: "String"
+        }
+      },
       scaleSetPriority: {
         serializedName: "scaleSetPriority",
         defaultValue: 'Regular',
@@ -798,6 +804,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
       },
       enableEncryptionAtHost: {
         serializedName: "enableEncryptionAtHost",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableFIPS: {
+        serializedName: "enableFIPS",
         type: {
           name: "Boolean"
         }
@@ -971,6 +983,12 @@ export const AgentPool: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      nodePublicIPPrefixID: {
+        serializedName: "properties.nodePublicIPPrefixID",
+        type: {
+          name: "String"
+        }
+      },
       scaleSetPriority: {
         serializedName: "properties.scaleSetPriority",
         defaultValue: 'Regular',
@@ -1049,6 +1067,12 @@ export const AgentPool: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      enableFIPS: {
+        serializedName: "properties.enableFIPS",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1077,6 +1101,12 @@ export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
         serializedName: "licenseType",
         type: {
           name: "String"
+        }
+      },
+      enableCSIProxy: {
+        serializedName: "enableCSIProxy",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1753,6 +1783,12 @@ export const ManagedClusterPodIdentityProfile: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      allowNetworkPluginKubenet: {
+        serializedName: "allowNetworkPluginKubenet",
+        type: {
+          name: "Boolean"
+        }
+      },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
@@ -2010,6 +2046,58 @@ export const ManagedClusterPropertiesIdentityProfileValue: msRest.CompositeMappe
   }
 };
 
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        serializedName: "requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privateLinkServiceID: {
+        readOnly: true,
+        serializedName: "privateLinkServiceID",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
   serializedName: "ManagedClusterIdentity_userAssignedIdentitiesValue",
   type: {
@@ -2144,6 +2232,12 @@ export const ManagedCluster: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      fqdnSubdomain: {
+        serializedName: "properties.fqdnSubdomain",
+        type: {
+          name: "String"
+        }
+      },
       fqdn: {
         readOnly: true,
         serializedName: "properties.fqdn",
@@ -2154,6 +2248,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
       privateFQDN: {
         readOnly: true,
         serializedName: "properties.privateFQDN",
+        type: {
+          name: "String"
+        }
+      },
+      azurePortalFQDN: {
+        readOnly: true,
+        serializedName: "properties.azurePortalFQDN",
         type: {
           name: "String"
         }
@@ -2279,6 +2380,24 @@ export const ManagedCluster: msRest.CompositeMapper = {
               className: "ManagedClusterPropertiesIdentityProfileValue"
             }
           }
+        }
+      },
+      privateLinkResources: {
+        serializedName: "properties.privateLinkResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      },
+      disableLocalAccounts: {
+        serializedName: "properties.disableLocalAccounts",
+        type: {
+          name: "Boolean"
         }
       },
       identity: {
@@ -2744,58 +2863,6 @@ export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
               className: "PrivateEndpointConnection"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkResource: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      groupId: {
-        serializedName: "groupId",
-        type: {
-          name: "String"
-        }
-      },
-      requiredMembers: {
-        serializedName: "requiredMembers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      privateLinkServiceID: {
-        readOnly: true,
-        serializedName: "privateLinkServiceID",
-        type: {
-          name: "String"
         }
       }
     }
