@@ -49,6 +49,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   galleryImageVersions: operations.GalleryImageVersions;
   galleryApplications: operations.GalleryApplications;
   galleryApplicationVersions: operations.GalleryApplicationVersions;
+  gallerySharingProfile: operations.GallerySharingProfile;
+  sharedGalleries: operations.SharedGalleries;
+  sharedGalleryImages: operations.SharedGalleryImages;
+  sharedGalleryImageVersions: operations.SharedGalleryImageVersions;
 
   /**
    * Initializes a new instance of the ComputeManagementClient class.
@@ -92,6 +96,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.galleryImageVersions = new operations.GalleryImageVersions(this);
     this.galleryApplications = new operations.GalleryApplications(this);
     this.galleryApplicationVersions = new operations.GalleryApplicationVersions(this);
+    this.gallerySharingProfile = new operations.GallerySharingProfile(this);
+    this.sharedGalleries = new operations.SharedGalleries(this);
+    this.sharedGalleryImages = new operations.SharedGalleryImages(this);
+    this.sharedGalleryImageVersions = new operations.SharedGalleryImageVersions(this);
   }
 }
 

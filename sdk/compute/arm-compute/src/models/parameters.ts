@@ -55,18 +55,6 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2019-12-01',
-    type: {
-      name: "String"
-    }
-  }
-};
 export const availabilitySetName: msRest.OperationURLParameter = {
   parameterPath: "availabilitySetName",
   mapper: {
@@ -233,6 +221,16 @@ export const galleryName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "galleryName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const galleryUniqueName: msRest.OperationURLParameter = {
+  parameterPath: "galleryUniqueName",
+  mapper: {
+    required: true,
+    serializedName: "galleryUniqueName",
     type: {
       name: "String"
     }
@@ -435,6 +433,18 @@ export const select: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$select",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sharedTo: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "sharedTo"
+  ],
+  mapper: {
+    serializedName: "sharedTo",
     type: {
       name: "String"
     }

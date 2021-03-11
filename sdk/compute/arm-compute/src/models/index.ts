@@ -1818,18 +1818,6 @@ export interface DataDisk {
    */
   toBeDetached?: boolean;
   /**
-   * Specifies the detach behavior to be used while detaching a disk or which is already in the
-   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
-   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
-   * detachment attempt of the data disk did not complete due to an unexpected failure from the
-   * virtual machine and the disk is still not released then use force-detach as a last resort
-   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
-   * using this detach behavior. <br><br> This feature is still in preview mode and is not
-   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
-   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
-   */
-  detachOption?: DiskDetachOptionTypes;
-  /**
    * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS.
    * Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the
    * VirtualMachine Scale Set.
@@ -1843,6 +1831,18 @@ export interface DataDisk {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly diskMBpsReadWrite?: number;
+  /**
+   * Specifies the detach behavior to be used while detaching a disk or which is already in the
+   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
+   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
+   * detachment attempt of the data disk did not complete due to an unexpected failure from the
+   * virtual machine and the disk is still not released then use force-detach as a last resort
+   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
+   * using this detach behavior. <br><br> This feature is still in preview mode and is not
+   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
+   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
+   */
+  detachOption?: DiskDetachOptionTypes;
 }
 
 /**
@@ -1993,10 +1993,10 @@ export interface PatchSettings {
    * You do this by applying patches manually inside the VM. In this mode, automatic updates are
    * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
    * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
-   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **
-   * AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The
-   * properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
-   * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform**
+   * - the virtual machine will automatically updated by the platform. The properties
+   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true. Possible values
+   * include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
    */
   patchMode?: WindowsVMGuestPatchMode;
   /**
@@ -2794,16 +2794,6 @@ export interface VirtualMachine extends Resource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -2866,6 +2856,16 @@ export interface VirtualMachine extends Resource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The virtual machine child extension resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2956,16 +2956,6 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -3028,6 +3018,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The identity of the virtual machine, if configured.
    */
@@ -6417,6 +6417,39 @@ export interface GalleryIdentifier {
 }
 
 /**
+ * Group of the gallery sharing profile
+ */
+export interface SharingProfileGroup {
+  /**
+   * This property allows you to specify the type of sharing group. <br><br> Possible values are:
+   * <br><br> **Subscriptions** <br><br> **AADTenants**. Possible values include: 'Subscriptions',
+   * 'AADTenants'
+   */
+  type?: SharingProfileGroupTypes;
+  /**
+   * A list of subscription/tenant ids the gallery is aimed to be shared to.
+   */
+  ids?: string[];
+}
+
+/**
+ * Profile for gallery sharing to subscription or tenant
+ */
+export interface SharingProfile {
+  /**
+   * This property allows you to specify the permission of sharing gallery. <br><br> Possible
+   * values are: <br><br> **Private** <br><br> **Groups**. Possible values include: 'Private',
+   * 'Groups'
+   */
+  permissions?: GallerySharingPermissionTypes;
+  /**
+   * A list of sharing profile groups.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groups?: SharingProfileGroup[];
+}
+
+/**
  * Specifies information about the Shared Image Gallery that you want to create or update.
  */
 export interface Gallery extends Resource {
@@ -6432,6 +6465,7 @@ export interface Gallery extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  sharingProfile?: SharingProfile;
 }
 
 /**
@@ -6475,6 +6509,7 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  sharingProfile?: SharingProfile;
 }
 
 /**
@@ -6600,12 +6635,12 @@ export interface GalleryArtifactPublishingProfileBase {
    */
   excludeFromLatest?: boolean;
   /**
-   * The timestamp for when the gallery Image Version is published.
+   * The timestamp for when the gallery image version is published.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly publishedDate?: Date;
   /**
-   * The end of life date of the gallery Image Version. This property can be used for
+   * The end of life date of the gallery image version. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6633,7 +6668,7 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
  */
 export interface RegionalReplicationStatus {
   /**
-   * The region to which the gallery Image Version is being replicated to.
+   * The region to which the gallery image version is being replicated to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly region?: string;
@@ -6656,7 +6691,7 @@ export interface RegionalReplicationStatus {
 }
 
 /**
- * This is the replication status of the gallery Image Version.
+ * This is the replication status of the gallery image version.
  */
 export interface ReplicationStatus {
   /**
@@ -6709,19 +6744,19 @@ export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinitio
 }
 
 /**
- * This is the gallery Image Definition identifier.
+ * This is the gallery image definition identifier.
  */
 export interface GalleryImageIdentifier {
   /**
-   * The name of the gallery Image Definition publisher.
+   * The name of the gallery image definition publisher.
    */
   publisher: string;
   /**
-   * The name of the gallery Image Definition offer.
+   * The name of the gallery image definition offer.
    */
   offer: string;
   /**
-   * The name of the gallery Image Definition SKU.
+   * The name of the gallery image definition SKU.
    */
   sku: string;
 }
@@ -6760,7 +6795,7 @@ export interface Disallowed {
 }
 
 /**
- * Describes the gallery Image Definition purchase plan. This is used by marketplace images.
+ * Describes the gallery image definition purchase plan. This is used by marketplace images.
  */
 export interface ImagePurchasePlan {
   /**
@@ -6778,15 +6813,29 @@ export interface ImagePurchasePlan {
 }
 
 /**
- * Specifies information about the gallery Image Definition that you want to create or update.
+ * A feature for gallery image.
+ */
+export interface GalleryImageFeature {
+  /**
+   * The name of the gallery image feature.
+   */
+  name?: string;
+  /**
+   * The value of the gallery image feature.
+   */
+  value?: string;
+}
+
+/**
+ * Specifies information about the gallery image definition that you want to create or update.
  */
 export interface GalleryImage extends Resource {
   /**
-   * The description of this gallery Image Definition resource. This property is updatable.
+   * The description of this gallery image definition resource. This property is updatable.
    */
   description?: string;
   /**
-   * The Eula agreement for the gallery Image Definition.
+   * The Eula agreement for the gallery image definition.
    */
   eula?: string;
   /**
@@ -6814,7 +6863,7 @@ export interface GalleryImage extends Resource {
    */
   hyperVGeneration?: HyperVGeneration;
   /**
-   * The end of life date of the gallery Image Definition. This property can be used for
+   * The end of life date of the gallery image definition. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6823,24 +6872,28 @@ export interface GalleryImage extends Resource {
   disallowed?: Disallowed;
   purchasePlan?: ImagePurchasePlan;
   /**
-   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * The current state of the gallery image definition. The provisioning state, which only appears
    * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState2;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
 }
 
 /**
- * Specifies information about the gallery Image Definition that you want to update.
+ * Specifies information about the gallery image definition that you want to update.
  */
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
   /**
-   * The description of this gallery Image Definition resource. This property is updatable.
+   * The description of this gallery image definition resource. This property is updatable.
    */
   description?: string;
   /**
-   * The Eula agreement for the gallery Image Definition.
+   * The Eula agreement for the gallery image definition.
    */
   eula?: string;
   /**
@@ -6868,7 +6921,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
    */
   hyperVGeneration?: HyperVGeneration;
   /**
-   * The end of life date of the gallery Image Definition. This property can be used for
+   * The end of life date of the gallery image definition. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6877,16 +6930,20 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   disallowed?: Disallowed;
   purchasePlan?: ImagePurchasePlan;
   /**
-   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * The current state of the gallery image definition. The provisioning state, which only appears
    * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState2;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
 }
 
 /**
- * The publishing profile of a gallery Image Version.
+ * The publishing profile of a gallery image Version.
  */
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
 }
@@ -6896,10 +6953,14 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
  */
 export interface GalleryArtifactVersionSource {
   /**
-   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user
-   * image.
+   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user
+   * image or storage account resource.
    */
   id?: string;
+  /**
+   * The uri of the gallery artifact version source. Currently used to specify vhd/blob source.
+   */
+  uri?: string;
 }
 
 /**
@@ -6950,12 +7011,12 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 /**
- * Specifies information about the gallery Image Version that you want to create or update.
+ * Specifies information about the gallery image version that you want to create or update.
  */
 export interface GalleryImageVersion extends Resource {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
-   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * The current state of the gallery image version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6969,12 +7030,12 @@ export interface GalleryImageVersion extends Resource {
 }
 
 /**
- * Specifies information about the gallery Image Version that you want to update.
+ * Specifies information about the gallery image version that you want to update.
  */
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
-   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * The current state of the gallery image version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -7063,6 +7124,105 @@ export interface ManagedArtifact {
  */
 export interface GalleryArtifactSource {
   managedImage: ManagedArtifact;
+}
+
+/**
+ * Specifies information about the gallery sharing profile update.
+ */
+export interface SharingUpdate extends BaseResource {
+  /**
+   * This property allows you to specify the operation type of gallery sharing update. <br><br>
+   * Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset**. Possible values
+   * include: 'Add', 'Remove', 'Reset'
+   */
+  operationType: SharingUpdateOperationTypes;
+  /**
+   * A list of sharing profile groups.
+   */
+  groups?: SharingProfileGroup[];
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface PirResource {
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource location
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+}
+
+/**
+ * Base information about the shared gallery resource in pir.
+ */
+export interface PirSharedGalleryResource extends PirResource {
+  /**
+   * The unique id of this shared gallery.
+   */
+  uniqueId?: string;
+}
+
+/**
+ * Specifies information about the Shared Gallery that you want to create or update.
+ */
+export interface SharedGallery extends PirSharedGalleryResource {
+}
+
+/**
+ * Specifies information about the gallery image definition that you want to create or update.
+ */
+export interface SharedGalleryImage extends PirSharedGalleryResource {
+  /**
+   * This property allows you to specify the type of the OS that is included in the disk when
+   * creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows**
+   * <br><br> **Linux**. Possible values include: 'Windows', 'Linux'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
+   */
+  osState: OperatingSystemStateTypes;
+  /**
+   * The end of life date of the gallery image definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+  identifier: GalleryImageIdentifier;
+  recommended?: RecommendedMachineConfiguration;
+  disallowed?: Disallowed;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
+  purchasePlan?: ImagePurchasePlan;
+}
+
+/**
+ * Specifies information about the gallery image version that you want to create or update.
+ */
+export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+  /**
+   * The published date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  publishedDate?: Date;
+  /**
+   * The end of life date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
 }
 
 /**
@@ -7748,6 +7908,16 @@ export interface ResourceSkusListNextOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
+export interface GalleriesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The select expression to apply on the operation. Possible values include: 'Permissions'
+   */
+  select?: SelectPermissions;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface GalleryImageVersionsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
@@ -7763,6 +7933,72 @@ export interface GalleryApplicationVersionsGetOptionalParams extends msRest.Requ
    * The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
    */
   expand?: ReplicationStatusTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleriesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleriesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImagesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImagesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImageVersionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImageVersionsListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
 }
 
 /**
@@ -8119,7 +8355,7 @@ export interface GalleryList extends Array<Gallery> {
 export interface GalleryImageList extends Array<GalleryImage> {
   /**
    * The uri to fetch the next page of Image Definitions in the Shared Image Gallery. Call
-   * ListNext() with this to fetch the next page of gallery Image Definitions.
+   * ListNext() with this to fetch the next page of gallery image definitions.
    */
   nextLink?: string;
 }
@@ -8131,8 +8367,8 @@ export interface GalleryImageList extends Array<GalleryImage> {
  */
 export interface GalleryImageVersionList extends Array<GalleryImageVersion> {
   /**
-   * The uri to fetch the next page of gallery Image Versions. Call ListNext() with this to fetch
-   * the next page of gallery Image Versions.
+   * The uri to fetch the next page of gallery image versions. Call ListNext() with this to fetch
+   * the next page of gallery image versions.
    */
   nextLink?: string;
 }
@@ -8159,6 +8395,45 @@ export interface GalleryApplicationVersionList extends Array<GalleryApplicationV
   /**
    * The uri to fetch the next page of gallery Application Versions. Call ListNext() with this to
    * fetch the next page of gallery Application Versions.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Galleries operation response.
+ * @extends Array<SharedGallery>
+ */
+export interface SharedGalleryList extends Array<SharedGallery> {
+  /**
+   * The uri to fetch the next page of shared galleries. Call ListNext() with this to fetch the
+   * next page of shared galleries.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Gallery Images operation response.
+ * @extends Array<SharedGalleryImage>
+ */
+export interface SharedGalleryImageList extends Array<SharedGalleryImage> {
+  /**
+   * The uri to fetch the next page of shared gallery images. Call ListNext() with this to fetch
+   * the next page of shared gallery images.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Gallery Image versions operation response.
+ * @extends Array<SharedGalleryImageVersion>
+ */
+export interface SharedGalleryImageVersionList extends Array<SharedGalleryImageVersion> {
+  /**
+   * The uri to fetch the next page of shared gallery image versions. Call ListNext() with this to
+   * fetch the next page of shared gallery image versions.
    */
   nextLink?: string;
 }
@@ -8723,6 +8998,22 @@ export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'R
 export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
+ * Defines values for GallerySharingPermissionTypes.
+ * Possible values include: 'Private', 'Groups'
+ * @readonly
+ * @enum {string}
+ */
+export type GallerySharingPermissionTypes = 'Private' | 'Groups';
+
+/**
+ * Defines values for SharingProfileGroupTypes.
+ * Possible values include: 'Subscriptions', 'AADTenants'
+ * @readonly
+ * @enum {string}
+ */
+export type SharingProfileGroupTypes = 'Subscriptions' | 'AADTenants';
+
+/**
  * Defines values for AggregatedReplicationState.
  * Possible values include: 'Unknown', 'InProgress', 'Completed', 'Failed'
  * @readonly
@@ -8755,6 +9046,14 @@ export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS'
 export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
 
 /**
+ * Defines values for SharingUpdateOperationTypes.
+ * Possible values include: 'Add', 'Remove', 'Reset'
+ * @readonly
+ * @enum {string}
+ */
+export type SharingUpdateOperationTypes = 'Add' | 'Remove' | 'Reset';
+
+/**
  * Defines values for InstanceViewTypes.
  * Possible values include: 'instanceView'
  * @readonly
@@ -8763,12 +9062,28 @@ export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
 export type InstanceViewTypes = 'instanceView';
 
 /**
+ * Defines values for SelectPermissions.
+ * Possible values include: 'Permissions'
+ * @readonly
+ * @enum {string}
+ */
+export type SelectPermissions = 'Permissions';
+
+/**
  * Defines values for ReplicationStatusTypes.
  * Possible values include: 'ReplicationStatus'
  * @readonly
  * @enum {string}
  */
 export type ReplicationStatusTypes = 'ReplicationStatus';
+
+/**
+ * Defines values for SharedToValues.
+ * Possible values include: 'tenant'
+ * @readonly
+ * @enum {string}
+ */
+export type SharedToValues = 'tenant';
 
 /**
  * Defines values for ProvisioningState.
@@ -13639,5 +13954,225 @@ export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = Gal
        * The response body as parsed JSON or XML
        */
       parsedBody: GalleryApplicationVersionList;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GallerySharingProfileUpdateResponse = SharingUpdate & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharingUpdate;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GallerySharingProfileBeginUpdateResponse = SharingUpdate & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharingUpdate;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleriesListResponse = SharedGalleryList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleriesGetResponse = SharedGallery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGallery;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleriesListNextResponse = SharedGalleryList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleryImagesListResponse = SharedGalleryImageList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleryImagesGetResponse = SharedGalleryImage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImage;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleryImagesListNextResponse = SharedGalleryImageList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageVersionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageVersion;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedGalleryImageVersionList;
     };
 };
