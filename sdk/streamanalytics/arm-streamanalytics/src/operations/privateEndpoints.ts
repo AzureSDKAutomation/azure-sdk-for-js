@@ -211,7 +211,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -249,7 +249,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -274,7 +274,7 @@ const listByClusterOperationSpec: msRest.OperationSpec = {
     Parameters.clusterName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -300,7 +300,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -324,7 +324,7 @@ const listByClusterNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

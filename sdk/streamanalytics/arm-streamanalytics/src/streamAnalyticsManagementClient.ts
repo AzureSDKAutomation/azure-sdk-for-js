@@ -16,13 +16,6 @@ import { StreamAnalyticsManagementClientContext } from "./streamAnalyticsManagem
 
 class StreamAnalyticsManagementClient extends StreamAnalyticsManagementClientContext {
   // Operation groups
-  functions: operations.Functions;
-  inputs: operations.Inputs;
-  outputs: operations.Outputs;
-  streamingJobs: operations.StreamingJobs;
-  subscriptions: operations.Subscriptions;
-  transformations: operations.Transformations;
-  operations: operations.Operations;
   clusters: operations.Clusters;
   privateEndpoints: operations.PrivateEndpoints;
 
@@ -34,13 +27,6 @@ class StreamAnalyticsManagementClient extends StreamAnalyticsManagementClientCon
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StreamAnalyticsManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.functions = new operations.Functions(this);
-    this.inputs = new operations.Inputs(this);
-    this.outputs = new operations.Outputs(this);
-    this.streamingJobs = new operations.StreamingJobs(this);
-    this.subscriptions = new operations.Subscriptions(this);
-    this.transformations = new operations.Transformations(this);
-    this.operations = new operations.Operations(this);
     this.clusters = new operations.Clusters(this);
     this.privateEndpoints = new operations.PrivateEndpoints(this);
   }

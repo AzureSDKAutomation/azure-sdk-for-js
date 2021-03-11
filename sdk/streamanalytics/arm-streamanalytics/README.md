@@ -15,7 +15,7 @@ npm install @azure/arm-streamanalytics
 
 ### How to use
 
-#### nodejs - client creation and get functions as an example written in TypeScript.
+#### nodejs - client creation and get clusters as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -35,9 +35,8 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new StreamAnalyticsManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
-  const jobName = "testjobName";
-  const functionName = "testfunctionName";
-  client.functions.get(resourceGroupName, jobName, functionName).then((result) => {
+  const clusterName = "testclusterName";
+  client.clusters.get(resourceGroupName, clusterName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -46,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get functions as an example written in JavaScript.
+#### browser - Authentication, client creation and get clusters as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -81,9 +80,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmStreamanalytics.StreamAnalyticsManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
-        const jobName = "testjobName";
-        const functionName = "testfunctionName";
-        client.functions.get(resourceGroupName, jobName, functionName).then((result) => {
+        const clusterName = "testclusterName";
+        client.clusters.get(resourceGroupName, clusterName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

@@ -7,12 +7,5 @@
  * regenerated.
  */
 
-export * from "./functions";
-export * from "./inputs";
-export * from "./outputs";
-export * from "./streamingJobs";
-export * from "./subscriptions";
-export * from "./transformations";
-export * from "./operations";
 export * from "./clusters";
 export * from "./privateEndpoints";
