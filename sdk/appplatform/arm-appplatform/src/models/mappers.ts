@@ -196,12 +196,14 @@ export const Sku: msRest.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        defaultValue: 'S0',
         type: {
           name: "String"
         }
       },
       tier: {
         serializedName: "tier",
+        defaultValue: 'Standard',
         type: {
           name: "String"
         }
@@ -910,12 +912,6 @@ export const AppResourceProperties: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      enableEndToEndTLS: {
-        serializedName: "enableEndToEndTLS",
-        type: {
-          name: "Boolean"
-        }
-      },
       createdTime: {
         readOnly: true,
         serializedName: "createdTime",
@@ -935,6 +931,12 @@ export const AppResourceProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PersistentDisk"
+        }
+      },
+      enableEndToEndTLS: {
+        serializedName: "enableEndToEndTLS",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1354,6 +1356,28 @@ export const UserSourceInfo: msRest.CompositeMapper = {
   }
 };
 
+export const ResourceRequests: msRest.CompositeMapper = {
+  serializedName: "ResourceRequests",
+  type: {
+    name: "Composite",
+    className: "ResourceRequests",
+    modelProperties: {
+      cpu: {
+        serializedName: "cpu",
+        type: {
+          name: "String"
+        }
+      },
+      memory: {
+        serializedName: "memory",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentSettings: msRest.CompositeMapper = {
   serializedName: "DeploymentSettings",
   type: {
@@ -1372,6 +1396,13 @@ export const DeploymentSettings: msRest.CompositeMapper = {
         defaultValue: 1,
         type: {
           name: "Number"
+        }
+      },
+      resourceRequests: {
+        serializedName: "resourceRequests",
+        type: {
+          name: "Composite",
+          className: "ResourceRequests"
         }
       },
       jvmOptions: {

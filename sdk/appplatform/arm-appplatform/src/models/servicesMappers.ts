@@ -41,6 +41,7 @@ export {
   RegenerateTestKeyRequestPayload,
   RequiredTraffic,
   Resource,
+  ResourceRequests,
   ServiceResource,
   ServiceResourceList,
   Sku,

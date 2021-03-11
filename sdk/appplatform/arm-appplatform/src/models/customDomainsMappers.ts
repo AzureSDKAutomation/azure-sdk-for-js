@@ -39,6 +39,7 @@ export {
   ProxyResource,
   RequiredTraffic,
   Resource,
+  ResourceRequests,
   ServiceResource,
   Sku,
   TemporaryDisk,

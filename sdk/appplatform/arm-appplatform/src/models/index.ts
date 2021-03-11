@@ -120,11 +120,11 @@ export interface ClusterResourceProperties {
  */
 export interface Sku {
   /**
-   * Name of the Sku
+   * Name of the Sku. Default value: 'S0'.
    */
   name?: string;
   /**
-   * Tier of the Sku
+   * Tier of the Sku. Default value: 'Standard'.
    */
   tier?: string;
   /**
@@ -417,7 +417,7 @@ export interface MonitoringSettingProperties {
   error?: ErrorModel;
   /**
    * Indicates whether enable the trace functionality, which will be deprecated since api version
-   * 2020-11-01-preview. Please leverage appInsightsInstrumentationKey to indicate if
+   * 2021-03-03-preview. Please leverage appInsightsInstrumentationKey to indicate if
    * monitoringSettings enabled or not
    */
   traceEnabled?: boolean;
@@ -547,10 +547,6 @@ export interface AppResourceProperties {
    */
   httpsOnly?: boolean;
   /**
-   * Indicate if end to end TLS is enabled.
-   */
-  enableEndToEndTLS?: boolean;
-  /**
    * Date time when the resource is created
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -563,6 +559,10 @@ export interface AppResourceProperties {
    * Persistent disk settings
    */
   persistentDisk?: PersistentDisk;
+  /**
+   * Indicate if end to end TLS is enabled.
+   */
+  enableEndToEndTLS?: boolean;
 }
 
 /**
@@ -823,19 +823,41 @@ export interface UserSourceInfo {
 }
 
 /**
+ * Deployment resource request payload
+ */
+export interface ResourceRequests {
+  /**
+   * Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic
+   * tier, and {500m, 1, 2, 3, 4} for Standard tier.
+   */
+  cpu?: string;
+  /**
+   * Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi}
+   * for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier.
+   */
+  memory?: string;
+}
+
+/**
  * Deployment settings payload
  */
 export interface DeploymentSettings {
   /**
-   * Required CPU, basic tier should be 1, standard tier should be in range (1, 4). Default value:
-   * 1.
+   * Required CPU. This should be 1 for Basic tier, and in range [1, 4] for Standard tier. This is
+   * deprecated starting from API version 2020-03-03-preview. Please use the resourceRequests field
+   * to set the CPU size. Default value: 1.
    */
   cpu?: number;
   /**
-   * Required Memory size in GB, basic tier should be in range (1, 2), standard tier should be in
-   * range (1, 8). Default value: 1.
+   * Required Memory size in GB. This should be in range [1, 2] for Basic tier, and in range [1, 8]
+   * for Standard tier. This is deprecated starting from API version 2020-03-03-preview. Please use
+   * the resourceRequests field to set the the memory size. Default value: 1.
    */
   memoryInGB?: number;
+  /**
+   * The requested resource quantity.
+   */
+  resourceRequests?: ResourceRequests;
   /**
    * JVM parameter
    */
