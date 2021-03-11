@@ -597,7 +597,7 @@ export interface Input extends SubResource {
 /**
  * Contains the possible cases for StreamInputDataSource.
  */
-export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource;
+export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource | RawStreamInputDataSource;
 
 /**
  * Describes an input data source that contains stream data.
@@ -650,7 +650,7 @@ export interface StreamInputProperties {
 /**
  * Contains the possible cases for ReferenceInputDataSource.
  */
-export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
+export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | RawReferenceInputDataSource | AzureSqlReferenceInputDataSource;
 
 /**
  * Describes an input data source that contains reference data.
@@ -857,6 +857,26 @@ export interface IoTHubStreamInputDataSource {
 }
 
 /**
+ * Describes a raw input data source. This data source type is only applicable/usable when using
+ * the query testing API. You cannot create a job with this data source type or add an input/output
+ * of this data source type to an existing job.
+ */
+export interface RawStreamInputDataSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Raw";
+  /**
+   * The JSON serialized content of the input data.
+   */
+  payload?: string;
+  /**
+   * The SAS URL to a blob containing the JSON serialized content of the input data.
+   */
+  payloadUri?: string;
+}
+
+/**
  * Describes a blob input data source that contains reference data.
  */
 export interface BlobReferenceInputDataSource {
@@ -940,6 +960,26 @@ export interface BlobDataSourceProperties {
    * the time format instead.
    */
   timeFormat?: string;
+}
+
+/**
+ * Describes a raw input data source. This data source type is only applicable/usable when using
+ * the query testing API. You cannot create a job with this data source type or add an input/output
+ * of this data source type to an existing job.
+ */
+export interface RawReferenceInputDataSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Raw";
+  /**
+   * The JSON serialized content of the input data.
+   */
+  payload?: string;
+  /**
+   * The SAS URL to a blob containing the JSON serialized content of the input data.
+   */
+  payloadUri?: string;
 }
 
 /**
@@ -1155,7 +1195,7 @@ export interface AzureSqlReferenceInputDataSource {
 /**
  * Contains the possible cases for OutputDataSource.
  */
-export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
+export type OutputDataSourceUnion = OutputDataSource | RawOutputDatasource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
 
 /**
  * Describes the data source that output will be written to.
@@ -1197,6 +1237,21 @@ export interface Output extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+}
+
+/**
+ * Describes a raw output data source.
+ */
+export interface RawOutputDatasource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Raw";
+  /**
+   * The SAS URL to a blob where the output should be written. If this property is not set, output
+   * data will be embedded in the result response. The SAS URL needs to have write permission.
+   */
+  payloadUri?: string;
 }
 
 /**
@@ -2136,6 +2191,56 @@ export interface SubscriptionQuotasListResult {
 }
 
 /**
+ * Common error details representation.
+ */
+export interface ErrorDetails {
+  /**
+   * Error code.
+   */
+  code?: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Error message.
+   */
+  message?: string;
+}
+
+/**
+ * Error definition properties.
+ */
+export interface ErrorError {
+  /**
+   * Error code.
+   */
+  code?: string;
+  /**
+   * Error message.
+   */
+  message?: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Error details.
+   */
+  details?: ErrorDetails[];
+}
+
+/**
+ * Common error representation.
+ */
+export interface ErrorModel {
+  /**
+   * Error definition properties.
+   */
+  error?: ErrorError;
+}
+
+/**
  * The SKU of the cluster. This determines the size/capacity of the cluster. Required on PUT
  * (CreateOrUpdate) requests.
  */
@@ -2221,56 +2326,6 @@ export interface ClusterJob {
    * 'Failed', 'Degraded', 'Restarting', 'Scaling'
    */
   jobState?: JobState;
-}
-
-/**
- * Common error details representation.
- */
-export interface ErrorDetails {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-}
-
-/**
- * Error definition properties.
- */
-export interface ErrorError {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Error details.
-   */
-  details?: ErrorDetails[];
-}
-
-/**
- * Common error representation.
- */
-export interface ErrorModel {
-  /**
-   * Error definition properties.
-   */
-  error?: ErrorError;
 }
 
 /**
