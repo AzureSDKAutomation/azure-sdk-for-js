@@ -46,6 +46,7 @@ export {
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateEndpointConnectionListResult,
+  PrivateLinkResource,
   PrivateLinkServiceConnectionState,
   Resource,
   ResourceReference,

@@ -46,6 +46,7 @@ export {
   PowerState,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateLinkResource,
   PrivateLinkServiceConnectionState,
   Resource,
   ResourceReference,
