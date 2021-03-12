@@ -28,20 +28,20 @@ export class MachineLearningCompute {
 
   /**
    * Gets computes in specified workspace.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineLearningComputeListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineLearningComputeListByWorkspaceOptionalParams): Promise<Models.MachineLearningComputeListByWorkspaceResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.PaginatedComputeResourcesList>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback
@@ -61,7 +61,7 @@ export class MachineLearningCompute {
   /**
    * Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are
    * not returned - use 'keys' nested resource to get them.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
@@ -69,14 +69,14 @@ export class MachineLearningCompute {
    */
   get(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeGetResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<Models.ComputeResource>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param options The optional parameters
@@ -99,7 +99,7 @@ export class MachineLearningCompute {
    * Creates or updates compute. This call will overwrite a compute if it exists. This is a
    * nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify
    * that it does not exist yet.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param parameters Payload with Machine Learning compute definition.
@@ -114,7 +114,7 @@ export class MachineLearningCompute {
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
    * nonrecoverable operation.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param parameters Additional parameters for cluster update.
@@ -128,7 +128,7 @@ export class MachineLearningCompute {
 
   /**
    * Deletes specified Machine Learning compute.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param underlyingResourceAction Delete the underlying compute if 'Delete', or detach the
@@ -143,7 +143,7 @@ export class MachineLearningCompute {
 
   /**
    * Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
@@ -151,14 +151,14 @@ export class MachineLearningCompute {
    */
   listNodes(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeListNodesResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param callback The callback
    */
   listNodes(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param options The optional parameters
@@ -179,7 +179,7 @@ export class MachineLearningCompute {
 
   /**
    * Gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
@@ -187,14 +187,14 @@ export class MachineLearningCompute {
    */
   listKeys(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeListKeysResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<Models.ComputeSecretsUnion>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param options The optional parameters
@@ -215,79 +215,33 @@ export class MachineLearningCompute {
 
   /**
    * Posts a start action to a compute instance
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param computeName Name of the Azure Machine Learning compute.
-   * @param callback The callback
-   */
-  start(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param computeName Name of the Azure Machine Learning compute.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  start(resourceGroupName: string, workspaceName: string, computeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  start(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        options
-      },
-      startOperationSpec,
-      callback);
+  start(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName,workspaceName,computeName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
    * Posts a stop action to a compute instance
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param computeName Name of the Azure Machine Learning compute.
-   * @param callback The callback
-   */
-  stop(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param computeName Name of the Azure Machine Learning compute.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  stop(resourceGroupName: string, workspaceName: string, computeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        options
-      },
-      stopOperationSpec,
-      callback);
+  stop(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginStop(resourceGroupName,workspaceName,computeName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
    * Posts a restart action to a compute instance
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
@@ -295,14 +249,14 @@ export class MachineLearningCompute {
    */
   restart(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param callback The callback
    */
   restart(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param options The optional parameters
@@ -325,7 +279,7 @@ export class MachineLearningCompute {
    * Creates or updates compute. This call will overwrite a compute if it exists. This is a
    * nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify
    * that it does not exist yet.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param parameters Payload with Machine Learning compute definition.
@@ -348,7 +302,7 @@ export class MachineLearningCompute {
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
    * nonrecoverable operation.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param parameters Additional parameters for cluster update.
@@ -370,7 +324,7 @@ export class MachineLearningCompute {
 
   /**
    * Deletes specified Machine Learning compute.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param underlyingResourceAction Delete the underlying compute if 'Delete', or detach the
@@ -388,6 +342,46 @@ export class MachineLearningCompute {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Posts a start action to a compute instance
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginStart(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        options
+      },
+      beginStartOperationSpec,
+      options);
+  }
+
+  /**
+   * Posts a stop action to a compute instance
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginStop(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        options
+      },
+      beginStopOperationSpec,
       options);
   }
 
@@ -418,6 +412,34 @@ export class MachineLearningCompute {
       listByWorkspaceNextOperationSpec,
       callback) as Promise<Models.MachineLearningComputeListByWorkspaceNextResponse>;
   }
+
+  /**
+   * Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MachineLearningComputeListNodesNextResponse>
+   */
+  listNodesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeListNodesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNodesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNodesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
+  listNodesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AmlComputeNodesInformation>, callback?: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): Promise<Models.MachineLearningComputeListNodesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNodesNextOperationSpec,
+      callback) as Promise<Models.MachineLearningComputeListNodesNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -432,7 +454,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -519,54 +541,6 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ComputeSecrets
     },
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
-
-const startOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
-
-const stopOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
     default: {
       bodyMapper: Mappers.MachineLearningServiceError
     }
@@ -701,6 +675,54 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginStartOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
+const beginStopOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
 const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -710,7 +732,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -718,6 +740,30 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedComputeResourcesList
+    },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
+const listNodesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AmlComputeNodesInformation
     },
     default: {
       bodyMapper: Mappers.MachineLearningServiceError

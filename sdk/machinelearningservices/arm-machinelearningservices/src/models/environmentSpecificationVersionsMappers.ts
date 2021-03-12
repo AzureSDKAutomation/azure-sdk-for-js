@@ -105,6 +105,7 @@ export {
   EnvironmentImageResponseEnvironmentReference,
   EnvironmentReference,
   EnvironmentSpecificationVersionResource,
+  EnvironmentSpecificationVersionResourceArmPaginatedResult,
   ErrorDetail,
   ErrorResponse,
   EvaluationConfiguration,
@@ -160,7 +161,6 @@ export {
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +216,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

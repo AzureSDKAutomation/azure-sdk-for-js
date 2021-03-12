@@ -50,6 +50,7 @@ export {
   CertificateSection,
   CodeConfiguration,
   CodeContainerResource,
+  CodeContainerResourceArmPaginatedResult,
   CodeVersionResource,
   CommandJob,
   Component,
@@ -160,7 +161,6 @@ export {
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +216,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

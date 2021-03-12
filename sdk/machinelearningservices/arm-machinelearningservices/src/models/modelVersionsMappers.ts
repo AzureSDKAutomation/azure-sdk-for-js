@@ -155,12 +155,12 @@ export {
   ModelPythonSection,
   ModelSparkSection,
   ModelVersionResource,
+  ModelVersionResourceArmPaginatedResult,
   Mpi,
   NodeStateCounts,
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +216,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

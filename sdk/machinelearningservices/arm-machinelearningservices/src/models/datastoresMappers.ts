@@ -89,6 +89,7 @@ export {
   DatastoreContents,
   DatastoreCredentials,
   DatastorePropertiesResource,
+  DatastorePropertiesResourceArmPaginatedResult,
   DataVersionResource,
   DistributionConfiguration,
   DockerBuild,
@@ -160,7 +161,6 @@ export {
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +216,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

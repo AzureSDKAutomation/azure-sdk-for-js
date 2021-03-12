@@ -99,6 +99,7 @@ export {
   EncryptionProperties,
   EncryptionProperty,
   EnvironmentContainerResource,
+  EnvironmentContainerResourceArmPaginatedResult,
   EnvironmentImageRequestEnvironmentReference,
   EnvironmentImageResponse,
   EnvironmentImageResponseEnvironment,
@@ -160,7 +161,6 @@ export {
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +216,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

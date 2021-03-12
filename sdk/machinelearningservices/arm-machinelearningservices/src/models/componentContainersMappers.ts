@@ -54,6 +54,7 @@ export {
   CommandJob,
   Component,
   ComponentContainerResource,
+  ComponentContainerResourceArmPaginatedResult,
   ComponentInput,
   ComponentInputEnum,
   ComponentInputGeneric,
@@ -160,7 +161,6 @@ export {
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +216,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

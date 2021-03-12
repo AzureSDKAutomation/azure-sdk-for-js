@@ -28,20 +28,20 @@ export class Workspaces {
 
   /**
    * Gets the properties of the specified machine learning workspace.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesGetResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.Workspace>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class Workspaces {
 
   /**
    * Creates or updates a workspace with the specified parameters.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param parameters The parameters for creating or updating a machine learning workspace.
    * @param [options] The optional parameters
@@ -73,7 +73,7 @@ export class Workspaces {
 
   /**
    * Deletes a machine learning workspace.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -85,7 +85,7 @@ export class Workspaces {
 
   /**
    * Updates a machine learning workspace with the specified parameters.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param parameters The parameters for updating a machine learning workspace.
    * @param [options] The optional parameters
@@ -93,14 +93,14 @@ export class Workspaces {
    */
   update(resourceGroupName: string, workspaceName: string, parameters: Models.WorkspaceUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesUpdateResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param parameters The parameters for updating a machine learning workspace.
    * @param callback The callback
    */
   update(resourceGroupName: string, workspaceName: string, parameters: Models.WorkspaceUpdateParameters, callback: msRest.ServiceCallback<Models.Workspace>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param parameters The parameters for updating a machine learning workspace.
    * @param options The optional parameters
@@ -121,18 +121,18 @@ export class Workspaces {
 
   /**
    * Lists all the available machine learning workspaces under the specified resource group.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: Models.WorkspacesListByResourceGroupOptionalParams): Promise<Models.WorkspacesListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -150,20 +150,20 @@ export class Workspaces {
   /**
    * Lists all the keys associated with this workspace. This includes keys for the storage account,
    * app insights and password for container registry
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesListKeysResponse>
    */
   listKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListKeysResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ListWorkspaceKeysResult>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback
@@ -183,20 +183,20 @@ export class Workspaces {
   /**
    * Resync all the keys associated with this workspace. This includes keys for the storage account,
    * app insights and password for container registry
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   resyncKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
   resyncKeys(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback
@@ -238,8 +238,40 @@ export class Workspaces {
   }
 
   /**
+   * return notebook access token and refresh token
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WorkspacesListNotebookAccessTokenResponse>
+   */
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListNotebookAccessTokenResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param callback The callback
+   */
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.NotebookAccessTokenResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotebookAccessTokenResult>): void;
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotebookAccessTokenResult>, callback?: msRest.ServiceCallback<Models.NotebookAccessTokenResult>): Promise<Models.WorkspacesListNotebookAccessTokenResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        options
+      },
+      listNotebookAccessTokenOperationSpec,
+      callback) as Promise<Models.WorkspacesListNotebookAccessTokenResponse>;
+  }
+
+  /**
    * Creates or updates a workspace with the specified parameters.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param parameters The parameters for creating or updating a machine learning workspace.
    * @param [options] The optional parameters
@@ -259,7 +291,7 @@ export class Workspaces {
 
   /**
    * Deletes a machine learning workspace.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -400,7 +432,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -472,7 +504,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -480,6 +512,31 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.WorkspaceListResult
+    },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
+const listNotebookAccessTokenOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookAccessToken",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NotebookAccessTokenResult
     },
     default: {
       bodyMapper: Mappers.MachineLearningServiceError
@@ -558,7 +615,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -583,7 +640,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage

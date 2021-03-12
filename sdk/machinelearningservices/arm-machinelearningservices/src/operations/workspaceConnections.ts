@@ -27,20 +27,20 @@ export class WorkspaceConnections {
 
   /**
    * List all connections under a AML workspace.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceConnectionsListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: Models.WorkspaceConnectionsListOptionalParams): Promise<Models.WorkspaceConnectionsListResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.PaginatedWorkspaceConnectionsList>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback
@@ -59,7 +59,7 @@ export class WorkspaceConnections {
 
   /**
    * Add a new workspace connection.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param parameters The object for creating or updating a new workspace connection
@@ -68,7 +68,7 @@ export class WorkspaceConnections {
    */
   create(resourceGroupName: string, workspaceName: string, connectionName: string, parameters: Models.WorkspaceConnectionDto, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceConnectionsCreateResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param parameters The object for creating or updating a new workspace connection
@@ -76,7 +76,7 @@ export class WorkspaceConnections {
    */
   create(resourceGroupName: string, workspaceName: string, connectionName: string, parameters: Models.WorkspaceConnectionDto, callback: msRest.ServiceCallback<Models.WorkspaceConnection>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param parameters The object for creating or updating a new workspace connection
@@ -99,7 +99,7 @@ export class WorkspaceConnections {
 
   /**
    * Get the detail of a workspace connection.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param [options] The optional parameters
@@ -107,14 +107,14 @@ export class WorkspaceConnections {
    */
   get(resourceGroupName: string, workspaceName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceConnectionsGetResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, connectionName: string, callback: msRest.ServiceCallback<Models.WorkspaceConnection>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param options The optional parameters
@@ -135,7 +135,7 @@ export class WorkspaceConnections {
 
   /**
    * Delete a workspace connection.
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param [options] The optional parameters
@@ -143,14 +143,14 @@ export class WorkspaceConnections {
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, connectionName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
    * @param options The optional parameters

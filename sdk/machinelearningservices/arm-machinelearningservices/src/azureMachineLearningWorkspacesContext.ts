@@ -16,13 +16,13 @@ const packageVersion = "4.0.0";
 
 export class AzureMachineLearningWorkspacesContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
   apiVersion?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the AzureMachineLearningWorkspaces class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure subscription identifier.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMachineLearningWorkspacesOptions) {
@@ -43,7 +43,7 @@ export class AzureMachineLearningWorkspacesContext extends msRestAzure.AzureServ
 
     super(credentials, options);
 
-    this.apiVersion = '2020-08-01';
+    this.apiVersion = '2021-03-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

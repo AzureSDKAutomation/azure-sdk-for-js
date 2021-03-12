@@ -124,7 +124,9 @@ export {
   JobBase,
   JobBaseInteractionEndpoints,
   JobBaseResource,
+  JobBaseResourceArmPaginatedResult,
   JobOutput,
+  JobsDeleteHeaders,
   KeyVaultProperties,
   LabelCategory,
   LabelClass,
@@ -160,7 +162,6 @@ export {
   NotebookPreparationError,
   NotebookResourceInfo,
   OutputData,
-  PaginatedWorkspaceConnectionsList,
   ParameterSamplingConfiguration,
   PersonalComputeInstanceSettings,
   PipelineInput,
@@ -216,6 +217,5 @@ export {
   VirtualMachineSshCredentials,
   VnetConfiguration,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceConnectionDto
+  WorkspaceConnection
 } from "../models/mappers";

@@ -27,20 +27,20 @@ export class WorkspaceFeatures {
 
   /**
    * Lists all enabled features for a workspace
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceFeaturesListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceFeaturesListResponse>;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ListAmlUserFeatureResult>): void;
   /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback

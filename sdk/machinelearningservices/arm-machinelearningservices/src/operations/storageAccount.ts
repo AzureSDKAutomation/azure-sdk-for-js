@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/privateLinkResourcesMappers";
+import * as Mappers from "../models/storageAccountMappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspacesContext } from "../azureMachineLearningWorkspacesContext";
 
-/** Class representing a PrivateLinkResources. */
-export class PrivateLinkResources {
+/** Class representing a StorageAccount. */
+export class StorageAccount {
   private readonly client: AzureMachineLearningWorkspacesContext;
 
   /**
-   * Create a PrivateLinkResources.
+   * Create a StorageAccount.
    * @param {AzureMachineLearningWorkspacesContext} client Reference to the service client.
    */
   constructor(client: AzureMachineLearningWorkspacesContext) {
@@ -26,43 +26,42 @@ export class PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateLinkResourcesListByWorkspaceResponse>
+   * @returns Promise<Models.StorageAccountListKeysResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByWorkspaceResponse>;
+  listKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listKeys(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ListStorageAccountKeysResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListByWorkspaceResponse> {
+  listKeys(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListStorageAccountKeysResult>): void;
+  listKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListStorageAccountKeysResult>, callback?: msRest.ServiceCallback<Models.ListStorageAccountKeysResult>): Promise<Models.StorageAccountListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         options
       },
-      listByWorkspaceOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByWorkspaceResponse>;
+      listKeysOperationSpec,
+      callback) as Promise<Models.StorageAccountListKeysResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByWorkspaceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateLinkResources",
+const listKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listStorageAccountKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -76,10 +75,10 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.ListStorageAccountKeysResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.MachineLearningServiceError
     }
   },
   serializer
