@@ -67,11 +67,33 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     }
   }
 };
+export const apiVersion4: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2021-03-01',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const availabilitySetName: msRest.OperationURLParameter = {
   parameterPath: "availabilitySetName",
   mapper: {
     required: true,
     serializedName: "availabilitySetName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const cloudServiceName: msRest.OperationURLParameter = {
+  parameterPath: "cloudServiceName",
+  mapper: {
+    required: true,
+    serializedName: "cloudServiceName",
     type: {
       name: "String"
     }
@@ -346,6 +368,26 @@ export const orderby: msRest.OperationQueryParameter = {
     }
   }
 };
+export const osFamilyName: msRest.OperationURLParameter = {
+  parameterPath: "osFamilyName",
+  mapper: {
+    required: true,
+    serializedName: "osFamilyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const osVersionName: msRest.OperationURLParameter = {
+  parameterPath: "osVersionName",
+  mapper: {
+    required: true,
+    serializedName: "osVersionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const platformUpdateDomain: msRest.OperationQueryParameter = {
   parameterPath: "platformUpdateDomain",
   mapper: {
@@ -401,6 +443,26 @@ export const restorePointCollectionName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "restorePointCollectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleInstanceName: msRest.OperationURLParameter = {
+  parameterPath: "roleInstanceName",
+  mapper: {
+    required: true,
+    serializedName: "roleInstanceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleName: msRest.OperationURLParameter = {
+  parameterPath: "roleName",
+  mapper: {
+    required: true,
+    serializedName: "roleName",
     type: {
       name: "String"
     }
@@ -524,6 +586,16 @@ export const type: msRest.OperationURLParameter = {
     serializedName: "type",
     type: {
       name: "String"
+    }
+  }
+};
+export const updateDomain: msRest.OperationURLParameter = {
+  parameterPath: "updateDomain",
+  mapper: {
+    required: true,
+    serializedName: "updateDomain",
+    type: {
+      name: "Number"
     }
   }
 };
