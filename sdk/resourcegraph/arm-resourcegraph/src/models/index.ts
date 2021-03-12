@@ -31,9 +31,16 @@ export interface QueryRequestOptions {
    */
   skip?: number;
   /**
-   * Defines in which format query result returned. Possible values include: 'table', 'objectArray'
+   * Defines in which format query result returned. Possible values include: 'table',
+   * 'objectArray'. Default value: 'objectArray'.
    */
   resultFormat?: ResultFormat;
+  /**
+   * Only applicable for tenant and management group level queries to decide whether to allow
+   * partial scopes for result in case the number of subscriptions exceed allowed limits. Default
+   * value: false.
+   */
+  allowPartialScopes?: boolean;
 }
 
 /**
@@ -83,9 +90,9 @@ export interface QueryRequest {
    */
   subscriptions?: string[];
   /**
-   * The management group identifier.
+   * Azure management groups against which to execute the query. Example: [ 'mg1', 'mg2' ]
    */
-  managementGroupId?: string;
+  managementGroups?: string[];
   /**
    * The resources query.
    */
@@ -139,11 +146,11 @@ export interface QueryResponse {
   resultTruncated: ResultTruncated;
   /**
    * When present, the value can be passed to a subsequent query call (together with the same query
-   * and subscriptions used in the current request) to retrieve the next page of data.
+   * and scopes used in the current request) to retrieve the next page of data.
    */
   skipToken?: string;
   /**
-   * Query output in tabular format.
+   * Query output in JObject array or Table format.
    */
   data: any;
   /**
@@ -201,7 +208,7 @@ export interface FacetResult {
    */
   count: number;
   /**
-   * A table containing the desired facets. Only present if the facet is valid.
+   * A JObject array or Table containing the desired facets. Only present if the facet is valid.
    */
   data: any;
 }
@@ -342,9 +349,13 @@ export interface ResourceChangesRequestParametersInterval extends DateTimeInterv
  */
 export interface ResourceChangesRequestParameters {
   /**
-   * Specifies the resource for a changes request.
+   * Specifies the list of resources for a changes request.
    */
-  resourceId: string;
+  resourceIds?: string[];
+  /**
+   * The subscription id of resources to query the changes from.
+   */
+  subscriptionId?: string;
   /**
    * Specifies the date and time interval for a changes request.
    */
@@ -358,9 +369,17 @@ export interface ResourceChangesRequestParameters {
    */
   top?: number;
   /**
+   * The table name to query resources from.
+   */
+  table?: string;
+  /**
    * The flag if set to true will fetch property changes
    */
   fetchPropertyChanges?: boolean;
+  /**
+   * The flag if set to true will fetch change snapshots
+   */
+  fetchSnapshots?: boolean;
 }
 
 /**
@@ -428,7 +447,7 @@ export interface ResourcePropertyChange {
  */
 export interface ResourceChangeData {
   /**
-   * The ID of the resource
+   * The resource for a change.
    */
   resourceId?: string;
   /**
@@ -478,13 +497,13 @@ export interface ResourceChangeList {
  */
 export interface ResourceChangeDetailsRequestParameters {
   /**
-   * Specifies the resource for a change details request.
+   * Specifies the list of resources for a change details request.
    */
-  resourceId: string;
+  resourceIds: string[];
   /**
-   * Specifies the change ID.
+   * Specifies the list of change IDs for a change details request.
    */
-  changeId: string;
+  changeIds: string[];
 }
 
 /**
@@ -634,7 +653,7 @@ export type ResourceChangesResponse = ResourceChangeList & {
 /**
  * Contains response data for the resourceChangeDetails operation.
  */
-export type ResourceChangeDetailsResponse = ResourceChangeData & {
+export type ResourceChangeDetailsResponse = Array<ResourceChangeData> & {
   /**
    * The underlying HTTP response.
    */
@@ -647,7 +666,7 @@ export type ResourceChangeDetailsResponse = ResourceChangeData & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ResourceChangeData;
+      parsedBody: ResourceChangeData[];
     };
 };
 

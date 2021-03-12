@@ -45,12 +45,20 @@ export const QueryRequestOptions: msRest.CompositeMapper = {
       },
       resultFormat: {
         serializedName: "resultFormat",
+        defaultValue: 'objectArray',
         type: {
           name: "Enum",
           allowedValues: [
             "table",
             "objectArray"
           ]
+        }
+      },
+      allowPartialScopes: {
+        serializedName: "allowPartialScopes",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -141,10 +149,15 @@ export const QueryRequest: msRest.CompositeMapper = {
           }
         }
       },
-      managementGroupId: {
-        serializedName: "managementGroupId",
+      managementGroups: {
+        serializedName: "managementGroups",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       query: {
@@ -594,9 +607,19 @@ export const ResourceChangesRequestParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "ResourceChangesRequestParameters",
     modelProperties: {
-      resourceId: {
-        required: true,
-        serializedName: "resourceId",
+      resourceIds: {
+        serializedName: "resourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
         type: {
           name: "String"
         }
@@ -625,8 +648,20 @@ export const ResourceChangesRequestParameters: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      table: {
+        serializedName: "table",
+        type: {
+          name: "String"
+        }
+      },
       fetchPropertyChanges: {
         serializedName: "fetchPropertyChanges",
+        type: {
+          name: "Boolean"
+        }
+      },
+      fetchSnapshots: {
+        serializedName: "fetchSnapshots",
         type: {
           name: "Boolean"
         }
@@ -834,18 +869,28 @@ export const ResourceChangeDetailsRequestParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "ResourceChangeDetailsRequestParameters",
     modelProperties: {
-      resourceId: {
+      resourceIds: {
         required: true,
-        serializedName: "resourceId",
+        serializedName: "resourceIds",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
-      changeId: {
+      changeIds: {
         required: true,
-        serializedName: "changeId",
+        serializedName: "changeIds",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
