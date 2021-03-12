@@ -31,6 +31,8 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSets: operations.VirtualMachineScaleSets;
   virtualMachineSizes: operations.VirtualMachineSizes;
   images: operations.Images;
+  restorePointCollections: operations.RestorePointCollections;
+  restorePoints: operations.RestorePoints;
   virtualMachineScaleSetExtensions: operations.VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetRollingUpgrades: operations.VirtualMachineScaleSetRollingUpgrades;
   virtualMachineScaleSetVMExtensions: operations.VirtualMachineScaleSetVMExtensions;
@@ -74,6 +76,8 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSets = new operations.VirtualMachineScaleSets(this);
     this.virtualMachineSizes = new operations.VirtualMachineSizes(this);
     this.images = new operations.Images(this);
+    this.restorePointCollections = new operations.RestorePointCollections(this);
+    this.restorePoints = new operations.RestorePoints(this);
     this.virtualMachineScaleSetExtensions = new operations.VirtualMachineScaleSetExtensions(this);
     this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(this);
     this.virtualMachineScaleSetVMExtensions = new operations.VirtualMachineScaleSetVMExtensions(this);

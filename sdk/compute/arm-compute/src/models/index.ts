@@ -12,6 +12,766 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * An interface representing SubResource.
+ */
+export interface SubResource extends BaseResource {
+  /**
+   * Resource Id
+   */
+  id?: string;
+}
+
+/**
+ * Specifies the hardware settings for the virtual machine.
+ */
+export interface HardwareProfile {
+  /**
+   * Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated
+   * and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of
+   * available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an
+   * availability
+   * set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br>
+   * [List all available virtual machine sizes in a region](
+   * https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list) <br><br> [List all
+   * available virtual machine sizes for
+   * resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For
+   * more information about virtual machine sizes, see [Sizes for virtual
+   * machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes). <br><br> The
+   * available VM sizes depend on region and availability set. Possible values include: 'Basic_A0',
+   * 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2',
+   * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8',
+   * 'Standard_A9', 'Standard_A10', 'Standard_A11', 'Standard_A1_v2', 'Standard_A2_v2',
+   * 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2',
+   * 'Standard_B1s', 'Standard_B1ms', 'Standard_B2s', 'Standard_B2ms', 'Standard_B4ms',
+   * 'Standard_B8ms', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11',
+   * 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2',
+   * 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D2_v3', 'Standard_D4_v3',
+   * 'Standard_D8_v3', 'Standard_D16_v3', 'Standard_D32_v3', 'Standard_D64_v3', 'Standard_D2s_v3',
+   * 'Standard_D4s_v3', 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+   * 'Standard_D64s_v3', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2',
+   * 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
+   * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
+   * 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_DS11_v2', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
+   * 'Standard_DS15_v2', 'Standard_DS13-4_v2', 'Standard_DS13-2_v2', 'Standard_DS14-8_v2',
+   * 'Standard_DS14-4_v2', 'Standard_E2_v3', 'Standard_E4_v3', 'Standard_E8_v3', 'Standard_E16_v3',
+   * 'Standard_E32_v3', 'Standard_E64_v3', 'Standard_E2s_v3', 'Standard_E4s_v3', 'Standard_E8s_v3',
+   * 'Standard_E16s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_E32-16_v3',
+   * 'Standard_E32-8s_v3', 'Standard_E64-32s_v3', 'Standard_E64-16s_v3', 'Standard_F1',
+   * 'Standard_F2', 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s',
+   * 'Standard_F4s', 'Standard_F8s', 'Standard_F16s', 'Standard_F2s_v2', 'Standard_F4s_v2',
+   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2', 'Standard_F64s_v2',
+   * 'Standard_F72s_v2', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
+   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+   * 'Standard_GS4-8', 'Standard_GS4-4', 'Standard_GS5-16', 'Standard_GS5-8', 'Standard_H8',
+   * 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr',
+   * 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s', 'Standard_M64s',
+   * 'Standard_M64ms', 'Standard_M128s', 'Standard_M128ms', 'Standard_M64-32ms',
+   * 'Standard_M64-16ms', 'Standard_M128-64ms', 'Standard_M128-32ms', 'Standard_NC6',
+   * 'Standard_NC12', 'Standard_NC24', 'Standard_NC24r', 'Standard_NC6s_v2', 'Standard_NC12s_v2',
+   * 'Standard_NC24s_v2', 'Standard_NC24rs_v2', 'Standard_NC6s_v3', 'Standard_NC12s_v3',
+   * 'Standard_NC24s_v3', 'Standard_NC24rs_v3', 'Standard_ND6s', 'Standard_ND12s',
+   * 'Standard_ND24s', 'Standard_ND24rs', 'Standard_NV6', 'Standard_NV12', 'Standard_NV24'
+   */
+  vmSize?: VirtualMachineSizeTypes;
+}
+
+/**
+ * Describes a reference to Key Vault Secret
+ */
+export interface KeyVaultSecretReference {
+  /**
+   * The URL referencing a secret in a Key Vault.
+   */
+  secretUrl: string;
+  /**
+   * The relative URL of the Key Vault containing the secret.
+   */
+  sourceVault: SubResource;
+}
+
+/**
+ * Describes a reference to Key Vault Key
+ */
+export interface KeyVaultKeyReference {
+  /**
+   * The URL referencing a key encryption key in Key Vault.
+   */
+  keyUrl: string;
+  /**
+   * The relative URL of the Key Vault containing the key.
+   */
+  sourceVault: SubResource;
+}
+
+/**
+ * Describes a Encryption Settings for a Disk
+ */
+export interface DiskEncryptionSettings {
+  /**
+   * Specifies the location of the disk encryption key, which is a Key Vault Secret.
+   */
+  diskEncryptionKey?: KeyVaultSecretReference;
+  /**
+   * Specifies the location of the key encryption key in Key Vault.
+   */
+  keyEncryptionKey?: KeyVaultKeyReference;
+  /**
+   * Specifies whether disk encryption should be enabled on the virtual machine.
+   */
+  enabled?: boolean;
+}
+
+/**
+ * Describes the parameter of customer managed disk encryption set resource id that can be
+ * specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for
+ * managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
+ */
+export interface DiskEncryptionSetParameters extends SubResource {
+}
+
+/**
+ * The parameters of a managed disk.
+ */
+export interface ManagedDiskParameters extends SubResource {
+  /**
+   * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
+   * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   */
+  storageAccountType?: StorageAccountTypes;
+  /**
+   * Specifies the customer managed disk encryption set resource id for the managed disk.
+   */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+}
+
+/**
+ * The API entity reference.
+ */
+export interface ApiEntityReference {
+  /**
+   * The ARM resource id in the form of
+   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
+   */
+  id?: string;
+}
+
+/**
+ * Describes an Operating System disk.
+ */
+export interface RestorePointSourceVMOSDisk {
+  /**
+   * Gets the Operating System type. Possible values include: 'Windows', 'Linux'
+   */
+  osType?: OperatingSystemTypes;
+  /**
+   * Gets or sets the disk encryption settings.
+   */
+  encryptionSettings?: DiskEncryptionSettings;
+  /**
+   * Gets or sets the disk name.
+   */
+  name?: string;
+  /**
+   * Gets or sets the caching type. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
+   */
+  caching?: CachingTypes;
+  /**
+   * Gets the disk size in GB.
+   */
+  diskSizeGB?: number;
+  /**
+   * Gets the managed disk details
+   */
+  managedDisk?: ManagedDiskParameters;
+  /**
+   * Gets or sets the disk restore point Id.
+   */
+  diskRestorePoint?: ApiEntityReference;
+}
+
+/**
+ * Describes a data disk.
+ */
+export interface RestorePointSourceVMDataDisk {
+  /**
+   * Gets or sets the logical unit number.
+   */
+  lun?: number;
+  /**
+   * Gets or sets the disk name.
+   */
+  name?: string;
+  /**
+   * Gets or sets the caching type. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
+   */
+  caching?: CachingTypes;
+  /**
+   * Gets or sets the initial disk size in GB for blank data disks, and the new desired size for
+   * existing OS and Data disks.
+   */
+  diskSizeGB?: number;
+  /**
+   * Gets the managed disk details
+   */
+  managedDisk?: ManagedDiskParameters;
+  /**
+   * Gets or sets the disk restore point Id.
+   */
+  diskRestorePoint?: ApiEntityReference;
+}
+
+/**
+ * Describes the storage profile.
+ */
+export interface RestorePointSourceVMStorageProfile {
+  /**
+   * Gets the OS disk of the VM captured at the time of the restore point creation.
+   */
+  osDisk?: RestorePointSourceVMOSDisk;
+  /**
+   * Gets the data disks of the VM captured at the time of the restore point creation.
+   */
+  dataDisks?: RestorePointSourceVMDataDisk[];
+}
+
+/**
+ * Specifies additional XML formatted information that can be included in the Unattend.xml file,
+ * which is used by Windows Setup. Contents are defined by setting name, component name, and the
+ * pass in which the content is applied.
+ */
+export interface AdditionalUnattendContent {
+  /**
+   * The pass name. Currently, the only allowable value is OobeSystem. Possible values include:
+   * 'OobeSystem'
+   */
+  passName?: PassNames;
+  /**
+   * The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
+   * Possible values include: 'Microsoft-Windows-Shell-Setup'
+   */
+  componentName?: ComponentNames;
+  /**
+   * Specifies the name of the setting to which the content applies. Possible values are:
+   * FirstLogonCommands and AutoLogon. Possible values include: 'AutoLogon', 'FirstLogonCommands'
+   */
+  settingName?: SettingNames;
+  /**
+   * Specifies the XML formatted content that is added to the unattend.xml file for the specified
+   * path and component. The XML must be less than 4KB and must include the root element for the
+   * setting or feature that is being inserted.
+   */
+  content?: string;
+}
+
+/**
+ * Specifies settings related to VM Guest Patching on Windows.
+ */
+export interface PatchSettings {
+  /**
+   * Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values
+   * are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine.
+   * You do this by applying patches manually inside the VM. In this mode, automatic updates are
+   * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
+   * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
+   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform**
+   * - the virtual machine will automatically updated by the platform. The properties
+   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true. Possible values
+   * include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+   */
+  patchMode?: WindowsVMGuestPatchMode;
+  /**
+   * Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching,
+   * the 'provisionVMAgent' must be set to true and 'patchMode' must be set to
+   * 'AutomaticByPlatform'.
+   */
+  enableHotpatching?: boolean;
+}
+
+/**
+ * Describes Protocol and thumbprint of Windows Remote Management listener
+ */
+export interface WinRMListener {
+  /**
+   * Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br>
+   * **https**. Possible values include: 'Http', 'Https'
+   */
+  protocol?: ProtocolTypes;
+  /**
+   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
+   * secret to the Key Vault, see [Add a key or secret to the key
+   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
+   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
+   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
+   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
+   */
+  certificateUrl?: string;
+}
+
+/**
+ * Describes Windows Remote Management configuration of the VM
+ */
+export interface WinRMConfiguration {
+  /**
+   * The list of Windows Remote Management listeners
+   */
+  listeners?: WinRMListener[];
+}
+
+/**
+ * Specifies Windows operating system settings on the virtual machine.
+ */
+export interface WindowsConfiguration {
+  /**
+   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
+   * When this property is not specified in the request body, default behavior is to set it to
+   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
+   * to the VM later.
+   */
+  provisionVMAgent?: boolean;
+  /**
+   * Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value
+   * is true. <br><br> For virtual machine scale sets, this property can be updated and updates
+   * will take effect on OS reprovisioning.
+   */
+  enableAutomaticUpdates?: boolean;
+  /**
+   * Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br>
+   * Possible values can be
+   * [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id)
+   * value from time zones returned by
+   * [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
+   */
+  timeZone?: string;
+  /**
+   * Specifies additional base-64 encoded XML formatted information that can be included in the
+   * Unattend.xml file, which is used by Windows Setup.
+   */
+  additionalUnattendContent?: AdditionalUnattendContent[];
+  /**
+   * [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
+   */
+  patchSettings?: PatchSettings;
+  /**
+   * Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
+   */
+  winRM?: WinRMConfiguration;
+}
+
+/**
+ * Contains information about SSH certificate public key and the path on the Linux VM where the
+ * public key is placed.
+ */
+export interface SshPublicKey {
+  /**
+   * Specifies the full path on the created VM where ssh public key is stored. If the file already
+   * exists, the specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
+   */
+  path?: string;
+  /**
+   * SSH public key certificate used to authenticate with the VM through ssh. The key needs to be
+   * at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys
+   * on Linux and Mac for Linux VMs in
+   * Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+   */
+  keyData?: string;
+}
+
+/**
+ * SSH configuration for Linux based VMs running on Azure
+ */
+export interface SshConfiguration {
+  /**
+   * The list of SSH public keys used to authenticate with linux based VMs.
+   */
+  publicKeys?: SshPublicKey[];
+}
+
+/**
+ * Specifies settings related to VM Guest Patching on Linux.
+ */
+export interface LinuxPatchSettings {
+  /**
+   * Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values
+   * are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is
+   * used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated
+   * by the platform. The property provisionVMAgent must be true. Possible values include:
+   * 'ImageDefault', 'AutomaticByPlatform'
+   */
+  patchMode?: LinuxVMGuestPatchMode;
+}
+
+/**
+ * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
+ * supported Linux distributions, see [Linux on Azure-Endorsed
+ * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+ * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
+ * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+ */
+export interface LinuxConfiguration {
+  /**
+   * Specifies whether password authentication should be disabled.
+   */
+  disablePasswordAuthentication?: boolean;
+  /**
+   * Specifies the ssh key configuration for a Linux OS.
+   */
+  ssh?: SshConfiguration;
+  /**
+   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
+   * When this property is not specified in the request body, default behavior is to set it to
+   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
+   * to the VM later.
+   */
+  provisionVMAgent?: boolean;
+  /**
+   * [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
+   */
+  patchSettings?: LinuxPatchSettings;
+}
+
+/**
+ * Describes a single certificate reference in a Key Vault, and where the certificate should reside
+ * on the VM.
+ */
+export interface VaultCertificate {
+  /**
+   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
+   * secret to the Key Vault, see [Add a key or secret to the key
+   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
+   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
+   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
+   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
+   */
+  certificateUrl?: string;
+  /**
+   * For Windows VMs, specifies the certificate store on the Virtual Machine to which the
+   * certificate should be added. The specified certificate store is implicitly in the LocalMachine
+   * account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent
+   * directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file
+   * and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
+   */
+  certificateStore?: string;
+}
+
+/**
+ * Describes a set of certificates which are all in the same Key Vault.
+ */
+export interface VaultSecretGroup {
+  /**
+   * The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
+   */
+  sourceVault?: SubResource;
+  /**
+   * The list of key vault references in SourceVault which contain certificates.
+   */
+  vaultCertificates?: VaultCertificate[];
+}
+
+/**
+ * Specifies the operating system settings for the virtual machine. Some of the settings cannot be
+ * changed once VM is provisioned.
+ */
+export interface OSProfile {
+  /**
+   * Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after
+   * the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length
+   * (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure
+   * infrastructure services implementation
+   * guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+   */
+  computerName?: string;
+  /**
+   * Specifies the name of the administrator account. <br><br> This property cannot be updated
+   * after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br>
+   * **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1",
+   * "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
+   * "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
+   * "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character
+   * <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20
+   * characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux
+   * virtual machines in
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li>
+   * For a list of built-in system users on Linux that should not be used in this field, see
+   * [Selecting User Names for Linux on
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+   */
+  adminUsername?: string;
+  /**
+   * Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8
+   * characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length
+   * (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br>
+   * **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower
+   * characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match
+   * [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123",
+   * "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For
+   * resetting the password, see [How to reset the Remote Desktop service or its login password in
+   * a Windows
+   * VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+   * <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on
+   * Azure Linux VMs using the VMAccess
+   * Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+   */
+  adminPassword?: string;
+  /**
+   * Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a
+   * binary array that is saved as a file on the Virtual Machine. The maximum length of the binary
+   * array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData
+   * property** <br><br> This property cannot be updated after the VM is created. <br><br>
+   * customData is passed to the VM to be saved as a file, for more information see [Custom Data on
+   * Azure
+   * VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/)
+   * <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM
+   * during
+   * creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+   */
+  customData?: string;
+  /**
+   * Specifies Windows operating system settings on the virtual machine.
+   */
+  windowsConfiguration?: WindowsConfiguration;
+  /**
+   * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
+   * supported Linux distributions, see [Linux on Azure-Endorsed
+   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+   * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
+   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+   */
+  linuxConfiguration?: LinuxConfiguration;
+  /**
+   * Specifies set of certificates that should be installed onto the virtual machine.
+   */
+  secrets?: VaultSecretGroup[];
+  /**
+   * Specifies whether extension operations should be allowed on the virtual machine. <br><br>This
+   * may only be set to False when no extensions are present on the virtual machine.
+   */
+  allowExtensionOperations?: boolean;
+  /**
+   * Specifies whether the guest provision signal is required to infer provision success of the
+   * virtual machine.  **Note: This property is for private testing only, and all customers must
+   * not set the property to false.**
+   */
+  requireGuestProvisionSignal?: boolean;
+}
+
+/**
+ * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
+ * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
+ * Azure also enables you to see a screenshot of the VM from the hypervisor.
+ */
+export interface BootDiagnostics {
+  /**
+   * Whether boot diagnostics should be enabled on the Virtual Machine.
+   */
+  enabled?: boolean;
+  /**
+   * Uri of the storage account to use for placing the console output and screenshot. <br><br>If
+   * storageUri is not specified while enabling boot diagnostics, managed storage will be used.
+   */
+  storageUri?: string;
+}
+
+/**
+ * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
+ */
+export interface DiagnosticsProfile {
+  /**
+   * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
+   * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
+   * Azure also enables you to see a screenshot of the VM from the hypervisor.
+   */
+  bootDiagnostics?: BootDiagnostics;
+}
+
+/**
+ * Describes the properties of the Virtual Machine for which the restore point was created. The
+ * properties provided are a subset and the snapshot of the overall Virtual Machine properties
+ * captured at the time of the restore point creation.
+ */
+export interface RestorePointSourceMetadata {
+  /**
+   * Gets the hardware profile.
+   */
+  hardwareProfile?: HardwareProfile;
+  /**
+   * Gets the storage profile.
+   */
+  storageProfile?: RestorePointSourceVMStorageProfile;
+  /**
+   * Gets the OS profile.
+   */
+  osProfile?: OSProfile;
+  /**
+   * Gets the diagnostics profile.
+   */
+  diagnosticsProfile?: DiagnosticsProfile;
+  /**
+   * Gets the license type, which is for bring your own license scenario.
+   */
+  licenseType?: string;
+  /**
+   * Gets the virtual machine unique id.
+   */
+  vmId?: string;
+}
+
+/**
+ * Restore Point Provisioning details.
+ */
+export interface RestorePointProvisioningDetails {
+  /**
+   * Gets the creation time of the restore point.
+   */
+  creationTime?: Date;
+  /**
+   * Gets the total size of the data in all the disks which are part of the restore point.
+   */
+  totalUsedSizeInBytes?: number;
+  /**
+   * Gets the status of the Create restore point operation.
+   */
+  statusCode?: number;
+  /**
+   * Gets the status message of the Create restore point operation.
+   */
+  statusMessage?: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager proxy resource. It will not have
+ * tags and a location
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Restore Point details.
+ */
+export interface RestorePoint extends ProxyResource {
+  /**
+   * Gets the details of the VM captured at the time of creation of restore point.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMetadata?: RestorePointSourceMetadata;
+  /**
+   * Gets the provisioning state of restore point, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Gets or sets the consistency mode for the restore point. Possible values include:
+   * 'CrashConsistent', 'FileSystemConsistent', 'ApplicationConsistent'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly consistencyMode?: ConsistencyModeTypes;
+  /**
+   * Gets the provisioning details set by the server during Create restore point operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningDetails?: RestorePointProvisioningDetails;
+  /**
+   * List of disk resource ids that the customer wishes to exclude from the restore point. If no
+   * disks are specified, all disks will be included.
+   */
+  excludeDisks?: ApiEntityReference[];
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Create or update Restore Point collection parameters.
+ */
+export interface RestorePointCollection extends Resource {
+  /**
+   * Reference Id of the VM for which the restore points have to be created.
+   */
+  source?: SubResource;
+  /**
+   * Gets a list containing all restore points created under this restore point collection.
+   */
+  restorePoints?: RestorePoint[];
+}
+
+/**
+ * The Update Resource model definition.
+ */
+export interface UpdateResource {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Update Restore Point collection parameters.
+ */
+export interface RestorePointCollectionUpdate extends UpdateResource {
+  /**
+   * Reference Id of the VM for which the restore points have to be created.
+   */
+  source?: SubResource;
+  /**
+   * Gets a list containing all restore points created under this restore point collection.
+   */
+  restorePoints?: RestorePoint[];
+}
+
+/**
+ * When creating a Restore Point, customer may only specify the disks that will be excluded.
+ */
+export interface RestorePointCreate extends ProxyResource {
+  /**
+   * List of disk resource ids that the customer wishes to exclude from the restore point. If no
+   * disks are specified, all disks will be included.
+   */
+  excludeDisks?: ApiEntityReference[];
+}
+
+/**
  * Describes the properties of a Compute Operation value.
  */
 export interface ComputeOperationValue {
@@ -100,16 +860,6 @@ export interface InstanceViewStatus {
 }
 
 /**
- * An interface representing SubResource.
- */
-export interface SubResource extends BaseResource {
-  /**
-   * Resource Id
-   */
-  id?: string;
-}
-
-/**
  * Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the
  * hardware the scale set is currently on, you need to deallocate the VMs in the scale set before
  * you modify the SKU name.
@@ -128,35 +878,6 @@ export interface Sku {
    * Specifies the number of virtual machines in the scale set.
    */
   capacity?: number;
-}
-
-/**
- * The Resource model definition.
- */
-export interface Resource extends BaseResource {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location
-   */
-  location: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -200,16 +921,6 @@ export interface AvailabilitySet extends Resource {
    * for virtual machines with unmanaged disks. Default value is 'Classic'.
    */
   sku?: Sku;
-}
-
-/**
- * The Update Resource model definition.
- */
-export interface UpdateResource {
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1500,61 +2211,6 @@ export interface Plan {
 }
 
 /**
- * Specifies the hardware settings for the virtual machine.
- */
-export interface HardwareProfile {
-  /**
-   * Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated
-   * and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of
-   * available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an
-   * availability
-   * set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br>
-   * [List all available virtual machine sizes in a region](
-   * https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list) <br><br> [List all
-   * available virtual machine sizes for
-   * resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For
-   * more information about virtual machine sizes, see [Sizes for virtual
-   * machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes). <br><br> The
-   * available VM sizes depend on region and availability set. Possible values include: 'Basic_A0',
-   * 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2',
-   * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8',
-   * 'Standard_A9', 'Standard_A10', 'Standard_A11', 'Standard_A1_v2', 'Standard_A2_v2',
-   * 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2',
-   * 'Standard_B1s', 'Standard_B1ms', 'Standard_B2s', 'Standard_B2ms', 'Standard_B4ms',
-   * 'Standard_B8ms', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11',
-   * 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2',
-   * 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D2_v3', 'Standard_D4_v3',
-   * 'Standard_D8_v3', 'Standard_D16_v3', 'Standard_D32_v3', 'Standard_D64_v3', 'Standard_D2s_v3',
-   * 'Standard_D4s_v3', 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
-   * 'Standard_D64s_v3', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2',
-   * 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
-   * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
-   * 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2',
-   * 'Standard_DS11_v2', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
-   * 'Standard_DS15_v2', 'Standard_DS13-4_v2', 'Standard_DS13-2_v2', 'Standard_DS14-8_v2',
-   * 'Standard_DS14-4_v2', 'Standard_E2_v3', 'Standard_E4_v3', 'Standard_E8_v3', 'Standard_E16_v3',
-   * 'Standard_E32_v3', 'Standard_E64_v3', 'Standard_E2s_v3', 'Standard_E4s_v3', 'Standard_E8s_v3',
-   * 'Standard_E16s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_E32-16_v3',
-   * 'Standard_E32-8s_v3', 'Standard_E64-32s_v3', 'Standard_E64-16s_v3', 'Standard_F1',
-   * 'Standard_F2', 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s',
-   * 'Standard_F4s', 'Standard_F8s', 'Standard_F16s', 'Standard_F2s_v2', 'Standard_F4s_v2',
-   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2', 'Standard_F64s_v2',
-   * 'Standard_F72s_v2', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
-   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
-   * 'Standard_GS4-8', 'Standard_GS4-4', 'Standard_GS5-16', 'Standard_GS5-8', 'Standard_H8',
-   * 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr',
-   * 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s', 'Standard_M64s',
-   * 'Standard_M64ms', 'Standard_M128s', 'Standard_M128ms', 'Standard_M64-32ms',
-   * 'Standard_M64-16ms', 'Standard_M128-64ms', 'Standard_M128-32ms', 'Standard_NC6',
-   * 'Standard_NC12', 'Standard_NC24', 'Standard_NC24r', 'Standard_NC6s_v2', 'Standard_NC12s_v2',
-   * 'Standard_NC24s_v2', 'Standard_NC24rs_v2', 'Standard_NC6s_v3', 'Standard_NC12s_v3',
-   * 'Standard_NC24s_v3', 'Standard_NC24rs_v3', 'Standard_ND6s', 'Standard_ND12s',
-   * 'Standard_ND24s', 'Standard_ND24rs', 'Standard_NV6', 'Standard_NV12', 'Standard_NV24'
-   */
-  vmSize?: VirtualMachineSizeTypes;
-}
-
-/**
  * Specifies information about the image to use. You can specify information about platform images,
  * marketplace images, or virtual machine images. This element is required when you want to use a
  * platform image, marketplace image, or virtual machine image, but is not used in other creation
@@ -1593,60 +2249,6 @@ export interface ImageReference extends SubResource {
 }
 
 /**
- * Describes a reference to Key Vault Secret
- */
-export interface KeyVaultSecretReference {
-  /**
-   * The URL referencing a secret in a Key Vault.
-   */
-  secretUrl: string;
-  /**
-   * The relative URL of the Key Vault containing the secret.
-   */
-  sourceVault: SubResource;
-}
-
-/**
- * Describes the parameter of customer managed disk encryption set resource id that can be
- * specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for
- * managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
- */
-export interface DiskEncryptionSetParameters extends SubResource {
-}
-
-/**
- * Describes a reference to Key Vault Key
- */
-export interface KeyVaultKeyReference {
-  /**
-   * The URL referencing a key encryption key in Key Vault.
-   */
-  keyUrl: string;
-  /**
-   * The relative URL of the Key Vault containing the key.
-   */
-  sourceVault: SubResource;
-}
-
-/**
- * Describes a Encryption Settings for a Disk
- */
-export interface DiskEncryptionSettings {
-  /**
-   * Specifies the location of the disk encryption key, which is a Key Vault Secret.
-   */
-  diskEncryptionKey?: KeyVaultSecretReference;
-  /**
-   * Specifies the location of the key encryption key in Key Vault.
-   */
-  keyEncryptionKey?: KeyVaultKeyReference;
-  /**
-   * Specifies whether disk encryption should be enabled on the virtual machine.
-   */
-  enabled?: boolean;
-}
-
-/**
  * Describes the uri of a disk.
  */
 export interface VirtualHardDisk {
@@ -1676,22 +2278,6 @@ export interface DiffDiskSettings {
    * exposes a cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'
    */
   placement?: DiffDiskPlacement;
-}
-
-/**
- * The parameters of a managed disk.
- */
-export interface ManagedDiskParameters extends SubResource {
-  /**
-   * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
-   * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
-   */
-  storageAccountType?: StorageAccountTypes;
-  /**
-   * Specifies the customer managed disk encryption set resource id for the managed disk.
-   */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
 }
 
 /**
@@ -1818,18 +2404,6 @@ export interface DataDisk {
    */
   toBeDetached?: boolean;
   /**
-   * Specifies the detach behavior to be used while detaching a disk or which is already in the
-   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
-   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
-   * detachment attempt of the data disk did not complete due to an unexpected failure from the
-   * virtual machine and the disk is still not released then use force-detach as a last resort
-   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
-   * using this detach behavior. <br><br> This feature is still in preview mode and is not
-   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
-   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
-   */
-  detachOption?: DiskDetachOptionTypes;
-  /**
    * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS.
    * Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the
    * VirtualMachine Scale Set.
@@ -1843,6 +2417,18 @@ export interface DataDisk {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly diskMBpsReadWrite?: number;
+  /**
+   * Specifies the detach behavior to be used while detaching a disk or which is already in the
+   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
+   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
+   * detachment attempt of the data disk did not complete due to an unexpected failure from the
+   * virtual machine and the disk is still not released then use force-detach as a last resort
+   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
+   * using this detach behavior. <br><br> This feature is still in preview mode and is not
+   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
+   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
+   */
+  detachOption?: DiskDetachOptionTypes;
 }
 
 /**
@@ -1925,326 +2511,6 @@ export interface AdditionalCapabilities {
 }
 
 /**
- * Specifies additional XML formatted information that can be included in the Unattend.xml file,
- * which is used by Windows Setup. Contents are defined by setting name, component name, and the
- * pass in which the content is applied.
- */
-export interface AdditionalUnattendContent {
-  /**
-   * The pass name. Currently, the only allowable value is OobeSystem. Possible values include:
-   * 'OobeSystem'
-   */
-  passName?: PassNames;
-  /**
-   * The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-   * Possible values include: 'Microsoft-Windows-Shell-Setup'
-   */
-  componentName?: ComponentNames;
-  /**
-   * Specifies the name of the setting to which the content applies. Possible values are:
-   * FirstLogonCommands and AutoLogon. Possible values include: 'AutoLogon', 'FirstLogonCommands'
-   */
-  settingName?: SettingNames;
-  /**
-   * Specifies the XML formatted content that is added to the unattend.xml file for the specified
-   * path and component. The XML must be less than 4KB and must include the root element for the
-   * setting or feature that is being inserted.
-   */
-  content?: string;
-}
-
-/**
- * Describes Protocol and thumbprint of Windows Remote Management listener
- */
-export interface WinRMListener {
-  /**
-   * Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br>
-   * **https**. Possible values include: 'Http', 'Https'
-   */
-  protocol?: ProtocolTypes;
-  /**
-   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
-   * secret to the Key Vault, see [Add a key or secret to the key
-   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
-   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
-   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
-   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
-   */
-  certificateUrl?: string;
-}
-
-/**
- * Describes Windows Remote Management configuration of the VM
- */
-export interface WinRMConfiguration {
-  /**
-   * The list of Windows Remote Management listeners
-   */
-  listeners?: WinRMListener[];
-}
-
-/**
- * Specifies settings related to VM Guest Patching on Windows.
- */
-export interface PatchSettings {
-  /**
-   * Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values
-   * are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine.
-   * You do this by applying patches manually inside the VM. In this mode, automatic updates are
-   * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
-   * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
-   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **
-   * AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The
-   * properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
-   * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
-   */
-  patchMode?: WindowsVMGuestPatchMode;
-  /**
-   * Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching,
-   * the 'provisionVMAgent' must be set to true and 'patchMode' must be set to
-   * 'AutomaticByPlatform'.
-   */
-  enableHotpatching?: boolean;
-}
-
-/**
- * Specifies Windows operating system settings on the virtual machine.
- */
-export interface WindowsConfiguration {
-  /**
-   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
-   * When this property is not specified in the request body, default behavior is to set it to
-   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
-   * to the VM later.
-   */
-  provisionVMAgent?: boolean;
-  /**
-   * Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value
-   * is true. <br><br> For virtual machine scale sets, this property can be updated and updates
-   * will take effect on OS reprovisioning.
-   */
-  enableAutomaticUpdates?: boolean;
-  /**
-   * Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br>
-   * Possible values can be
-   * [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id)
-   * value from time zones returned by
-   * [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
-   */
-  timeZone?: string;
-  /**
-   * Specifies additional base-64 encoded XML formatted information that can be included in the
-   * Unattend.xml file, which is used by Windows Setup.
-   */
-  additionalUnattendContent?: AdditionalUnattendContent[];
-  /**
-   * [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
-   */
-  patchSettings?: PatchSettings;
-  /**
-   * Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
-   */
-  winRM?: WinRMConfiguration;
-}
-
-/**
- * Contains information about SSH certificate public key and the path on the Linux VM where the
- * public key is placed.
- */
-export interface SshPublicKey {
-  /**
-   * Specifies the full path on the created VM where ssh public key is stored. If the file already
-   * exists, the specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
-   */
-  path?: string;
-  /**
-   * SSH public key certificate used to authenticate with the VM through ssh. The key needs to be
-   * at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys
-   * on Linux and Mac for Linux VMs in
-   * Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-   */
-  keyData?: string;
-}
-
-/**
- * SSH configuration for Linux based VMs running on Azure
- */
-export interface SshConfiguration {
-  /**
-   * The list of SSH public keys used to authenticate with linux based VMs.
-   */
-  publicKeys?: SshPublicKey[];
-}
-
-/**
- * Specifies settings related to VM Guest Patching on Linux.
- */
-export interface LinuxPatchSettings {
-  /**
-   * Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values
-   * are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is
-   * used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated
-   * by the platform. The property provisionVMAgent must be true. Possible values include:
-   * 'ImageDefault', 'AutomaticByPlatform'
-   */
-  patchMode?: LinuxVMGuestPatchMode;
-}
-
-/**
- * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
- * supported Linux distributions, see [Linux on Azure-Endorsed
- * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
- * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
- * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
- */
-export interface LinuxConfiguration {
-  /**
-   * Specifies whether password authentication should be disabled.
-   */
-  disablePasswordAuthentication?: boolean;
-  /**
-   * Specifies the ssh key configuration for a Linux OS.
-   */
-  ssh?: SshConfiguration;
-  /**
-   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
-   * When this property is not specified in the request body, default behavior is to set it to
-   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
-   * to the VM later.
-   */
-  provisionVMAgent?: boolean;
-  /**
-   * [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
-   */
-  patchSettings?: LinuxPatchSettings;
-}
-
-/**
- * Describes a single certificate reference in a Key Vault, and where the certificate should reside
- * on the VM.
- */
-export interface VaultCertificate {
-  /**
-   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
-   * secret to the Key Vault, see [Add a key or secret to the key
-   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
-   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
-   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
-   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
-   */
-  certificateUrl?: string;
-  /**
-   * For Windows VMs, specifies the certificate store on the Virtual Machine to which the
-   * certificate should be added. The specified certificate store is implicitly in the LocalMachine
-   * account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent
-   * directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file
-   * and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
-   */
-  certificateStore?: string;
-}
-
-/**
- * Describes a set of certificates which are all in the same Key Vault.
- */
-export interface VaultSecretGroup {
-  /**
-   * The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
-   */
-  sourceVault?: SubResource;
-  /**
-   * The list of key vault references in SourceVault which contain certificates.
-   */
-  vaultCertificates?: VaultCertificate[];
-}
-
-/**
- * Specifies the operating system settings for the virtual machine. Some of the settings cannot be
- * changed once VM is provisioned.
- */
-export interface OSProfile {
-  /**
-   * Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after
-   * the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length
-   * (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure
-   * infrastructure services implementation
-   * guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
-   */
-  computerName?: string;
-  /**
-   * Specifies the name of the administrator account. <br><br> This property cannot be updated
-   * after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br>
-   * **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1",
-   * "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
-   * "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
-   * "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character
-   * <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20
-   * characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux
-   * virtual machines in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li>
-   * For a list of built-in system users on Linux that should not be used in this field, see
-   * [Selecting User Names for Linux on
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   */
-  adminUsername?: string;
-  /**
-   * Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8
-   * characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length
-   * (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br>
-   * **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower
-   * characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match
-   * [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123",
-   * "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For
-   * resetting the password, see [How to reset the Remote Desktop service or its login password in
-   * a Windows
-   * VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on
-   * Azure Linux VMs using the VMAccess
-   * Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-   */
-  adminPassword?: string;
-  /**
-   * Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a
-   * binary array that is saved as a file on the Virtual Machine. The maximum length of the binary
-   * array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData
-   * property** <br><br> This property cannot be updated after the VM is created. <br><br>
-   * customData is passed to the VM to be saved as a file, for more information see [Custom Data on
-   * Azure
-   * VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/)
-   * <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM
-   * during
-   * creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   */
-  customData?: string;
-  /**
-   * Specifies Windows operating system settings on the virtual machine.
-   */
-  windowsConfiguration?: WindowsConfiguration;
-  /**
-   * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
-   * supported Linux distributions, see [Linux on Azure-Endorsed
-   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
-   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-   */
-  linuxConfiguration?: LinuxConfiguration;
-  /**
-   * Specifies set of certificates that should be installed onto the virtual machine.
-   */
-  secrets?: VaultSecretGroup[];
-  /**
-   * Specifies whether extension operations should be allowed on the virtual machine. <br><br>This
-   * may only be set to False when no extensions are present on the virtual machine.
-   */
-  allowExtensionOperations?: boolean;
-  /**
-   * Specifies whether the guest provision signal is required to infer provision success of the
-   * virtual machine.  **Note: This property is for private testing only, and all customers must
-   * not set the property to false.**
-   */
-  requireGuestProvisionSignal?: boolean;
-}
-
-/**
  * Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
  */
 export interface AutomaticRepairsPolicy {
@@ -2283,35 +2549,6 @@ export interface NetworkProfile {
    * machine.
    */
   networkInterfaces?: NetworkInterfaceReference[];
-}
-
-/**
- * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
- * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
- * Azure also enables you to see a screenshot of the VM from the hypervisor.
- */
-export interface BootDiagnostics {
-  /**
-   * Whether boot diagnostics should be enabled on the Virtual Machine.
-   */
-  enabled?: boolean;
-  /**
-   * Uri of the storage account to use for placing the console output and screenshot. <br><br>If
-   * storageUri is not specified while enabling boot diagnostics, managed storage will be used.
-   */
-  storageUri?: string;
-}
-
-/**
- * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
- */
-export interface DiagnosticsProfile {
-  /**
-   * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
-   * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
-   * Azure also enables you to see a screenshot of the VM from the hypervisor.
-   */
-  bootDiagnostics?: BootDiagnostics;
 }
 
 /**
@@ -2794,16 +3031,6 @@ export interface VirtualMachine extends Resource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -2866,6 +3093,16 @@ export interface VirtualMachine extends Resource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The virtual machine child extension resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2956,16 +3193,6 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -3028,6 +3255,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The identity of the virtual machine, if configured.
    */
@@ -3623,17 +3860,6 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
    * The data disks.
    */
   dataDisks?: VirtualMachineScaleSetDataDisk[];
-}
-
-/**
- * The API entity reference.
- */
-export interface ApiEntityReference {
-  /**
-   * The ARM resource id in the form of
-   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
-   */
-  id?: string;
 }
 
 /**
@@ -7512,6 +7738,17 @@ export interface ImagesGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
+export interface RestorePointCollectionsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. If true, server would return all contained
+   * restore points in response. Possible values include: 'restorePoints'
+   */
+  expand?: RestorePointCollectionExpandOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
@@ -7945,6 +8182,19 @@ export interface ImageListResult extends Array<Image> {
 
 /**
  * @interface
+ * The List restore point collection operation response.
+ * @extends Array<RestorePointCollection>
+ */
+export interface RestorePointCollectionListResult extends Array<RestorePointCollection> {
+  /**
+   * The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the
+   * next page of history of upgrades.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The List VM scale set extension operation response.
  * @extends Array<VirtualMachineScaleSetExtension>
  */
@@ -8164,6 +8414,127 @@ export interface GalleryApplicationVersionList extends Array<GalleryApplicationV
 }
 
 /**
+ * Defines values for VirtualMachineSizeTypes.
+ * Possible values include: 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4',
+ * 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3', 'Standard_A4', 'Standard_A5',
+ * 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11',
+ * 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2',
+ * 'Standard_A4m_v2', 'Standard_A8m_v2', 'Standard_B1s', 'Standard_B1ms', 'Standard_B2s',
+ * 'Standard_B2ms', 'Standard_B4ms', 'Standard_B8ms', 'Standard_D1', 'Standard_D2', 'Standard_D3',
+ * 'Standard_D4', 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
+ * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D2_v3',
+ * 'Standard_D4_v3', 'Standard_D8_v3', 'Standard_D16_v3', 'Standard_D32_v3', 'Standard_D64_v3',
+ * 'Standard_D2s_v3', 'Standard_D4s_v3', 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+ * 'Standard_D64s_v3', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2',
+ * 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3', 'Standard_DS4',
+ * 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14', 'Standard_DS1_v2',
+ * 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2', 'Standard_DS11_v2',
+ * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2',
+ * 'Standard_DS13-4_v2', 'Standard_DS13-2_v2', 'Standard_DS14-8_v2', 'Standard_DS14-4_v2',
+ * 'Standard_E2_v3', 'Standard_E4_v3', 'Standard_E8_v3', 'Standard_E16_v3', 'Standard_E32_v3',
+ * 'Standard_E64_v3', 'Standard_E2s_v3', 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3',
+ * 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_E32-16_v3', 'Standard_E32-8s_v3',
+ * 'Standard_E64-32s_v3', 'Standard_E64-16s_v3', 'Standard_F1', 'Standard_F2', 'Standard_F4',
+ * 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s', 'Standard_F4s', 'Standard_F8s',
+ * 'Standard_F16s', 'Standard_F2s_v2', 'Standard_F4s_v2', 'Standard_F8s_v2', 'Standard_F16s_v2',
+ * 'Standard_F32s_v2', 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_G1', 'Standard_G2',
+ * 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_GS1', 'Standard_GS2', 'Standard_GS3',
+ * 'Standard_GS4', 'Standard_GS5', 'Standard_GS4-8', 'Standard_GS4-4', 'Standard_GS5-16',
+ * 'Standard_GS5-8', 'Standard_H8', 'Standard_H16', 'Standard_H8m', 'Standard_H16m',
+ * 'Standard_H16r', 'Standard_H16mr', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s',
+ * 'Standard_L32s', 'Standard_M64s', 'Standard_M64ms', 'Standard_M128s', 'Standard_M128ms',
+ * 'Standard_M64-32ms', 'Standard_M64-16ms', 'Standard_M128-64ms', 'Standard_M128-32ms',
+ * 'Standard_NC6', 'Standard_NC12', 'Standard_NC24', 'Standard_NC24r', 'Standard_NC6s_v2',
+ * 'Standard_NC12s_v2', 'Standard_NC24s_v2', 'Standard_NC24rs_v2', 'Standard_NC6s_v3',
+ * 'Standard_NC12s_v3', 'Standard_NC24s_v3', 'Standard_NC24rs_v3', 'Standard_ND6s',
+ * 'Standard_ND12s', 'Standard_ND24s', 'Standard_ND24rs', 'Standard_NV6', 'Standard_NV12',
+ * 'Standard_NV24'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualMachineSizeTypes = 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_B1s' | 'Standard_B1ms' | 'Standard_B2s' | 'Standard_B2ms' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D64_v3' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13-2_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14-4_v2' | 'Standard_E2_v3' | 'Standard_E4_v3' | 'Standard_E8_v3' | 'Standard_E16_v3' | 'Standard_E32_v3' | 'Standard_E64_v3' | 'Standard_E2s_v3' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_E32-16_v3' | 'Standard_E32-8s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64-16s_v3' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_F2s_v2' | 'Standard_F4s_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_GS4-8' | 'Standard_GS4-4' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_M64s' | 'Standard_M64ms' | 'Standard_M128s' | 'Standard_M128ms' | 'Standard_M64-32ms' | 'Standard_M64-16ms' | 'Standard_M128-64ms' | 'Standard_M128-32ms' | 'Standard_NC6' | 'Standard_NC12' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC6s_v2' | 'Standard_NC12s_v2' | 'Standard_NC24s_v2' | 'Standard_NC24rs_v2' | 'Standard_NC6s_v3' | 'Standard_NC12s_v3' | 'Standard_NC24s_v3' | 'Standard_NC24rs_v3' | 'Standard_ND6s' | 'Standard_ND12s' | 'Standard_ND24s' | 'Standard_ND24rs' | 'Standard_NV6' | 'Standard_NV12' | 'Standard_NV24';
+
+/**
+ * Defines values for OperatingSystemTypes.
+ * Possible values include: 'Windows', 'Linux'
+ * @readonly
+ * @enum {string}
+ */
+export type OperatingSystemTypes = 'Windows' | 'Linux';
+
+/**
+ * Defines values for CachingTypes.
+ * Possible values include: 'None', 'ReadOnly', 'ReadWrite'
+ * @readonly
+ * @enum {string}
+ */
+export type CachingTypes = 'None' | 'ReadOnly' | 'ReadWrite';
+
+/**
+ * Defines values for StorageAccountTypes.
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS';
+
+/**
+ * Defines values for PassNames.
+ * Possible values include: 'OobeSystem'
+ * @readonly
+ * @enum {string}
+ */
+export type PassNames = 'OobeSystem';
+
+/**
+ * Defines values for ComponentNames.
+ * Possible values include: 'Microsoft-Windows-Shell-Setup'
+ * @readonly
+ * @enum {string}
+ */
+export type ComponentNames = 'Microsoft-Windows-Shell-Setup';
+
+/**
+ * Defines values for SettingNames.
+ * Possible values include: 'AutoLogon', 'FirstLogonCommands'
+ * @readonly
+ * @enum {string}
+ */
+export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
+
+/**
+ * Defines values for WindowsVMGuestPatchMode.
+ * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+ * @readonly
+ * @enum {string}
+ */
+export type WindowsVMGuestPatchMode = 'Manual' | 'AutomaticByOS' | 'AutomaticByPlatform';
+
+/**
+ * Defines values for ProtocolTypes.
+ * Possible values include: 'Http', 'Https'
+ * @readonly
+ * @enum {string}
+ */
+export type ProtocolTypes = 'Http' | 'Https';
+
+/**
+ * Defines values for LinuxVMGuestPatchMode.
+ * Possible values include: 'ImageDefault', 'AutomaticByPlatform'
+ * @readonly
+ * @enum {string}
+ */
+export type LinuxVMGuestPatchMode = 'ImageDefault' | 'AutomaticByPlatform';
+
+/**
+ * Defines values for ConsistencyModeTypes.
+ * Possible values include: 'CrashConsistent', 'FileSystemConsistent', 'ApplicationConsistent'
+ * @readonly
+ * @enum {string}
+ */
+export type ConsistencyModeTypes = 'CrashConsistent' | 'FileSystemConsistent' | 'ApplicationConsistent';
+
+/**
  * Defines values for VmDiskTypes.
  * Possible values include: 'None', 'Unmanaged'
  * @readonly
@@ -8285,63 +8656,6 @@ export type VMGuestPatchRebootStatus = 'Unknown' | 'NotNeeded' | 'Required' | 'S
 export type PatchInstallationState = 'Unknown' | 'Installed' | 'Failed' | 'Excluded' | 'NotSelected' | 'Pending';
 
 /**
- * Defines values for OperatingSystemTypes.
- * Possible values include: 'Windows', 'Linux'
- * @readonly
- * @enum {string}
- */
-export type OperatingSystemTypes = 'Windows' | 'Linux';
-
-/**
- * Defines values for VirtualMachineSizeTypes.
- * Possible values include: 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4',
- * 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3', 'Standard_A4', 'Standard_A5',
- * 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11',
- * 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2',
- * 'Standard_A4m_v2', 'Standard_A8m_v2', 'Standard_B1s', 'Standard_B1ms', 'Standard_B2s',
- * 'Standard_B2ms', 'Standard_B4ms', 'Standard_B8ms', 'Standard_D1', 'Standard_D2', 'Standard_D3',
- * 'Standard_D4', 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
- * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D2_v3',
- * 'Standard_D4_v3', 'Standard_D8_v3', 'Standard_D16_v3', 'Standard_D32_v3', 'Standard_D64_v3',
- * 'Standard_D2s_v3', 'Standard_D4s_v3', 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
- * 'Standard_D64s_v3', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2',
- * 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3', 'Standard_DS4',
- * 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14', 'Standard_DS1_v2',
- * 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2', 'Standard_DS11_v2',
- * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2',
- * 'Standard_DS13-4_v2', 'Standard_DS13-2_v2', 'Standard_DS14-8_v2', 'Standard_DS14-4_v2',
- * 'Standard_E2_v3', 'Standard_E4_v3', 'Standard_E8_v3', 'Standard_E16_v3', 'Standard_E32_v3',
- * 'Standard_E64_v3', 'Standard_E2s_v3', 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3',
- * 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_E32-16_v3', 'Standard_E32-8s_v3',
- * 'Standard_E64-32s_v3', 'Standard_E64-16s_v3', 'Standard_F1', 'Standard_F2', 'Standard_F4',
- * 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s', 'Standard_F4s', 'Standard_F8s',
- * 'Standard_F16s', 'Standard_F2s_v2', 'Standard_F4s_v2', 'Standard_F8s_v2', 'Standard_F16s_v2',
- * 'Standard_F32s_v2', 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_G1', 'Standard_G2',
- * 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_GS1', 'Standard_GS2', 'Standard_GS3',
- * 'Standard_GS4', 'Standard_GS5', 'Standard_GS4-8', 'Standard_GS4-4', 'Standard_GS5-16',
- * 'Standard_GS5-8', 'Standard_H8', 'Standard_H16', 'Standard_H8m', 'Standard_H16m',
- * 'Standard_H16r', 'Standard_H16mr', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s',
- * 'Standard_L32s', 'Standard_M64s', 'Standard_M64ms', 'Standard_M128s', 'Standard_M128ms',
- * 'Standard_M64-32ms', 'Standard_M64-16ms', 'Standard_M128-64ms', 'Standard_M128-32ms',
- * 'Standard_NC6', 'Standard_NC12', 'Standard_NC24', 'Standard_NC24r', 'Standard_NC6s_v2',
- * 'Standard_NC12s_v2', 'Standard_NC24s_v2', 'Standard_NC24rs_v2', 'Standard_NC6s_v3',
- * 'Standard_NC12s_v3', 'Standard_NC24s_v3', 'Standard_NC24rs_v3', 'Standard_ND6s',
- * 'Standard_ND12s', 'Standard_ND24s', 'Standard_ND24rs', 'Standard_NV6', 'Standard_NV12',
- * 'Standard_NV24'
- * @readonly
- * @enum {string}
- */
-export type VirtualMachineSizeTypes = 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_B1s' | 'Standard_B1ms' | 'Standard_B2s' | 'Standard_B2ms' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D64_v3' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13-2_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14-4_v2' | 'Standard_E2_v3' | 'Standard_E4_v3' | 'Standard_E8_v3' | 'Standard_E16_v3' | 'Standard_E32_v3' | 'Standard_E64_v3' | 'Standard_E2s_v3' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_E32-16_v3' | 'Standard_E32-8s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64-16s_v3' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_F2s_v2' | 'Standard_F4s_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_GS4-8' | 'Standard_GS4-4' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_M64s' | 'Standard_M64ms' | 'Standard_M128s' | 'Standard_M128ms' | 'Standard_M64-32ms' | 'Standard_M64-16ms' | 'Standard_M128-64ms' | 'Standard_M128-32ms' | 'Standard_NC6' | 'Standard_NC12' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC6s_v2' | 'Standard_NC12s_v2' | 'Standard_NC24s_v2' | 'Standard_NC24rs_v2' | 'Standard_NC6s_v3' | 'Standard_NC12s_v3' | 'Standard_NC24s_v3' | 'Standard_NC24rs_v3' | 'Standard_ND6s' | 'Standard_ND12s' | 'Standard_ND24s' | 'Standard_ND24rs' | 'Standard_NV6' | 'Standard_NV12' | 'Standard_NV24';
-
-/**
- * Defines values for CachingTypes.
- * Possible values include: 'None', 'ReadOnly', 'ReadWrite'
- * @readonly
- * @enum {string}
- */
-export type CachingTypes = 'None' | 'ReadOnly' | 'ReadWrite';
-
-/**
  * Defines values for DiskCreateOptionTypes.
  * Possible values include: 'FromImage', 'Empty', 'Attach'
  * @readonly
@@ -8356,14 +8670,6 @@ export type DiskCreateOptionTypes = 'FromImage' | 'Empty' | 'Attach';
  * @enum {string}
  */
 export type DiskDetachOptionTypes = 'ForceDetach';
-
-/**
- * Defines values for StorageAccountTypes.
- * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
- * @readonly
- * @enum {string}
- */
-export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS';
 
 /**
  * Defines values for DiffDiskOptions.
@@ -8388,54 +8694,6 @@ export type DiffDiskPlacement = 'CacheDisk' | 'ResourceDisk';
  * @enum {string}
  */
 export type SecurityTypes = 'TrustedLaunch';
-
-/**
- * Defines values for PassNames.
- * Possible values include: 'OobeSystem'
- * @readonly
- * @enum {string}
- */
-export type PassNames = 'OobeSystem';
-
-/**
- * Defines values for ComponentNames.
- * Possible values include: 'Microsoft-Windows-Shell-Setup'
- * @readonly
- * @enum {string}
- */
-export type ComponentNames = 'Microsoft-Windows-Shell-Setup';
-
-/**
- * Defines values for SettingNames.
- * Possible values include: 'AutoLogon', 'FirstLogonCommands'
- * @readonly
- * @enum {string}
- */
-export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
-
-/**
- * Defines values for ProtocolTypes.
- * Possible values include: 'Http', 'Https'
- * @readonly
- * @enum {string}
- */
-export type ProtocolTypes = 'Http' | 'Https';
-
-/**
- * Defines values for WindowsVMGuestPatchMode.
- * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
- * @readonly
- * @enum {string}
- */
-export type WindowsVMGuestPatchMode = 'Manual' | 'AutomaticByOS' | 'AutomaticByPlatform';
-
-/**
- * Defines values for LinuxVMGuestPatchMode.
- * Possible values include: 'ImageDefault', 'AutomaticByPlatform'
- * @readonly
- * @enum {string}
- */
-export type LinuxVMGuestPatchMode = 'ImageDefault' | 'AutomaticByPlatform';
 
 /**
  * Defines values for VirtualMachinePriorityTypes.
@@ -8761,6 +9019,14 @@ export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
  * @enum {string}
  */
 export type InstanceViewTypes = 'instanceView';
+
+/**
+ * Defines values for RestorePointCollectionExpandOptions.
+ * Possible values include: 'restorePoints'
+ * @readonly
+ * @enum {string}
+ */
+export type RestorePointCollectionExpandOptions = 'restorePoints';
 
 /**
  * Defines values for ReplicationStatusTypes.
@@ -10959,6 +11225,186 @@ export type ImagesListNextResponse = ImageListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ImageListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePointCollection;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type RestorePointCollectionsUpdateResponse = RestorePointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePointCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorePointCollectionsGetResponse = RestorePointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePointCollection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorePointCollectionsListResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePointCollectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type RestorePointCollectionsListAllResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePointCollectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type RestorePointCollectionsListAllNextResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePointCollectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type RestorePointsCreateResponse = RestorePoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePoint;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorePointsGetResponse = RestorePoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePoint;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type RestorePointsBeginCreateResponse = RestorePoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorePoint;
     };
 };
 

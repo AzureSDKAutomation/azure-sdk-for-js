@@ -164,6 +164,21 @@ export const expand1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const expand2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "restorePoints"
+      ]
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -401,6 +416,16 @@ export const restorePointCollectionName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "restorePointCollectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const restorePointName: msRest.OperationURLParameter = {
+  parameterPath: "restorePointName",
+  mapper: {
+    required: true,
+    serializedName: "restorePointName",
     type: {
       name: "String"
     }

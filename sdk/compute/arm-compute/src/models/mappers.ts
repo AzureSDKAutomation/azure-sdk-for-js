@@ -12,6 +12,1067 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const SubResource: msRest.CompositeMapper = {
+  serializedName: "SubResource",
+  type: {
+    name: "Composite",
+    className: "SubResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HardwareProfile: msRest.CompositeMapper = {
+  serializedName: "HardwareProfile",
+  type: {
+    name: "Composite",
+    className: "HardwareProfile",
+    modelProperties: {
+      vmSize: {
+        serializedName: "vmSize",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultSecretReference: msRest.CompositeMapper = {
+  serializedName: "KeyVaultSecretReference",
+  type: {
+    name: "Composite",
+    className: "KeyVaultSecretReference",
+    modelProperties: {
+      secretUrl: {
+        required: true,
+        serializedName: "secretUrl",
+        type: {
+          name: "String"
+        }
+      },
+      sourceVault: {
+        required: true,
+        serializedName: "sourceVault",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultKeyReference: msRest.CompositeMapper = {
+  serializedName: "KeyVaultKeyReference",
+  type: {
+    name: "Composite",
+    className: "KeyVaultKeyReference",
+    modelProperties: {
+      keyUrl: {
+        required: true,
+        serializedName: "keyUrl",
+        type: {
+          name: "String"
+        }
+      },
+      sourceVault: {
+        required: true,
+        serializedName: "sourceVault",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      }
+    }
+  }
+};
+
+export const DiskEncryptionSettings: msRest.CompositeMapper = {
+  serializedName: "DiskEncryptionSettings",
+  type: {
+    name: "Composite",
+    className: "DiskEncryptionSettings",
+    modelProperties: {
+      diskEncryptionKey: {
+        serializedName: "diskEncryptionKey",
+        type: {
+          name: "Composite",
+          className: "KeyVaultSecretReference"
+        }
+      },
+      keyEncryptionKey: {
+        serializedName: "keyEncryptionKey",
+        type: {
+          name: "Composite",
+          className: "KeyVaultKeyReference"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DiskEncryptionSetParameters: msRest.CompositeMapper = {
+  serializedName: "DiskEncryptionSetParameters",
+  type: {
+    name: "Composite",
+    className: "DiskEncryptionSetParameters",
+    modelProperties: {
+      ...SubResource.type.modelProperties
+    }
+  }
+};
+
+export const ManagedDiskParameters: msRest.CompositeMapper = {
+  serializedName: "ManagedDiskParameters",
+  type: {
+    name: "Composite",
+    className: "ManagedDiskParameters",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        type: {
+          name: "String"
+        }
+      },
+      diskEncryptionSet: {
+        serializedName: "diskEncryptionSet",
+        type: {
+          name: "Composite",
+          className: "DiskEncryptionSetParameters"
+        }
+      }
+    }
+  }
+};
+
+export const ApiEntityReference: msRest.CompositeMapper = {
+  serializedName: "ApiEntityReference",
+  type: {
+    name: "Composite",
+    className: "ApiEntityReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointSourceVMOSDisk: msRest.CompositeMapper = {
+  serializedName: "RestorePointSourceVMOSDisk",
+  type: {
+    name: "Composite",
+    className: "RestorePointSourceVMOSDisk",
+    modelProperties: {
+      osType: {
+        serializedName: "osType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Windows",
+            "Linux"
+          ]
+        }
+      },
+      encryptionSettings: {
+        serializedName: "encryptionSettings",
+        type: {
+          name: "Composite",
+          className: "DiskEncryptionSettings"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      caching: {
+        serializedName: "caching",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "ReadOnly",
+            "ReadWrite"
+          ]
+        }
+      },
+      diskSizeGB: {
+        serializedName: "diskSizeGB",
+        type: {
+          name: "Number"
+        }
+      },
+      managedDisk: {
+        serializedName: "managedDisk",
+        type: {
+          name: "Composite",
+          className: "ManagedDiskParameters"
+        }
+      },
+      diskRestorePoint: {
+        serializedName: "diskRestorePoint",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointSourceVMDataDisk: msRest.CompositeMapper = {
+  serializedName: "RestorePointSourceVMDataDisk",
+  type: {
+    name: "Composite",
+    className: "RestorePointSourceVMDataDisk",
+    modelProperties: {
+      lun: {
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      caching: {
+        serializedName: "caching",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "ReadOnly",
+            "ReadWrite"
+          ]
+        }
+      },
+      diskSizeGB: {
+        serializedName: "diskSizeGB",
+        type: {
+          name: "Number"
+        }
+      },
+      managedDisk: {
+        serializedName: "managedDisk",
+        type: {
+          name: "Composite",
+          className: "ManagedDiskParameters"
+        }
+      },
+      diskRestorePoint: {
+        serializedName: "diskRestorePoint",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointSourceVMStorageProfile: msRest.CompositeMapper = {
+  serializedName: "RestorePointSourceVMStorageProfile",
+  type: {
+    name: "Composite",
+    className: "RestorePointSourceVMStorageProfile",
+    modelProperties: {
+      osDisk: {
+        serializedName: "osDisk",
+        type: {
+          name: "Composite",
+          className: "RestorePointSourceVMOSDisk"
+        }
+      },
+      dataDisks: {
+        serializedName: "dataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorePointSourceVMDataDisk"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AdditionalUnattendContent: msRest.CompositeMapper = {
+  serializedName: "AdditionalUnattendContent",
+  type: {
+    name: "Composite",
+    className: "AdditionalUnattendContent",
+    modelProperties: {
+      passName: {
+        serializedName: "passName",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "OobeSystem"
+          ]
+        }
+      },
+      componentName: {
+        serializedName: "componentName",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Microsoft-Windows-Shell-Setup"
+          ]
+        }
+      },
+      settingName: {
+        serializedName: "settingName",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AutoLogon",
+            "FirstLogonCommands"
+          ]
+        }
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PatchSettings: msRest.CompositeMapper = {
+  serializedName: "PatchSettings",
+  type: {
+    name: "Composite",
+    className: "PatchSettings",
+    modelProperties: {
+      patchMode: {
+        serializedName: "patchMode",
+        type: {
+          name: "String"
+        }
+      },
+      enableHotpatching: {
+        serializedName: "enableHotpatching",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const WinRMListener: msRest.CompositeMapper = {
+  serializedName: "WinRMListener",
+  type: {
+    name: "Composite",
+    className: "WinRMListener",
+    modelProperties: {
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Http",
+            "Https"
+          ]
+        }
+      },
+      certificateUrl: {
+        serializedName: "certificateUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WinRMConfiguration: msRest.CompositeMapper = {
+  serializedName: "WinRMConfiguration",
+  type: {
+    name: "Composite",
+    className: "WinRMConfiguration",
+    modelProperties: {
+      listeners: {
+        serializedName: "listeners",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WinRMListener"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WindowsConfiguration: msRest.CompositeMapper = {
+  serializedName: "WindowsConfiguration",
+  type: {
+    name: "Composite",
+    className: "WindowsConfiguration",
+    modelProperties: {
+      provisionVMAgent: {
+        serializedName: "provisionVMAgent",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAutomaticUpdates: {
+        serializedName: "enableAutomaticUpdates",
+        type: {
+          name: "Boolean"
+        }
+      },
+      timeZone: {
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      additionalUnattendContent: {
+        serializedName: "additionalUnattendContent",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdditionalUnattendContent"
+            }
+          }
+        }
+      },
+      patchSettings: {
+        serializedName: "patchSettings",
+        type: {
+          name: "Composite",
+          className: "PatchSettings"
+        }
+      },
+      winRM: {
+        serializedName: "winRM",
+        type: {
+          name: "Composite",
+          className: "WinRMConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const SshPublicKey: msRest.CompositeMapper = {
+  serializedName: "SshPublicKey",
+  type: {
+    name: "Composite",
+    className: "SshPublicKey",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      keyData: {
+        serializedName: "keyData",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SshConfiguration: msRest.CompositeMapper = {
+  serializedName: "SshConfiguration",
+  type: {
+    name: "Composite",
+    className: "SshConfiguration",
+    modelProperties: {
+      publicKeys: {
+        serializedName: "publicKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SshPublicKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LinuxPatchSettings: msRest.CompositeMapper = {
+  serializedName: "LinuxPatchSettings",
+  type: {
+    name: "Composite",
+    className: "LinuxPatchSettings",
+    modelProperties: {
+      patchMode: {
+        serializedName: "patchMode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinuxConfiguration: msRest.CompositeMapper = {
+  serializedName: "LinuxConfiguration",
+  type: {
+    name: "Composite",
+    className: "LinuxConfiguration",
+    modelProperties: {
+      disablePasswordAuthentication: {
+        serializedName: "disablePasswordAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ssh: {
+        serializedName: "ssh",
+        type: {
+          name: "Composite",
+          className: "SshConfiguration"
+        }
+      },
+      provisionVMAgent: {
+        serializedName: "provisionVMAgent",
+        type: {
+          name: "Boolean"
+        }
+      },
+      patchSettings: {
+        serializedName: "patchSettings",
+        type: {
+          name: "Composite",
+          className: "LinuxPatchSettings"
+        }
+      }
+    }
+  }
+};
+
+export const VaultCertificate: msRest.CompositeMapper = {
+  serializedName: "VaultCertificate",
+  type: {
+    name: "Composite",
+    className: "VaultCertificate",
+    modelProperties: {
+      certificateUrl: {
+        serializedName: "certificateUrl",
+        type: {
+          name: "String"
+        }
+      },
+      certificateStore: {
+        serializedName: "certificateStore",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VaultSecretGroup: msRest.CompositeMapper = {
+  serializedName: "VaultSecretGroup",
+  type: {
+    name: "Composite",
+    className: "VaultSecretGroup",
+    modelProperties: {
+      sourceVault: {
+        serializedName: "sourceVault",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      vaultCertificates: {
+        serializedName: "vaultCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VaultCertificate"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OSProfile: msRest.CompositeMapper = {
+  serializedName: "OSProfile",
+  type: {
+    name: "Composite",
+    className: "OSProfile",
+    modelProperties: {
+      computerName: {
+        serializedName: "computerName",
+        type: {
+          name: "String"
+        }
+      },
+      adminUsername: {
+        serializedName: "adminUsername",
+        type: {
+          name: "String"
+        }
+      },
+      adminPassword: {
+        serializedName: "adminPassword",
+        type: {
+          name: "String"
+        }
+      },
+      customData: {
+        serializedName: "customData",
+        type: {
+          name: "String"
+        }
+      },
+      windowsConfiguration: {
+        serializedName: "windowsConfiguration",
+        type: {
+          name: "Composite",
+          className: "WindowsConfiguration"
+        }
+      },
+      linuxConfiguration: {
+        serializedName: "linuxConfiguration",
+        type: {
+          name: "Composite",
+          className: "LinuxConfiguration"
+        }
+      },
+      secrets: {
+        serializedName: "secrets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VaultSecretGroup"
+            }
+          }
+        }
+      },
+      allowExtensionOperations: {
+        serializedName: "allowExtensionOperations",
+        type: {
+          name: "Boolean"
+        }
+      },
+      requireGuestProvisionSignal: {
+        serializedName: "requireGuestProvisionSignal",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const BootDiagnostics: msRest.CompositeMapper = {
+  serializedName: "BootDiagnostics",
+  type: {
+    name: "Composite",
+    className: "BootDiagnostics",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageUri: {
+        serializedName: "storageUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiagnosticsProfile: msRest.CompositeMapper = {
+  serializedName: "DiagnosticsProfile",
+  type: {
+    name: "Composite",
+    className: "DiagnosticsProfile",
+    modelProperties: {
+      bootDiagnostics: {
+        serializedName: "bootDiagnostics",
+        type: {
+          name: "Composite",
+          className: "BootDiagnostics"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointSourceMetadata: msRest.CompositeMapper = {
+  serializedName: "RestorePointSourceMetadata",
+  type: {
+    name: "Composite",
+    className: "RestorePointSourceMetadata",
+    modelProperties: {
+      hardwareProfile: {
+        serializedName: "hardwareProfile",
+        type: {
+          name: "Composite",
+          className: "HardwareProfile"
+        }
+      },
+      storageProfile: {
+        serializedName: "storageProfile",
+        type: {
+          name: "Composite",
+          className: "RestorePointSourceVMStorageProfile"
+        }
+      },
+      osProfile: {
+        serializedName: "osProfile",
+        type: {
+          name: "Composite",
+          className: "OSProfile"
+        }
+      },
+      diagnosticsProfile: {
+        serializedName: "diagnosticsProfile",
+        type: {
+          name: "Composite",
+          className: "DiagnosticsProfile"
+        }
+      },
+      licenseType: {
+        serializedName: "licenseType",
+        type: {
+          name: "String"
+        }
+      },
+      vmId: {
+        serializedName: "vmId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointProvisioningDetails: msRest.CompositeMapper = {
+  serializedName: "RestorePointProvisioningDetails",
+  type: {
+    name: "Composite",
+    className: "RestorePointProvisioningDetails",
+    modelProperties: {
+      creationTime: {
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      totalUsedSizeInBytes: {
+        serializedName: "totalUsedSizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      statusCode: {
+        serializedName: "statusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      statusMessage: {
+        serializedName: "statusMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePoint: msRest.CompositeMapper = {
+  serializedName: "RestorePoint",
+  type: {
+    name: "Composite",
+    className: "RestorePoint",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      sourceMetadata: {
+        readOnly: true,
+        serializedName: "sourceMetadata",
+        type: {
+          name: "Composite",
+          className: "RestorePointSourceMetadata"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      consistencyMode: {
+        readOnly: true,
+        serializedName: "consistencyMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "CrashConsistent",
+            "FileSystemConsistent",
+            "ApplicationConsistent"
+          ]
+        }
+      },
+      provisioningDetails: {
+        readOnly: true,
+        serializedName: "provisioningDetails",
+        type: {
+          name: "Composite",
+          className: "RestorePointProvisioningDetails"
+        }
+      },
+      excludeDisks: {
+        serializedName: "excludeDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApiEntityReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointCollection: msRest.CompositeMapper = {
+  serializedName: "RestorePointCollection",
+  type: {
+    name: "Composite",
+    className: "RestorePointCollection",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      source: {
+        serializedName: "properties.source",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      restorePoints: {
+        serializedName: "properties.restorePoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorePoint"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UpdateResource: msRest.CompositeMapper = {
+  serializedName: "UpdateResource",
+  type: {
+    name: "Composite",
+    className: "UpdateResource",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointCollectionUpdate: msRest.CompositeMapper = {
+  serializedName: "RestorePointCollectionUpdate",
+  type: {
+    name: "Composite",
+    className: "RestorePointCollectionUpdate",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties,
+      source: {
+        serializedName: "properties.source",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      restorePoints: {
+        serializedName: "properties.restorePoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorePoint"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointCreate: msRest.CompositeMapper = {
+  serializedName: "RestorePointCreate",
+  type: {
+    name: "Composite",
+    className: "RestorePointCreate",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      excludeDisks: {
+        serializedName: "excludeDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApiEntityReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ComputeOperationValue: msRest.CompositeMapper = {
   serializedName: "ComputeOperationValue",
   type: {
@@ -149,22 +1210,6 @@ export const InstanceViewStatus: msRest.CompositeMapper = {
   }
 };
 
-export const SubResource: msRest.CompositeMapper = {
-  serializedName: "SubResource",
-  type: {
-    name: "Composite",
-    className: "SubResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Sku: msRest.CompositeMapper = {
   serializedName: "Sku",
   type: {
@@ -187,55 +1232,6 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "capacity",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -298,27 +1294,6 @@ export const AvailabilitySet: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
-        }
-      }
-    }
-  }
-};
-
-export const UpdateResource: msRest.CompositeMapper = {
-  serializedName: "UpdateResource",
-  type: {
-    name: "Composite",
-    className: "UpdateResource",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -2434,22 +3409,6 @@ export const Plan: msRest.CompositeMapper = {
   }
 };
 
-export const HardwareProfile: msRest.CompositeMapper = {
-  serializedName: "HardwareProfile",
-  type: {
-    name: "Composite",
-    className: "HardwareProfile",
-    modelProperties: {
-      vmSize: {
-        serializedName: "vmSize",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ImageReference: msRest.CompositeMapper = {
   serializedName: "ImageReference",
   type: {
@@ -2492,97 +3451,6 @@ export const ImageReference: msRest.CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretReference: msRest.CompositeMapper = {
-  serializedName: "KeyVaultSecretReference",
-  type: {
-    name: "Composite",
-    className: "KeyVaultSecretReference",
-    modelProperties: {
-      secretUrl: {
-        required: true,
-        serializedName: "secretUrl",
-        type: {
-          name: "String"
-        }
-      },
-      sourceVault: {
-        required: true,
-        serializedName: "sourceVault",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      }
-    }
-  }
-};
-
-export const DiskEncryptionSetParameters: msRest.CompositeMapper = {
-  serializedName: "DiskEncryptionSetParameters",
-  type: {
-    name: "Composite",
-    className: "DiskEncryptionSetParameters",
-    modelProperties: {
-      ...SubResource.type.modelProperties
-    }
-  }
-};
-
-export const KeyVaultKeyReference: msRest.CompositeMapper = {
-  serializedName: "KeyVaultKeyReference",
-  type: {
-    name: "Composite",
-    className: "KeyVaultKeyReference",
-    modelProperties: {
-      keyUrl: {
-        required: true,
-        serializedName: "keyUrl",
-        type: {
-          name: "String"
-        }
-      },
-      sourceVault: {
-        required: true,
-        serializedName: "sourceVault",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      }
-    }
-  }
-};
-
-export const DiskEncryptionSettings: msRest.CompositeMapper = {
-  serializedName: "DiskEncryptionSettings",
-  type: {
-    name: "Composite",
-    className: "DiskEncryptionSettings",
-    modelProperties: {
-      diskEncryptionKey: {
-        serializedName: "diskEncryptionKey",
-        type: {
-          name: "Composite",
-          className: "KeyVaultSecretReference"
-        }
-      },
-      keyEncryptionKey: {
-        serializedName: "keyEncryptionKey",
-        type: {
-          name: "Composite",
-          className: "KeyVaultKeyReference"
-        }
-      },
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const VirtualHardDisk: msRest.CompositeMapper = {
   serializedName: "VirtualHardDisk",
   type: {
@@ -2615,30 +3483,6 @@ export const DiffDiskSettings: msRest.CompositeMapper = {
         serializedName: "placement",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDiskParameters: msRest.CompositeMapper = {
-  serializedName: "ManagedDiskParameters",
-  type: {
-    name: "Composite",
-    className: "ManagedDiskParameters",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      storageAccountType: {
-        serializedName: "storageAccountType",
-        type: {
-          name: "String"
-        }
-      },
-      diskEncryptionSet: {
-        serializedName: "diskEncryptionSet",
-        type: {
-          name: "Composite",
-          className: "DiskEncryptionSetParameters"
         }
       }
     }
@@ -2812,12 +3656,6 @@ export const DataDisk: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      detachOption: {
-        serializedName: "detachOption",
-        type: {
-          name: "String"
-        }
-      },
       diskIOPSReadWrite: {
         readOnly: true,
         serializedName: "diskIOPSReadWrite",
@@ -2830,6 +3668,12 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2942,393 +3786,6 @@ export const AdditionalCapabilities: msRest.CompositeMapper = {
   }
 };
 
-export const AdditionalUnattendContent: msRest.CompositeMapper = {
-  serializedName: "AdditionalUnattendContent",
-  type: {
-    name: "Composite",
-    className: "AdditionalUnattendContent",
-    modelProperties: {
-      passName: {
-        serializedName: "passName",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "OobeSystem"
-          ]
-        }
-      },
-      componentName: {
-        serializedName: "componentName",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Microsoft-Windows-Shell-Setup"
-          ]
-        }
-      },
-      settingName: {
-        serializedName: "settingName",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "AutoLogon",
-            "FirstLogonCommands"
-          ]
-        }
-      },
-      content: {
-        serializedName: "content",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WinRMListener: msRest.CompositeMapper = {
-  serializedName: "WinRMListener",
-  type: {
-    name: "Composite",
-    className: "WinRMListener",
-    modelProperties: {
-      protocol: {
-        serializedName: "protocol",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Http",
-            "Https"
-          ]
-        }
-      },
-      certificateUrl: {
-        serializedName: "certificateUrl",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WinRMConfiguration: msRest.CompositeMapper = {
-  serializedName: "WinRMConfiguration",
-  type: {
-    name: "Composite",
-    className: "WinRMConfiguration",
-    modelProperties: {
-      listeners: {
-        serializedName: "listeners",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WinRMListener"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PatchSettings: msRest.CompositeMapper = {
-  serializedName: "PatchSettings",
-  type: {
-    name: "Composite",
-    className: "PatchSettings",
-    modelProperties: {
-      patchMode: {
-        serializedName: "patchMode",
-        type: {
-          name: "String"
-        }
-      },
-      enableHotpatching: {
-        serializedName: "enableHotpatching",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const WindowsConfiguration: msRest.CompositeMapper = {
-  serializedName: "WindowsConfiguration",
-  type: {
-    name: "Composite",
-    className: "WindowsConfiguration",
-    modelProperties: {
-      provisionVMAgent: {
-        serializedName: "provisionVMAgent",
-        type: {
-          name: "Boolean"
-        }
-      },
-      enableAutomaticUpdates: {
-        serializedName: "enableAutomaticUpdates",
-        type: {
-          name: "Boolean"
-        }
-      },
-      timeZone: {
-        serializedName: "timeZone",
-        type: {
-          name: "String"
-        }
-      },
-      additionalUnattendContent: {
-        serializedName: "additionalUnattendContent",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AdditionalUnattendContent"
-            }
-          }
-        }
-      },
-      patchSettings: {
-        serializedName: "patchSettings",
-        type: {
-          name: "Composite",
-          className: "PatchSettings"
-        }
-      },
-      winRM: {
-        serializedName: "winRM",
-        type: {
-          name: "Composite",
-          className: "WinRMConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const SshPublicKey: msRest.CompositeMapper = {
-  serializedName: "SshPublicKey",
-  type: {
-    name: "Composite",
-    className: "SshPublicKey",
-    modelProperties: {
-      path: {
-        serializedName: "path",
-        type: {
-          name: "String"
-        }
-      },
-      keyData: {
-        serializedName: "keyData",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SshConfiguration: msRest.CompositeMapper = {
-  serializedName: "SshConfiguration",
-  type: {
-    name: "Composite",
-    className: "SshConfiguration",
-    modelProperties: {
-      publicKeys: {
-        serializedName: "publicKeys",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SshPublicKey"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const LinuxPatchSettings: msRest.CompositeMapper = {
-  serializedName: "LinuxPatchSettings",
-  type: {
-    name: "Composite",
-    className: "LinuxPatchSettings",
-    modelProperties: {
-      patchMode: {
-        serializedName: "patchMode",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LinuxConfiguration: msRest.CompositeMapper = {
-  serializedName: "LinuxConfiguration",
-  type: {
-    name: "Composite",
-    className: "LinuxConfiguration",
-    modelProperties: {
-      disablePasswordAuthentication: {
-        serializedName: "disablePasswordAuthentication",
-        type: {
-          name: "Boolean"
-        }
-      },
-      ssh: {
-        serializedName: "ssh",
-        type: {
-          name: "Composite",
-          className: "SshConfiguration"
-        }
-      },
-      provisionVMAgent: {
-        serializedName: "provisionVMAgent",
-        type: {
-          name: "Boolean"
-        }
-      },
-      patchSettings: {
-        serializedName: "patchSettings",
-        type: {
-          name: "Composite",
-          className: "LinuxPatchSettings"
-        }
-      }
-    }
-  }
-};
-
-export const VaultCertificate: msRest.CompositeMapper = {
-  serializedName: "VaultCertificate",
-  type: {
-    name: "Composite",
-    className: "VaultCertificate",
-    modelProperties: {
-      certificateUrl: {
-        serializedName: "certificateUrl",
-        type: {
-          name: "String"
-        }
-      },
-      certificateStore: {
-        serializedName: "certificateStore",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VaultSecretGroup: msRest.CompositeMapper = {
-  serializedName: "VaultSecretGroup",
-  type: {
-    name: "Composite",
-    className: "VaultSecretGroup",
-    modelProperties: {
-      sourceVault: {
-        serializedName: "sourceVault",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
-      vaultCertificates: {
-        serializedName: "vaultCertificates",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VaultCertificate"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const OSProfile: msRest.CompositeMapper = {
-  serializedName: "OSProfile",
-  type: {
-    name: "Composite",
-    className: "OSProfile",
-    modelProperties: {
-      computerName: {
-        serializedName: "computerName",
-        type: {
-          name: "String"
-        }
-      },
-      adminUsername: {
-        serializedName: "adminUsername",
-        type: {
-          name: "String"
-        }
-      },
-      adminPassword: {
-        serializedName: "adminPassword",
-        type: {
-          name: "String"
-        }
-      },
-      customData: {
-        serializedName: "customData",
-        type: {
-          name: "String"
-        }
-      },
-      windowsConfiguration: {
-        serializedName: "windowsConfiguration",
-        type: {
-          name: "Composite",
-          className: "WindowsConfiguration"
-        }
-      },
-      linuxConfiguration: {
-        serializedName: "linuxConfiguration",
-        type: {
-          name: "Composite",
-          className: "LinuxConfiguration"
-        }
-      },
-      secrets: {
-        serializedName: "secrets",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VaultSecretGroup"
-            }
-          }
-        }
-      },
-      allowExtensionOperations: {
-        serializedName: "allowExtensionOperations",
-        type: {
-          name: "Boolean"
-        }
-      },
-      requireGuestProvisionSignal: {
-        serializedName: "requireGuestProvisionSignal",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const AutomaticRepairsPolicy: msRest.CompositeMapper = {
   serializedName: "AutomaticRepairsPolicy",
   type: {
@@ -3384,45 +3841,6 @@ export const NetworkProfile: msRest.CompositeMapper = {
               className: "NetworkInterfaceReference"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const BootDiagnostics: msRest.CompositeMapper = {
-  serializedName: "BootDiagnostics",
-  type: {
-    name: "Composite",
-    className: "BootDiagnostics",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      storageUri: {
-        serializedName: "storageUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DiagnosticsProfile: msRest.CompositeMapper = {
-  serializedName: "DiagnosticsProfile",
-  type: {
-    name: "Composite",
-    className: "DiagnosticsProfile",
-    modelProperties: {
-      bootDiagnostics: {
-        serializedName: "bootDiagnostics",
-        type: {
-          name: "Composite",
-          className: "BootDiagnostics"
         }
       }
     }
@@ -4141,12 +4559,6 @@ export const VirtualMachine: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4212,6 +4624,12 @@ export const VirtualMachine: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
         }
       },
       resources: {
@@ -4340,12 +4758,6 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
-      platformFaultDomain: {
-        serializedName: "properties.platformFaultDomain",
-        type: {
-          name: "Number"
-        }
-      },
       priority: {
         serializedName: "properties.priority",
         type: {
@@ -4411,6 +4823,12 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
         serializedName: "properties.extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      },
+      platformFaultDomain: {
+        serializedName: "properties.platformFaultDomain",
+        type: {
+          name: "Number"
         }
       },
       identity: {
@@ -5281,22 +5699,6 @@ export const VirtualMachineScaleSetUpdateStorageProfile: msRest.CompositeMapper 
               className: "VirtualMachineScaleSetDataDisk"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ApiEntityReference: msRest.CompositeMapper = {
-  serializedName: "ApiEntityReference",
-  type: {
-    name: "Composite",
-    className: "ApiEntityReference",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
         }
       }
     }
@@ -6345,11 +6747,7 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
       orchestrationMode: {
         serializedName: "properties.orchestrationMode",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Uniform",
-            "Flexible"
-          ]
+          name: "String"
         }
       },
       identity: {
@@ -11401,6 +11799,28 @@ export const ImageListResult: msRest.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointCollectionListResult: msRest.CompositeMapper = {
+  serializedName: "RestorePointCollectionListResult",
+  type: {
+    name: "Composite",
+    className: "RestorePointCollectionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorePointCollection"
+            }
+          }
         }
       }
     }
