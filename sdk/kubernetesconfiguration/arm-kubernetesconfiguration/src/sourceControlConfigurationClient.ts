@@ -18,6 +18,7 @@ class SourceControlConfigurationClient extends SourceControlConfigurationClientC
   // Operation groups
   sourceControlConfigurations: operations.SourceControlConfigurations;
   operations: operations.Operations;
+  extensions: operations.Extensions;
 
   /**
    * Initializes a new instance of the SourceControlConfigurationClient class.
@@ -30,6 +31,7 @@ class SourceControlConfigurationClient extends SourceControlConfigurationClientC
     super(credentials, subscriptionId, options);
     this.sourceControlConfigurations = new operations.SourceControlConfigurations(this);
     this.operations = new operations.Operations(this);
+    this.extensions = new operations.Extensions(this);
   }
 }
 

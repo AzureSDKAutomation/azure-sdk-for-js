@@ -12,6 +12,75 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * Top level metadata
+ * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+ */
+export interface SystemData {
+  /**
+   * A string identifier for the identity that created the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdBy?: string;
+  /**
+   * The type of identity that created the resource: user, application, managedIdentity, key
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdByType?: string;
+  /**
+   * The timestamp of resource creation (UTC)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * A string identifier for the identity that last modified the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource: user, application, managedIdentity, key
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedByType?: string;
+  /**
+   * The timestamp of resource last modification (UTC)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedAt?: Date;
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Top level metadata
+   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+   */
+  systemData?: SystemData;
+}
+
+/**
+ * ARM proxy resource.
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
  * Sample result definition
  */
 export interface Result {
@@ -84,70 +153,6 @@ export interface HelmOperatorProperties {
 }
 
 /**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The type of identity that last modified the resource.
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
  * The SourceControl Configuration object returned in Get & Put response.
  */
 export interface SourceControlConfiguration extends ProxyResource {
@@ -211,11 +216,6 @@ export interface SourceControlConfiguration extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly complianceStatus?: ComplianceStatus;
-  /**
-   * Top level metadata
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
-   */
-  systemData?: SystemData;
 }
 
 /**
@@ -260,31 +260,179 @@ export interface ResourceProviderOperation {
 }
 
 /**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
+ * Specifies that the scope of the extensionInstance is Cluster
  */
-export interface TrackedResource extends Resource {
+export interface ScopeCluster {
   /**
-   * Resource tags.
+   * Namespace where the extension Release must be placed, for a Cluster scoped extensionInstance.
+   * If this namespace does not exist, it will be created
    */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
+  releaseNamespace?: string;
 }
 
 /**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
+ * Specifies that the scope of the extensionInstance is Namespace
  */
-export interface AzureEntityResource extends Resource {
+export interface ScopeNamespace {
   /**
-   * Resource Etag.
+   * Namespace where the extensionInstance will be created for an Namespace scoped
+   * extensionInstance.  If this namespace does not exist, it will be created
+   */
+  targetNamespace?: string;
+}
+
+/**
+ * Scope of the extensionInstance. It can be either Cluster or Namespace; but not both.
+ */
+export interface Scope {
+  /**
+   * Specifies that the scope of the extensionInstance is Cluster
+   */
+  cluster?: ScopeCluster;
+  /**
+   * Specifies that the scope of the extensionInstance is Namespace
+   */
+  namespace?: ScopeNamespace;
+}
+
+/**
+ * Status from this instance of the extension.
+ */
+export interface ExtensionStatus {
+  /**
+   * Status code provided by the Extension
+   */
+  code?: string;
+  /**
+   * Short description of status of this instance of the extension.
+   */
+  displayStatus?: string;
+  /**
+   * Level of the status. Possible values include: 'Error', 'Warning', 'Information'. Default
+   * value: 'Information'.
+   */
+  level?: LevelType;
+  /**
+   * Detailed message of the status from the Extension instance.
+   */
+  message?: string;
+  /**
+   * DateLiteral (per ISO8601) noting the time of installation status.
+   */
+  time?: string;
+}
+
+/**
+ * Identity for the managed cluster.
+ */
+export interface ConfigurationIdentity {
+  /**
+   * The principal id of the system assigned identity which is used by the configuration.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly etag?: string;
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity which is used by the configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the configuration. Type 'SystemAssigned' will use an implicitly
+   * created identity. Type 'None' will not use Managed Identity for the configuration. Possible
+   * values include: 'SystemAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
+ * The Extension Instance object.
+ */
+export interface ExtensionInstance extends ProxyResource {
+  /**
+   * Type of the Extension, of which this resource is an instance of.  It must be one of the
+   * Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher.
+   */
+  extensionType?: string;
+  /**
+   * Flag to note if this instance participates in auto upgrade of minor version, or not.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * ReleaseTrain this extension instance participates in for auto-upgrade (e.g. Stable, Preview,
+   * etc.) - only if autoUpgradeMinorVersion is 'true'.
+   */
+  releaseTrain?: string;
+  /**
+   * Version of the extension for this extension instance, if it is 'pinned' to a specific version.
+   * autoUpgradeMinorVersion must be 'false'.
+   */
+  version?: string;
+  /**
+   * Scope at which the extension instance is installed.
+   */
+  scope?: Scope;
+  /**
+   * Configuration settings, as name-value pairs for configuring this instance of the extension.
+   */
+  configurationSettings?: { [propertyName: string]: string };
+  /**
+   * Configuration settings that are sensitive, as name-value pairs for configuring this instance
+   * of the extension.
+   */
+  configurationProtectedSettings?: { [propertyName: string]: string };
+  /**
+   * Status of installation of this instance of the extension. Possible values include: 'Pending',
+   * 'Installed', 'Failed'
+   */
+  installState?: InstallStateType;
+  /**
+   * Status from this instance of the extension.
+   */
+  statuses?: ExtensionStatus[];
+  /**
+   * DateLiteral (per ISO8601) noting the time the resource was created by the client (user).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: string;
+  /**
+   * DateLiteral (per ISO8601) noting the time the resource was modified by the client (user).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedTime?: string;
+  /**
+   * DateLiteral (per ISO8601) noting the time of last status from the agent.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastStatusTime?: string;
+  /**
+   * Error information from the Agent - e.g. errors during installation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorInfo?: ErrorDefinition;
+  /**
+   * The identity of the configuration.
+   */
+  identity?: ConfigurationIdentity;
+}
+
+/**
+ * Update Extension Instance request object.
+ */
+export interface ExtensionInstanceUpdate {
+  /**
+   * Flag to note if this instance participates in Extension Lifecycle Management or not.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * ReleaseTrain this extension instance participates in for auto-upgrade (e.g. Stable, Preview,
+   * etc.) - only if autoUpgradeMinorVersion is 'true'.
+   */
+  releaseTrain?: string;
+  /**
+   * Version number of extension, to 'pin' to a specific version.  autoUpgradeMinorVersion must be
+   * 'false'.
+   */
+  version?: string;
 }
 
 /**
@@ -316,6 +464,20 @@ export interface SourceControlConfigurationList extends Array<SourceControlConfi
 export interface ResourceProviderOperationList extends Array<ResourceProviderOperation> {
   /**
    * URL to the next set of results, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list Extension Instances.  It contains a list of ExtensionInstance
+ * objects and a URL link to get the next set of results.
+ * @extends Array<ExtensionInstance>
+ */
+export interface ExtensionInstancesList extends Array<ExtensionInstance> {
+  /**
+   * URL to get the next set of extension instance objects, if any.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -362,12 +524,28 @@ export type OperatorScopeType = 'cluster' | 'namespace';
 export type ProvisioningStateType = 'Accepted' | 'Deleting' | 'Running' | 'Succeeded' | 'Failed';
 
 /**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * Defines values for InstallStateType.
+ * Possible values include: 'Pending', 'Installed', 'Failed'
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+export type InstallStateType = 'Pending' | 'Installed' | 'Failed';
+
+/**
+ * Defines values for LevelType.
+ * Possible values include: 'Error', 'Warning', 'Information'
+ * @readonly
+ * @enum {string}
+ */
+export type LevelType = 'Error' | 'Warning' | 'Information';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'None';
 
 /**
  * Defines values for ClusterRp.
@@ -432,6 +610,86 @@ export type ClusterRp3 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
  * @enum {string}
  */
 export type ClusterResourceName3 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp4.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp4 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName4.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName4 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp5.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp5 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName5.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName5 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp6.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp6 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName6.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName6 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp7.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp7 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName7.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName7 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp8.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp8 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName8.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName8 = 'managedClusters' | 'connectedClusters';
 
 /**
  * Contains response data for the get operation.
@@ -550,5 +808,105 @@ export type OperationsListNextResponse = ResourceProviderOperationList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ResourceProviderOperationList;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ExtensionsCreateResponse = ExtensionInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionInstance;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExtensionsGetResponse = ExtensionInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionInstance;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ExtensionsUpdateResponse = ExtensionInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionInstance;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExtensionsListResponse = ExtensionInstancesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionInstancesList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExtensionsListNextResponse = ExtensionInstancesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionInstancesList;
     };
 };

@@ -13,6 +13,8 @@ export {
   ErrorDefinition,
   ErrorResponse,
   ExtensionInstance,
+  ExtensionInstancesList,
+  ExtensionInstanceUpdate,
   ExtensionStatus,
   HelmOperatorProperties,
   ProxyResource,
@@ -21,6 +23,5 @@ export {
   ScopeCluster,
   ScopeNamespace,
   SourceControlConfiguration,
-  SourceControlConfigurationList,
   SystemData
 } from "../models/mappers";

@@ -59,6 +59,16 @@ export const clusterRp: msRest.OperationURLParameter = {
     }
   }
 };
+export const extensionInstanceName: msRest.OperationURLParameter = {
+  parameterPath: "extensionInstanceName",
+  mapper: {
+    required: true,
+    serializedName: "extensionInstanceName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
