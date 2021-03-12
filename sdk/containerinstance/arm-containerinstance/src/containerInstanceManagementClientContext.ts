@@ -44,7 +44,7 @@ export class ContainerInstanceManagementClientContext extends msRestAzure.AzureS
 
     super(credentials, options);
 
-    this.apiVersion = '2020-11-01';
+    this.apiVersion = '2021-03-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
