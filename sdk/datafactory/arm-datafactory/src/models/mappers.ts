@@ -269,9 +269,7 @@ export const FactoryIdentity: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         required: true,
-        isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
         type: {
           name: "String"
         }
@@ -1226,6 +1224,39 @@ export const PipelineFolder: msRest.CompositeMapper = {
   }
 };
 
+export const PipelineElapsedTimeMetricPolicy: msRest.CompositeMapper = {
+  serializedName: "PipelineElapsedTimeMetricPolicy",
+  type: {
+    name: "Composite",
+    className: "PipelineElapsedTimeMetricPolicy",
+    modelProperties: {
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const PipelinePolicy: msRest.CompositeMapper = {
+  serializedName: "PipelinePolicy",
+  type: {
+    name: "Composite",
+    className: "PipelinePolicy",
+    modelProperties: {
+      elapsedTimeMetric: {
+        serializedName: "elapsedTimeMetric",
+        type: {
+          name: "Composite",
+          className: "PipelineElapsedTimeMetricPolicy"
+        }
+      }
+    }
+  }
+};
+
 export const PipelineResource: msRest.CompositeMapper = {
   serializedName: "PipelineResource",
   type: {
@@ -1316,6 +1347,13 @@ export const PipelineResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PipelineFolder"
+        }
+      },
+      policy: {
+        serializedName: "properties.policy",
+        type: {
+          name: "Composite",
+          className: "PipelinePolicy"
         }
       }
     },
@@ -3869,14 +3907,12 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         }
       },
       servicePrincipalId: {
-        required: true,
         serializedName: "typeProperties.servicePrincipalId",
         type: {
           name: "Object"
         }
       },
       servicePrincipalKey: {
-        required: true,
         serializedName: "typeProperties.servicePrincipalKey",
         type: {
           name: "Composite",
@@ -3891,7 +3927,6 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         }
       },
       tenant: {
-        required: true,
         serializedName: "typeProperties.tenant",
         type: {
           name: "Object"
@@ -6966,6 +7001,12 @@ export const HttpLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
+        }
+      },
       embeddedCertData: {
         serializedName: "typeProperties.embeddedCertData",
         type: {
@@ -7195,6 +7236,12 @@ export const RestServiceLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
         }
       },
       servicePrincipalId: {
@@ -8056,6 +8103,12 @@ export const ODataLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
+        }
+      },
       tenant: {
         serializedName: "typeProperties.tenant",
         type: {
@@ -8797,6 +8850,90 @@ export const GoogleCloudStorageLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const OracleCloudStorageLinkedService: msRest.CompositeMapper = {
+  serializedName: "OracleCloudStorage",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "OracleCloudStorageLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      accessKeyId: {
+        serializedName: "typeProperties.accessKeyId",
+        type: {
+          name: "Object"
+        }
+      },
+      secretAccessKey: {
+        serializedName: "typeProperties.secretAccessKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      serviceUrl: {
+        serializedName: "typeProperties.serviceUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AmazonS3CompatibleLinkedService: msRest.CompositeMapper = {
+  serializedName: "AmazonS3Compatible",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "AmazonS3CompatibleLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      accessKeyId: {
+        serializedName: "typeProperties.accessKeyId",
+        type: {
+          name: "Object"
+        }
+      },
+      secretAccessKey: {
+        serializedName: "typeProperties.secretAccessKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      serviceUrl: {
+        serializedName: "typeProperties.serviceUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      forcePathStyle: {
+        serializedName: "typeProperties.forcePathStyle",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
 export const AzureFileStorageLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureFileStorage",
   type: {
@@ -9284,6 +9421,43 @@ export const CosmosDbLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "Object"
+        }
+      },
+      connectionMode: {
+        serializedName: "typeProperties.connectionMode",
+        type: {
+          name: "String"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -9700,6 +9874,12 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
+        }
+      },
+      accountKind: {
+        serializedName: "typeProperties.accountKind",
+        type: {
+          name: "String"
         }
       },
       encryptedCredential: {
@@ -12413,6 +12593,58 @@ export const GoogleCloudStorageLocation: msRest.CompositeMapper = {
   }
 };
 
+export const OracleCloudStorageLocation: msRest.CompositeMapper = {
+  serializedName: "OracleCloudStorageLocation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DatasetLocation.type.polymorphicDiscriminator,
+    uberParent: "DatasetLocation",
+    className: "OracleCloudStorageLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      bucketName: {
+        serializedName: "bucketName",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const AmazonS3CompatibleLocation: msRest.CompositeMapper = {
+  serializedName: "AmazonS3CompatibleLocation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DatasetLocation.type.polymorphicDiscriminator,
+    uberParent: "DatasetLocation",
+    className: "AmazonS3CompatibleLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      bucketName: {
+        serializedName: "bucketName",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
 export const AzureFileStorageLocation: msRest.CompositeMapper = {
   serializedName: "AzureFileStorageLocation",
   type: {
@@ -14925,6 +15157,154 @@ export const GoogleCloudStorageReadSettings: msRest.CompositeMapper = {
   }
 };
 
+export const OracleCloudStorageReadSettings: msRest.CompositeMapper = {
+  serializedName: "OracleCloudStorageReadSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: StoreReadSettings.type.polymorphicDiscriminator,
+    uberParent: "StoreReadSettings",
+    className: "OracleCloudStorageReadSettings",
+    modelProperties: {
+      ...StoreReadSettings.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Object"
+        }
+      },
+      fileListPath: {
+        serializedName: "fileListPath",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      partitionRootPath: {
+        serializedName: "partitionRootPath",
+        type: {
+          name: "Object"
+        }
+      },
+      deleteFilesAfterCompletion: {
+        serializedName: "deleteFilesAfterCompletion",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: StoreReadSettings.type.additionalProperties
+  }
+};
+
+export const AmazonS3CompatibleReadSettings: msRest.CompositeMapper = {
+  serializedName: "AmazonS3CompatibleReadSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: StoreReadSettings.type.polymorphicDiscriminator,
+    uberParent: "StoreReadSettings",
+    className: "AmazonS3CompatibleReadSettings",
+    modelProperties: {
+      ...StoreReadSettings.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Object"
+        }
+      },
+      fileListPath: {
+        serializedName: "fileListPath",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      partitionRootPath: {
+        serializedName: "partitionRootPath",
+        type: {
+          name: "Object"
+        }
+      },
+      deleteFilesAfterCompletion: {
+        serializedName: "deleteFilesAfterCompletion",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: StoreReadSettings.type.additionalProperties
+  }
+};
+
 export const AzureFileStorageReadSettings: msRest.CompositeMapper = {
   serializedName: "AzureFileStorageReadSettings",
   type: {
@@ -15450,7 +15830,7 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
       username: {
         serializedName: "username",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       password: {
@@ -15463,7 +15843,7 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       userTenant: {
@@ -24945,6 +25325,8 @@ export const discriminators = {
   'LinkedService.AzureMySql' : AzureMySqlLinkedService,
   'LinkedService.Oracle' : OracleLinkedService,
   'LinkedService.GoogleCloudStorage' : GoogleCloudStorageLinkedService,
+  'LinkedService.OracleCloudStorage' : OracleCloudStorageLinkedService,
+  'LinkedService.AmazonS3Compatible' : AmazonS3CompatibleLinkedService,
   'LinkedService.AzureFileStorage' : AzureFileStorageLinkedService,
   'LinkedService.FileServer' : FileServerLinkedService,
   'LinkedService.HDInsight' : HDInsightLinkedService,
@@ -25063,6 +25445,8 @@ export const discriminators = {
   'DatasetLocation.SftpLocation' : SftpLocation,
   'DatasetLocation.FtpServerLocation' : FtpServerLocation,
   'DatasetLocation.GoogleCloudStorageLocation' : GoogleCloudStorageLocation,
+  'DatasetLocation.OracleCloudStorageLocation' : OracleCloudStorageLocation,
+  'DatasetLocation.AmazonS3CompatibleLocation' : AmazonS3CompatibleLocation,
   'DatasetLocation.AzureFileStorageLocation' : AzureFileStorageLocation,
   'DatasetLocation.FileServerLocation' : FileServerLocation,
   'DatasetLocation.AmazonS3Location' : AmazonS3Location,
@@ -25114,6 +25498,8 @@ export const discriminators = {
   'StoreReadSettings.SftpReadSettings' : SftpReadSettings,
   'StoreReadSettings.FtpReadSettings' : FtpReadSettings,
   'StoreReadSettings.GoogleCloudStorageReadSettings' : GoogleCloudStorageReadSettings,
+  'StoreReadSettings.OracleCloudStorageReadSettings' : OracleCloudStorageReadSettings,
+  'StoreReadSettings.AmazonS3CompatibleReadSettings' : AmazonS3CompatibleReadSettings,
   'StoreReadSettings.AzureFileStorageReadSettings' : AzureFileStorageReadSettings,
   'StoreReadSettings.FileServerReadSettings' : FileServerReadSettings,
   'StoreReadSettings.AmazonS3ReadSettings' : AmazonS3ReadSettings,
