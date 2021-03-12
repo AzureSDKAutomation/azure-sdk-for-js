@@ -250,13 +250,46 @@ export interface TrackedResource extends Resource {
 }
 
 /**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
  * EventGrid Domain.
  */
 export interface Domain extends TrackedResource {
   /**
    * List of private endpoint connections.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the domain. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Canceled', 'Failed'
@@ -287,7 +320,7 @@ export interface Domain extends TrackedResource {
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
    * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -296,13 +329,18 @@ export interface Domain extends TrackedResource {
    */
   inboundIpRules?: InboundIpRule[];
   /**
-   * The Sku pricing tier for the domain.
+   * The Sku pricing tier for the domain. Default value: Basic.
    */
   sku?: ResourceSku;
   /**
    * Identity information for the resource.
    */
   identity?: IdentityInfo;
+  /**
+   * The system metadata relating to Domain resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -317,7 +355,7 @@ export interface DomainUpdateParameters {
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
    * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -366,8 +404,14 @@ export interface DomainTopic extends Resource {
   /**
    * Provisioning state of the domain topic. Possible values include: 'Creating', 'Updating',
    * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: DomainTopicProvisioningState;
+  readonly provisioningState?: DomainTopicProvisioningState;
+  /**
+   * The system metadata relating to Domain Topic resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -773,38 +817,6 @@ export interface IsNotNullAdvancedFilter {
 }
 
 /**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
  * Event Channel.
  */
 export interface EventChannel extends Resource {
@@ -847,7 +859,7 @@ export interface EventChannel extends Resource {
    */
   partnerTopicFriendlyDescription?: string;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Event Channel resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -942,11 +954,11 @@ export interface EventSubscriptionFilter {
  */
 export interface RetryPolicy {
   /**
-   * Maximum number of delivery retry attempts for events.
+   * Maximum number of delivery retry attempts for events. Default value: 30.
    */
   maxDeliveryAttempts?: number;
   /**
-   * Time To Live (in minutes) for events.
+   * Time To Live (in minutes) for events. Default value: 1440.
    */
   eventTimeToLiveInMinutes?: number;
 }
@@ -1081,11 +1093,11 @@ export interface WebHookEventSubscriptionDestination {
    */
   readonly endpointBaseUrl?: string;
   /**
-   * Maximum number of events per batch.
+   * Maximum number of events per batch. Default value: 1.
    */
   maxEventsPerBatch?: number;
   /**
-   * Preferred batch size in Kilobytes.
+   * Preferred batch size in Kilobytes. Default value: 64.
    */
   preferredBatchSizeInKilobytes?: number;
   /**
@@ -1218,11 +1230,11 @@ export interface AzureFunctionEventSubscriptionDestination {
    */
   resourceId?: string;
   /**
-   * Maximum number of events per batch.
+   * Maximum number of events per batch. Default value: 1.
    */
   maxEventsPerBatch?: number;
   /**
-   * Preferred batch size in Kilobytes.
+   * Preferred batch size in Kilobytes. Default value: 64.
    */
   preferredBatchSizeInKilobytes?: number;
   /**
@@ -1274,7 +1286,8 @@ export interface EventSubscription extends Resource {
   expirationTimeUtc?: Date;
   /**
    * The event delivery schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
+   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'. Default value:
+   * 'EventGridSchema'.
    */
   eventDeliverySchema?: EventDeliverySchema;
   /**
@@ -1297,7 +1310,7 @@ export interface EventSubscription extends Resource {
    */
   deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Event Subscription resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1445,7 +1458,7 @@ export interface PartnerNamespace extends TrackedResource {
    */
   readonly endpoint?: string;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Partner Namespace resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1560,7 +1573,7 @@ export interface PartnerRegistration extends TrackedResource {
    */
   authorizedAzureSubscriptionIds?: string[];
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Partner Registration resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1687,7 +1700,7 @@ export interface PartnerTopic extends TrackedResource {
    */
   identity?: IdentityInfo;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Partner Topic resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1787,7 +1800,7 @@ export interface SystemTopic extends TrackedResource {
    */
   identity?: IdentityInfo;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to System Topic resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1825,7 +1838,10 @@ export interface ExtendedLocation {
  * EventGrid Topic
  */
 export interface Topic extends TrackedResource {
-  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Canceled', 'Failed'
@@ -1858,7 +1874,7 @@ export interface Topic extends TrackedResource {
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
    * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -1867,7 +1883,7 @@ export interface Topic extends TrackedResource {
    */
   inboundIpRules?: InboundIpRule[];
   /**
-   * The Sku pricing tier for the topic.
+   * The Sku pricing tier for the topic. Default value: Basic.
    */
   sku?: ResourceSku;
   /**
@@ -1882,6 +1898,11 @@ export interface Topic extends TrackedResource {
    * Extended location of the resource.
    */
   extendedLocation?: ExtendedLocation;
+  /**
+   * The system metadata relating to Topic resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -1900,7 +1921,7 @@ export interface TopicUpdateParameters {
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
    * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -3189,12 +3210,12 @@ export interface DomainsListResult extends Array<Domain> {
 
 /**
  * @interface
- * Result of the List Domain Topics operation
+ * Result of the List Domain Topics operation.
  * @extends Array<DomainTopic>
  */
 export interface DomainTopicsListResult extends Array<DomainTopic> {
   /**
-   * A link for the next page of domain topics
+   * A link for the next page of domain topics.
    */
   nextLink?: string;
 }
@@ -3397,6 +3418,14 @@ export type Sku = 'Basic' | 'Premium';
 export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
  * Defines values for DomainTopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
@@ -3420,14 +3449,6 @@ export type EventChannelProvisioningState = 'Creating' | 'Updating' | 'Deleting'
  * @enum {string}
  */
 export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByUser' | 'DeactivatedByUser' | 'DeletedByUser';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
